@@ -1,0 +1,194 @@
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  background: #ead9ca;
+  color: #5d4337;
+  font-family: var(--font-sans), sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+.hero {
+  position: relative;
+  min-height: 100svh;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+
+.heroBackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: -3;
+  background-image: url("/placeholder-background.svg");
+  background-size: cover;
+  background-position: center;
+  transform: scale(1.01);
+}
+
+.heroVeil {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background:
+    radial-gradient(circle at 52% 48%, rgba(255, 250, 245, 0.54) 0%, rgba(255, 247, 240, 0.30) 24%, rgba(255, 246, 238, 0.04) 58%),
+    linear-gradient(180deg, rgba(111, 76, 58, 0.02) 0%, rgba(111, 76, 58, 0.10) 100%);
+}
+
+.heroContent {
+  width: min(92vw, 820px);
+  padding: 44px 28px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transform: translateY(-1.5vh);
+}
+
+.eyebrow {
+  margin: 0 0 14px;
+  font-size: 0.72rem;
+  font-weight: 400;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+  color: rgba(81, 56, 46, 0.64);
+}
+
+h1 {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(4.7rem, 10vw, 8.8rem);
+  line-height: 0.84;
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  color: #624638;
+  text-wrap: balance;
+  text-shadow: 0 1px 20px rgba(255, 247, 240, 0.26);
+}
+
+.intro {
+  margin: 30px 0 0;
+  max-width: 640px;
+  font-size: clamp(0.92rem, 1.4vw, 1.12rem);
+  line-height: 1.75;
+  font-weight: 300;
+  letter-spacing: 0.015em;
+  color: rgba(74, 52, 43, 0.86);
+}
+
+.instagramLink {
+  margin-top: 30px;
+  min-width: min(100%, 320px);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 13px;
+  padding: 13px 18px;
+  border: 1px solid rgba(87, 59, 47, 0.32);
+  border-radius: 999px;
+  background: rgba(255, 250, 246, 0.24);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  text-decoration: none;
+  color: #5d4337;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    transform 180ms ease;
+}
+
+.instagramLink:hover {
+  background: rgba(255, 250, 246, 0.42);
+  border-color: rgba(87, 59, 47, 0.5);
+  transform: translateY(-2px);
+}
+
+.instagramLink:focus-visible {
+  outline: 2px solid rgba(87, 59, 47, 0.72);
+  outline-offset: 4px;
+}
+
+.instagramIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+}
+
+.instagramHandle {
+  font-size: 0.8rem;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+}
+
+.instagramArrow {
+  font-size: 1rem;
+  opacity: 0.72;
+  margin-left: 2px;
+}
+
+@media (max-width: 700px) {
+  .heroBackdrop {
+    background-position: 39% center;
+  }
+
+  .heroVeil {
+    background:
+      linear-gradient(180deg, rgba(255, 248, 242, 0.42) 0%, rgba(255, 248, 242, 0.18) 50%, rgba(89, 58, 45, 0.12) 100%),
+      radial-gradient(circle at 50% 48%, rgba(255, 251, 247, 0.46), rgba(255, 248, 242, 0.06) 62%);
+  }
+
+  .heroContent {
+    width: min(92vw, 600px);
+    padding: 32px 18px;
+    transform: translateY(-3vh);
+  }
+
+  .eyebrow {
+    margin-bottom: 12px;
+    font-size: 0.62rem;
+    letter-spacing: 0.26em;
+  }
+
+  h1 {
+    font-size: clamp(4rem, 21vw, 6.7rem);
+    line-height: 0.9;
+  }
+
+  .intro {
+    margin-top: 24px;
+    max-width: 360px;
+    font-size: 0.9rem;
+    line-height: 1.65;
+  }
+
+  .instagramLink {
+    margin-top: 24px;
+    min-width: 0;
+    width: min(100%, 300px);
+    padding: 12px 16px;
+  }
+
+  .instagramHandle {
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .instagramLink {
+    transition: none;
+  }
+}
