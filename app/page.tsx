@@ -52,7 +52,18 @@ export default function Home() {
 
   return (
     <main className={`hero ${isUnlocked ? "heroUnlocked" : "heroLocked"}`}>
-      <div className="heroBackdrop" aria-hidden="true" />
+      <video
+        className="heroBackdrop"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        poster="/cherelle-hero.webp"
+        aria-hidden="true"
+      >
+        <source src="/HeroCherelle.mp4" type="video/mp4" />
+      </video>
       <div className="heroVeil" aria-hidden="true" />
 
       {isUnlocked ? (
