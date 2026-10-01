@@ -5,7 +5,7 @@ import { FormEvent, useEffect, useState } from "react";
 const instagramUrl = "https://www.instagram.com/cherelle_elisa_/";
 const accessCode = "Cher2026!";
 const accessStorageKey = "cherelle-preview-access";
-const menuItems = ["Home", "About me", "Services", "Events"] as const;
+const menuItems = ["Home", "Herkenning", "Wat er mogelijk is", "Zo kan ik je begeleiden", "Mijn manier van werken", "Over mij", "Ervaringen", "Uitnodiging"] as const;
 
 type MenuItem = (typeof menuItems)[number];
 
