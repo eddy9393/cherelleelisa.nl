@@ -92,12 +92,13 @@ button {
 }
 
 .heroContent {
-  width: min(92vw, 820px);
-  padding: 44px 28px;
-  text-align: center;
+  width: min(88vw, 700px);
+  margin-right: auto;
+  padding: 44px 0 44px clamp(28px, 5.5vw, 84px);
+  text-align: left;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: flex-start;
   transform: translateY(-1.5vh);
 }
 
@@ -477,8 +478,11 @@ h1 {
   }
 
   .heroContent {
-    width: min(92vw, 600px);
-    padding: 32px 18px;
+    width: 100%;
+    margin-right: 0;
+    padding: 32px 22px;
+    text-align: left;
+    align-items: flex-start;
     transform: translateY(-2vh);
   }
 
