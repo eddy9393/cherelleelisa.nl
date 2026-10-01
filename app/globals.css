@@ -438,7 +438,8 @@ h1 {
 
 @media (max-width: 700px) {
   .heroBackdrop {
-    object-position: 25% top;
+    object-fit: cover;
+    object-position: 70% top;
   }
 
   .heroVeil {
