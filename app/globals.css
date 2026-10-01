@@ -309,28 +309,53 @@ h1 {
 .siteHeroContent {
   position: relative;
   z-index: 2;
-  width: min(90vw, 760px);
+  width: min(88vw, 700px);
   margin-right: auto;
-  padding: 150px 0 70px clamp(28px, 6vw, 92px);
+  padding: 150px 0 70px clamp(28px, 5.5vw, 84px);
   align-self: center;
   color: #4A3A32;
 }
 
 .siteHeroTitle {
-  max-width: 980px;
+  max-width: 700px;
   margin: 0;
   font-family: var(--font-display), serif;
-  font-size: clamp(2.7rem, 4.8vw, 5.2rem);
-  line-height: 1.02;
+  font-size: clamp(2.15rem, 3.35vw, 3.75rem);
+  line-height: 1.06;
   font-weight: 400;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   color: #000;
   text-shadow: none;
 }
 
-.siteHeroTitle span {
+.siteHeroLine {
   display: block;
   white-space: nowrap;
+}
+
+.heroLetter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(12px);
+  filter: blur(2px);
+  animation: heroLetterIn 700ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes heroLetterIn {
+  0% {
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(2px);
+  }
+  65% {
+    opacity: 1;
+    filter: blur(0);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
 }
 
 .siteHeroSubtitle {
@@ -422,11 +447,11 @@ h1 {
 
   .siteHeroTitle {
     max-width: 100%;
-    font-size: clamp(2.35rem, 10.5vw, 4.25rem);
-    line-height: 1;
+    font-size: clamp(2rem, 8.7vw, 3.4rem);
+    line-height: 1.04;
   }
 
-  .siteHeroTitle span {
+  .siteHeroLine {
     white-space: normal;
   }
 
@@ -524,8 +549,15 @@ h1 {
   .accessButton,
   .previewNavItem::after,
   .feminineWayButton,
-  .feminineWayArrow {
+  .feminineWayArrow,
+  .heroLetter {
     transition: none;
     animation: none;
+  }
+
+  .heroLetter {
+    opacity: 1;
+    transform: none;
+    filter: none;
   }
 }
