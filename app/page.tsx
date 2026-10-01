@@ -83,14 +83,25 @@ export default function Home() {
 
           <section className="siteHeroContent" aria-labelledby="site-hero-title">
             <h1 id="site-hero-title" className="siteHeroTitle">
-              Je bent al zo lang sterk geweest. Maar ben je ook zacht geweest voor jezelf?
+              <span>Je bent al zo lang sterk geweest.</span>
+              <span>Maar ben je ook zacht geweest voor jezelf?</span>
             </h1>
             <p className="siteHeroSubtitle">
               Voor de vrouw die alles draagt en zichzelf onderweg is kwijtgeraakt.
             </p>
             <a className="feminineWayButton" href="#herkenning">
               <span>Ontdek The Feminine Way</span>
-              <span className="feminineWayArrow" aria-hidden="true">↓</span>
+              <svg
+                className="feminineWayArrow"
+                aria-hidden="true"
+                viewBox="0 0 24 24"
+                width="18"
+                height="18"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path d="M12 4V19M7 14L12 19L17 14" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
             </a>
           </section>
         </>
