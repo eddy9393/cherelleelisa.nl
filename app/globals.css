@@ -91,6 +91,12 @@ button {
     linear-gradient(180deg, rgba(201, 167, 161, 0.04) 0%, rgba(126, 144, 152, 0.05) 100%);
 }
 
+.heroLocked .heroVeil {
+  background:
+    linear-gradient(90deg, rgba(244, 239, 231, 0.86) 0%, rgba(244, 239, 231, 0.64) 31%, rgba(216, 198, 178, 0.18) 57%, rgba(244, 239, 231, 0) 77%),
+    linear-gradient(180deg, rgba(201, 167, 161, 0.035) 0%, rgba(126, 144, 152, 0.045) 100%);
+}
+
 .heroContent {
   width: min(88vw, 700px);
   margin: 0;
@@ -441,10 +447,11 @@ h1 {
       radial-gradient(circle at 50% 48%, rgba(255, 253, 250, 0.38), rgba(247, 242, 235, 0.04) 62%);
   }
 
-  .heroUnlocked .heroVeil {
+  .heroUnlocked .heroVeil,
+  .heroLocked .heroVeil {
     background:
       linear-gradient(180deg, rgba(244, 239, 231, 0.32) 0%, rgba(244, 239, 231, 0.12) 48%, rgba(201, 167, 161, 0.10) 100%),
-      linear-gradient(90deg, rgba(244, 239, 231, 0.62) 0%, rgba(216, 198, 178, 0.18) 72%, rgba(244, 239, 231, 0.03) 100%);
+      linear-gradient(90deg, rgba(244, 239, 231, 0.64) 0%, rgba(216, 198, 178, 0.20) 72%, rgba(244, 239, 231, 0.03) 100%);
   }
 
   .siteHeroContent {
