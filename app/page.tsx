@@ -10,9 +10,17 @@ const menuItems = ["Home", "Herkenning", "Wat er mogelijk is", "Zo kan ik je beg
 type MenuItem = (typeof menuItems)[number];
 
 
-function AnimatedHeroLine({ text, offset = 0 }: { text: string; offset?: number }) {
+function AnimatedHeroLine({
+  text,
+  offset = 0,
+  className = "",
+}: {
+  text: string;
+  offset?: number;
+  className?: string;
+}) {
   return (
-    <span className="siteHeroLine" aria-hidden="true">
+    <span className={`siteHeroLine ${className}`.trim()} aria-hidden="true">
       {Array.from(text).map((character, index) => {
         const shuffledStep = ((index * 17 + offset * 11) % 37) + ((index * 7 + offset) % 5) * 37;
         const delay = 120 + shuffledStep * 9;
@@ -109,8 +117,10 @@ export default function Home() {
               className="siteHeroTitle"
               aria-label="Je bent al zo lang sterk geweest. Maar ben je ook zacht geweest voor jezelf?"
             >
-              <AnimatedHeroLine text="Je bent al zo lang sterk geweest." offset={1} />
-              <AnimatedHeroLine text="Maar ben je ook zacht geweest voor jezelf?" offset={2} />
+              <AnimatedHeroLine text="Je bent al zo lang" offset={1} />
+              <AnimatedHeroLine text="sterk geweest." offset={2} />
+              <AnimatedHeroLine text="Maar ben je ook" offset={3} className="siteHeroLineSecondSentence" />
+              <AnimatedHeroLine text="Zacht geweest voor jezelf?" offset={4} />
             </h1>
             <p className="siteHeroSubtitle">
               Voor de vrouw die alles draagt en zichzelf onderweg is kwijtgeraakt.
