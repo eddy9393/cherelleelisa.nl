@@ -62,7 +62,7 @@ export default function Home() {
         poster="/cherelle-hero.webp"
         aria-hidden="true"
       >
-        <source src="/HeroCherelle.mp4" type="video/mp4" />
+        <source src="/HeroCherelle_trimmed.mp4" type="video/mp4" />
       </video>
       <div className="heroVeil" aria-hidden="true" />
 
