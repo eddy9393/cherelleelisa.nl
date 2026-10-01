@@ -309,7 +309,7 @@ h1 {
 .siteHeroContent {
   position: relative;
   z-index: 2;
-  width: min(88vw, 700px);
+  width: min(calc(100vw - clamp(28px, 5.5vw, 84px) - 48px), 860px);
   margin-right: auto;
   padding: 150px 0 70px clamp(28px, 5.5vw, 84px);
   align-self: center;
@@ -317,10 +317,11 @@ h1 {
 }
 
 .siteHeroTitle {
-  max-width: 700px;
+  width: 100%;
+  max-width: 860px;
   margin: 0;
   font-family: var(--font-display), serif;
-  font-size: clamp(2.15rem, 3.35vw, 3.75rem);
+  font-size: clamp(2rem, 3vw, 3.3rem);
   line-height: 1.06;
   font-weight: 400;
   letter-spacing: -0.02em;
