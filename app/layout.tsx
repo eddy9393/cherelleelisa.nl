@@ -1,12 +1,6 @@
 import type { Metadata } from "next";
-import { Bodoni_Moda, Manrope } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
-
-const display = Bodoni_Moda({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-display",
-});
 
 const sans = Manrope({
   subsets: ["latin"],
@@ -33,7 +27,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="nl" className={`${display.variable} ${sans.variable}`}>
+    <html lang="nl" className={sans.variable}>
       <body>{children}</body>
     </html>
   );
