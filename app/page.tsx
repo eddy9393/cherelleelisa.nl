@@ -9,6 +9,28 @@ const menuItems = ["Home", "Herkenning", "Wat er mogelijk is", "Zo kan ik je beg
 
 type MenuItem = (typeof menuItems)[number];
 
+
+function AnimatedHeroLine({ text, offset = 0 }: { text: string; offset?: number }) {
+  return (
+    <span className="siteHeroLine" aria-hidden="true">
+      {Array.from(text).map((character, index) => {
+        const shuffledStep = ((index * 17 + offset * 11) % 37) + ((index * 7 + offset) % 5) * 37;
+        const delay = 120 + shuffledStep * 9;
+
+        return (
+          <span
+            className="heroLetter"
+            key={`${offset}-${index}`}
+            style={{ animationDelay: `${delay}ms` }}
+          >
+            {character === " " ? "\u00A0" : character}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
 function InstagramIcon() {
   return (
     <svg
@@ -82,9 +104,13 @@ export default function Home() {
           </header>
 
           <section className="siteHeroContent" aria-labelledby="site-hero-title">
-            <h1 id="site-hero-title" className="siteHeroTitle">
-              <span>Je bent al zo lang sterk geweest.</span>
-              <span>Maar ben je ook zacht geweest voor jezelf?</span>
+            <h1
+              id="site-hero-title"
+              className="siteHeroTitle"
+              aria-label="Je bent al zo lang sterk geweest. Maar ben je ook zacht geweest voor jezelf?"
+            >
+              <AnimatedHeroLine text="Je bent al zo lang sterk geweest." offset={1} />
+              <AnimatedHeroLine text="Maar ben je ook zacht geweest voor jezelf?" offset={2} />
             </h1>
             <p className="siteHeroSubtitle">
               Voor de vrouw die alles draagt en zichzelf onderweg is kwijtgeraakt.
