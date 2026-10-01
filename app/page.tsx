@@ -61,7 +61,8 @@ export default function Home() {
       <div className="heroVeil" aria-hidden="true" />
 
       {isUnlocked ? (
-        <header className="previewHeader">
+        <>
+          <header className="previewHeader">
           <a className="previewBrand" href="#" onClick={() => setActiveItem("Home")}>
             CHERELLE ELISA
           </a>
@@ -78,7 +79,21 @@ export default function Home() {
               </button>
             ))}
           </nav>
-        </header>
+          </header>
+
+          <section className="siteHeroContent" aria-labelledby="site-hero-title">
+            <h1 id="site-hero-title" className="siteHeroTitle">
+              Je bent al zo lang sterk geweest. Maar ben je ook zacht geweest voor jezelf?
+            </h1>
+            <p className="siteHeroSubtitle">
+              Voor de vrouw die alles draagt en zichzelf onderweg is kwijtgeraakt.
+            </p>
+            <a className="feminineWayButton" href="#herkenning">
+              <span>Ontdek The Feminine Way</span>
+              <span className="feminineWayArrow" aria-hidden="true">↓</span>
+            </a>
+          </section>
+        </>
       ) : (
         <div className="accessArea">
           <form className="accessForm" onSubmit={handleAccess}>
