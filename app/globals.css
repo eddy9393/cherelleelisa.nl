@@ -1,3 +1,15 @@
+@font-face {
+  font-family: "Bride Serif";
+  src: url("/bride-font/Bride Regular.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+:root {
+  --font-display: "Bride Serif";
+}
+
 * {
   box-sizing: border-box;
 }
@@ -103,7 +115,7 @@ h1 {
   font-family: var(--font-display), serif;
   font-size: clamp(4.7rem, 10vw, 8.8rem);
   line-height: 0.84;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -0.045em;
   color: #332a24;
   text-wrap: balance;
@@ -256,7 +268,7 @@ h1 {
   text-decoration: none;
   font-family: var(--font-display), serif;
   font-size: 1.24rem;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: 0.2em;
 }
 
@@ -310,7 +322,7 @@ h1 {
   font-family: var(--font-display), serif;
   font-size: clamp(2.8rem, 5.5vw, 5.9rem);
   line-height: 1.02;
-  font-weight: 500;
+  font-weight: 400;
   letter-spacing: -0.025em;
   color: #5F4B43;
   text-wrap: balance;
