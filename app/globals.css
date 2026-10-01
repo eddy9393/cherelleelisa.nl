@@ -272,6 +272,10 @@ h1 {
   border-bottom: 1px solid rgba(168, 143, 123, 0.12);
 }
 
+.mobileMenuButton {
+  display: none;
+}
+
 .previewBrand {
   flex: 0 0 auto;
   text-decoration: none;
@@ -448,17 +452,20 @@ h1 {
       radial-gradient(circle at 50% 48%, rgba(255, 253, 250, 0.38), rgba(247, 242, 235, 0.04) 62%);
   }
 
-  .heroUnlocked .heroVeil,
+  .heroUnlocked .heroVeil {
+    background: linear-gradient(180deg, rgba(244,239,231,0.02) 0%, rgba(244,239,231,0.02) 48%, rgba(244,239,231,0.56) 72%, rgba(244,239,231,0.94) 100%);
+  }
+
   .heroLocked .heroVeil {
-    background:
-      linear-gradient(180deg, rgba(244, 239, 231, 0.32) 0%, rgba(244, 239, 231, 0.12) 48%, rgba(201, 167, 161, 0.10) 100%),
-      linear-gradient(90deg, rgba(244, 239, 231, 0.64) 0%, rgba(216, 198, 178, 0.20) 72%, rgba(244, 239, 231, 0.03) 100%);
+    background: linear-gradient(180deg, rgba(244,239,231,0.12) 0%, rgba(244,239,231,0.08) 48%, rgba(244,239,231,0.42) 76%, rgba(244,239,231,0.82) 100%);
   }
 
   .siteHeroContent {
     width: 100%;
-    padding: 190px 22px 52px;
+    margin: 0;
+    padding: 0 22px max(34px, env(safe-area-inset-bottom));
     align-self: end;
+    z-index: 2;
   }
 
   .siteHeroTitle {
@@ -546,26 +553,81 @@ h1 {
 
   .previewHeader {
     min-height: 0;
-    padding: 18px 20px 16px;
-    flex-direction: column;
-    gap: 14px;
-    background: rgba(244, 239, 231, 0.24);
+    padding: max(22px, env(safe-area-inset-top)) 22px 18px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    background: transparent;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border-bottom: 0;
   }
 
   .previewBrand {
-    font-size: 1.02rem;
+    font-size: 1rem;
     letter-spacing: 0.16em;
+    position: relative;
+    z-index: 6;
   }
 
-  .previewNav {
-    width: 100%;
+  .mobileMenuButton {
+    display: flex;
+    width: 34px;
+    height: 34px;
+    padding: 7px 2px;
+    border: 0;
+    background: transparent;
+    flex-direction: column;
     justify-content: center;
-    gap: clamp(13px, 4vw, 24px);
+    gap: 7px;
+    position: relative;
+    z-index: 6;
+    cursor: pointer;
+  }
+
+  .mobileMenuButton span {
+    display: block;
+    width: 30px;
+    height: 1px;
+    background: #000;
+    transition: transform 220ms ease;
+    transform-origin: center;
+  }
+
+  .menuOpen .mobileMenuButton span:first-child { transform: translateY(4px) rotate(45deg); }
+  .menuOpen .mobileMenuButton span:last-child { transform: translateY(-4px) rotate(-45deg); }
+
+  .previewNav {
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    width: 100%;
+    padding: 100px 28px 36px;
+    background: rgba(247, 242, 235, 0.97);
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 18px;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transition: opacity 220ms ease, visibility 220ms ease;
+  }
+
+  .menuOpen .previewNav {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
   }
 
   .previewNavItem {
-    font-size: clamp(0.62rem, 2.7vw, 0.72rem);
-    letter-spacing: 0.035em;
+    font-family: var(--font-display), serif;
+    font-size: clamp(1.55rem, 7vw, 2.15rem);
+    letter-spacing: -0.01em;
+    text-align: left;
   }
 }
 
