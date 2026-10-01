@@ -334,6 +334,10 @@ h1 {
   white-space: nowrap;
 }
 
+.siteHeroLineSecondSentence {
+  margin-top: 0.95em;
+}
+
 .heroLetter {
   display: inline-block;
   opacity: 0;
@@ -454,6 +458,10 @@ h1 {
 
   .siteHeroLine {
     white-space: normal;
+  }
+
+  .siteHeroLineSecondSentence {
+    margin-top: 0.8em;
   }
 
   .siteHeroSubtitle {
