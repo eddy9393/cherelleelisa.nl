@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, Montserrat } from "next/font/google";
+import { Cormorant_Garamond, Manrope } from "next/font/google";
 import "./globals.css";
 
 const display = Cormorant_Garamond({
@@ -8,9 +8,9 @@ const display = Cormorant_Garamond({
   variable: "--font-display",
 });
 
-const sans = Montserrat({
+const sans = Manrope({
   subsets: ["latin"],
-  weight: ["300", "400", "500"],
+  weight: ["300", "400", "500", "600"],
   variable: "--font-sans",
 });
 
