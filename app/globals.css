@@ -469,12 +469,12 @@ h1 {
   }
 
   .siteHeroTitle {
-    width: calc(100% + 14px);
+    width: calc(100vw - 30px);
     max-width: none;
     margin-left: 0;
     margin-bottom: -2px;
-    font-size: clamp(1.45rem, 6.2vw, 2.2rem);
-    line-height: 1.02;
+    font-size: clamp(1.15rem, 5.15vw, 1.8rem);
+    line-height: 1.06;
     transform: translateY(16px);
   }
 
@@ -483,7 +483,7 @@ h1 {
   }
 
   .siteHeroLineSecondSentence {
-    margin-top: 0.8em;
+    margin-top: 1em;
   }
 
   .siteHeroSubtitle {
