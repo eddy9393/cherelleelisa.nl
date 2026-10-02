@@ -463,15 +463,15 @@ h1 {
   .siteHeroContent {
     width: 100%;
     margin: 0;
-    padding: 0 22px max(34px, env(safe-area-inset-bottom));
+    padding: 0 8px max(14px, env(safe-area-inset-bottom));
     align-self: end;
     z-index: 2;
   }
 
   .siteHeroTitle {
     max-width: 100%;
-    font-size: clamp(2rem, 8.7vw, 3.4rem);
-    line-height: 1.04;
+    font-size: clamp(1.55rem, 6.6vw, 2.35rem);
+    line-height: 1.02;
   }
 
   .siteHeroLine {
