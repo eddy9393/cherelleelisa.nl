@@ -463,15 +463,19 @@ h1 {
   .siteHeroContent {
     width: 100%;
     margin: 0;
-    padding: 0 8px max(14px, env(safe-area-inset-bottom));
+    padding: 0 22px max(48px, env(safe-area-inset-bottom));
     align-self: end;
     z-index: 2;
   }
 
   .siteHeroTitle {
-    max-width: 100%;
-    font-size: clamp(1.55rem, 6.6vw, 2.35rem);
+    width: calc(100% + 14px);
+    max-width: none;
+    margin-left: 0;
+    margin-bottom: -2px;
+    font-size: clamp(1.45rem, 6.2vw, 2.2rem);
     line-height: 1.02;
+    transform: translateY(16px);
   }
 
   .siteHeroLine {
@@ -484,7 +488,7 @@ h1 {
 
   .siteHeroSubtitle {
     max-width: 430px;
-    margin-top: 20px;
+    margin-top: 34px;
     font-size: 0.96rem;
   }
 
