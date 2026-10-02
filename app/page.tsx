@@ -61,8 +61,14 @@ export default function Home() {
 
         <section className="siteHeroContent" aria-labelledby="site-hero-title">
           <h1 id="site-hero-title" className="siteHeroTitle" aria-label="Je bent al zo lang sterk geweest. Maar ben je ook zacht geweest voor jezelf?">
-            <AnimatedHeroLine text="Je bent al zo lang sterk geweest." offset={1} />
-            <AnimatedHeroLine text="Maar ben je ook zacht geweest voor jezelf?" offset={2} className="siteHeroLineSecondSentence" />
+            <span className="desktopHeroTitle">
+              <AnimatedHeroLine text="Je bent al zo lang sterk geweest." offset={1} />
+              <AnimatedHeroLine text="Maar ben je ook zacht geweest voor jezelf?" offset={2} className="siteHeroLineSecondSentence" />
+            </span>
+            <span className="mobileHeroTitle" aria-hidden="true">
+              <span className="mobileHeroSentence">Je bent al zo lang sterk geweest.</span>
+              <span className="mobileHeroSentence mobileHeroSentenceSecond">Maar ben je ook zacht geweest voor jezelf?</span>
+            </span>
           </h1>
           <p className="siteHeroSubtitle">Voor de vrouw die alles draagt en zichzelf onderweg is kwijtgeraakt.</p>
           <a className="feminineWayButton" href="#herkenning"><span>Ontdek The Feminine Way</span><svg className="feminineWayArrow" aria-hidden="true" viewBox="0 0 24 24" width="18" height="18" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 4V19M7 14L12 19L17 14" stroke="currentColor" strokeWidth="1.25" strokeLinecap="round" strokeLinejoin="round" /></svg></a>
