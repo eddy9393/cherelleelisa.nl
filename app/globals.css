@@ -87,8 +87,14 @@ button {
 
 .heroUnlocked .heroVeil {
   background:
-    linear-gradient(90deg, rgba(244, 239, 231, 0.82) 0%, rgba(244, 239, 231, 0.58) 30%, rgba(216, 198, 178, 0.16) 56%, rgba(244, 239, 231, 0) 76%),
-    linear-gradient(180deg, rgba(201, 167, 161, 0.04) 0%, rgba(126, 144, 152, 0.05) 100%);
+    linear-gradient(90deg,
+      rgba(247, 242, 235, 0.97) 0%,
+      rgba(247, 242, 235, 0.92) 22%,
+      rgba(247, 242, 235, 0.78) 38%,
+      rgba(247, 242, 235, 0.46) 50%,
+      rgba(247, 242, 235, 0.12) 61%,
+      rgba(247, 242, 235, 0) 72%),
+    linear-gradient(180deg, rgba(201, 167, 161, 0.03) 0%, rgba(126, 144, 152, 0.04) 100%);
 }
 
 .heroLocked .heroVeil {
@@ -261,15 +267,15 @@ h1 {
   right: 0;
   z-index: 4;
   min-height: 92px;
-  padding: 0 clamp(28px, 5vw, 76px);
+  padding: 0 clamp(28px, 4.2vw, 72px);
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 36px;
-  background: rgba(244, 239, 231, 0.14);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  border-bottom: 1px solid rgba(168, 143, 123, 0.12);
+  background: rgba(247, 242, 235, 0.94);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid rgba(118, 97, 82, 0.10);
 }
 
 .mobileMenuButton {
@@ -280,9 +286,9 @@ h1 {
   flex: 0 0 auto;
   text-decoration: none;
   font-family: var(--font-display), serif;
-  font-size: 1.24rem;
+  font-size: 1.18rem;
   font-weight: 400;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
 }
 
 .previewNav {
@@ -298,9 +304,9 @@ h1 {
   border: 0;
   background: transparent;
   cursor: pointer;
-  font-size: 0.78rem;
+  font-size: 0.74rem;
   font-weight: 400;
-  letter-spacing: 0.08em;
+  letter-spacing: 0.045em;
 }
 
 .previewNavItem::after {
@@ -322,23 +328,24 @@ h1 {
 .siteHeroContent {
   position: relative;
   z-index: 2;
-  width: min(calc(100vw - clamp(28px, 5.5vw, 84px) - 48px), 860px);
+  width: min(58vw, 940px);
   margin-right: auto;
-  padding: 150px 0 70px clamp(28px, 5.5vw, 84px);
+  padding: 170px 0 54px clamp(72px, 5.6vw, 108px);
   align-self: center;
+  transform: translateY(4.5vh);
   color: #4A3A32;
 }
 
 .siteHeroTitle {
   width: 100%;
-  max-width: 860px;
+  max-width: 940px;
   margin: 0;
   font-family: var(--font-display), serif;
-  font-size: clamp(2rem, 3vw, 3.3rem);
-  line-height: 1.06;
+  font-size: clamp(3rem, 3.1vw, 4rem);
+  line-height: 1.08;
   font-weight: 400;
-  letter-spacing: -0.02em;
-  color: #000;
+  letter-spacing: -0.018em;
+  color: #18120f;
   text-shadow: none;
 }
 
@@ -348,7 +355,7 @@ h1 {
 }
 
 .siteHeroLineSecondSentence {
-  margin-top: 0.95em;
+  margin-top: 0.9em;
 }
 
 .mobileHeroTitle {
@@ -381,28 +388,28 @@ h1 {
 }
 
 .siteHeroSubtitle {
-  max-width: 560px;
-  margin: 28px 0 0;
-  font-size: clamp(1rem, 1.5vw, 1.18rem);
-  line-height: 1.7;
+  max-width: 520px;
+  margin: 34px 0 0;
+  font-size: clamp(0.92rem, 1.05vw, 1.08rem);
+  line-height: 1.62;
   font-weight: 400;
-  color: rgba(0, 0, 0, 0.72);
+  color: rgba(24, 18, 15, 0.68);
 }
 
 .feminineWayButton {
-  margin-top: 32px;
+  margin-top: 30px;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
-  padding: 0 0 4px;
+  gap: 14px;
+  padding: 0 0 6px;
   border: 0;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.28);
+  border-bottom: 1px solid rgba(24, 18, 15, 0.34);
   text-decoration: none;
-  color: #000;
+  color: #18120f;
   background: transparent;
-  font-size: 0.84rem;
+  font-size: 0.82rem;
   font-weight: 500;
-  letter-spacing: 0.035em;
+  letter-spacing: 0.02em;
   transition: border-color 180ms ease, opacity 180ms ease;
 }
 
@@ -417,13 +424,32 @@ h1 {
 
 .feminineWayArrow {
   flex: 0 0 auto;
-  animation: inviteArrow 5.5s ease-in-out infinite;
+  transform: rotate(-90deg);
+  animation: inviteArrowDesktop 5.5s ease-in-out infinite;
   transition: transform 220ms ease;
 }
 
 .feminineWayButton:hover .feminineWayArrow {
   animation-play-state: paused;
-  transform: translateY(5px);
+  transform: rotate(-90deg) translateY(4px);
+}
+
+@keyframes inviteArrowDesktop {
+  0%, 68%, 100% {
+    transform: rotate(-90deg) translateY(0);
+  }
+  74% {
+    transform: rotate(-90deg) translateY(4px);
+  }
+  80% {
+    transform: rotate(-90deg) translateY(0);
+  }
+  86% {
+    transform: rotate(-90deg) translateY(2px);
+  }
+  92% {
+    transform: rotate(-90deg) translateY(0);
+  }
 }
 
 @keyframes inviteArrow {
@@ -513,6 +539,15 @@ h1 {
     padding: 0 0 5px;
     font-size: 0.75rem;
     gap: 8px;
+  }
+
+  .feminineWayArrow {
+    transform: none;
+    animation: inviteArrow 5.5s ease-in-out infinite;
+  }
+
+  .feminineWayButton:hover .feminineWayArrow {
+    transform: translateY(5px);
   }
 
   .heroContent {
