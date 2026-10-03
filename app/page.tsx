@@ -73,26 +73,6 @@ function PhotoPlaceholder({
   );
 }
 
-function JourneyRoute() {
-  return (
-    <div className="journeyRoute" aria-hidden="true">
-      <svg viewBox="0 0 100 1000" preserveAspectRatio="none">
-        <path
-          className="journeyRoutePath"
-          d="M58 0 C26 80 75 145 44 225 C22 285 78 345 48 420 C24 482 70 548 46 628 C24 700 73 760 48 838 C36 888 42 944 58 1000"
-          pathLength="1"
-        />
-        <circle cx="58" cy="6" r="4" className="journeyRouteDot" />
-        <circle cx="44" cy="225" r="3.2" className="journeyRouteDot journeyRouteDotSoft" />
-        <circle cx="48" cy="420" r="3.2" className="journeyRouteDot journeyRouteDotSoft" />
-        <circle cx="46" cy="628" r="3.2" className="journeyRouteDot journeyRouteDotSoft" />
-        <circle cx="48" cy="838" r="3.2" className="journeyRouteDot journeyRouteDotSoft" />
-        <circle cx="58" cy="994" r="4.5" className="journeyRouteDot" />
-      </svg>
-    </div>
-  );
-}
-
 export default function Home() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [code, setCode] = useState("");
@@ -231,7 +211,7 @@ export default function Home() {
                 Voor de vrouw die alles draagt en zichzelf onderweg is kwijtgeraakt.
               </p>
 
-              <a className="feminineWayButton journeyTrigger" href="#herkenning">
+              <a className="feminineWayButton" href="#herkenning">
                 <span>Ontdek The Feminine Way</span>
                 <svg
                   className="feminineWayArrow"
@@ -298,7 +278,6 @@ export default function Home() {
 
       {isUnlocked && (
         <>
-          <JourneyRoute />
 
           <section id="herkenning" className="contentSection sectionSplit">
             <div data-reveal>
