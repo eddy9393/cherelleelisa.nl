@@ -1790,7 +1790,7 @@ body,
   bottom: 320px;
   left: clamp(4px, 1.25vw, 22px);
   width: clamp(28px, 3.8vw, 68px);
-  z-index: 15;
+  z-index: 30;
   pointer-events: none;
   opacity: 0.78;
 }
