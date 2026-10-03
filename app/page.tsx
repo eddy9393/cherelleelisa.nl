@@ -73,7 +73,8 @@ export default function Home() {
           <h1 id="site-hero-title" className="siteHeroTitle" aria-label="Je bent al zo lang sterk geweest. Maar ben je ook zacht geweest voor jezelf?">
             <span className="desktopHeroTitle">
               <AnimatedHeroLine text="Je bent al zo lang sterk geweest." offset={1} />
-              <AnimatedHeroLine text="Maar ben je ook zacht geweest voor jezelf?" offset={2} className="siteHeroLineSecondSentence" />
+              <AnimatedHeroLine text="Maar ben je ook zacht geweest" offset={2} className="siteHeroLineSecondSentence" />
+              <AnimatedHeroLine text="voor jezelf?" offset={3} />
             </span>
             <span className="mobileHeroTitle" aria-hidden="true">
               <span className="mobileHeroSentence">Je bent al zo lang sterk geweest.</span>
