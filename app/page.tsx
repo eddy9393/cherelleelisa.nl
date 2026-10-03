@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 
 const instagramUrl = "https://www.instagram.com/cherelle_elisa_/";
@@ -45,7 +46,16 @@ export default function Home() {
 
   return (
     <main className={`hero ${isUnlocked ? "heroUnlocked" : "heroLocked"}`}>
-      <img className="heroBackdrop" src="/HeroCherelle.webp" alt="" aria-hidden="true" />
+      <Image
+        className="heroBackdrop"
+        src="/HeroCherelle.webp"
+        alt=""
+        aria-hidden="true"
+        fill
+        priority
+        sizes="100vw"
+        quality={82}
+      />
       <div className="heroVeil" aria-hidden="true" />
 
       {isUnlocked ? <>
