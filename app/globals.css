@@ -304,10 +304,10 @@ h1 {
   align-items: center;
   justify-content: space-between;
   gap: 36px;
-  background: rgba(247, 242, 235, 0.72);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(118, 97, 82, 0.08);
+  background: transparent;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  border-bottom: 0;
 }
 
 .mobileMenuButton {
@@ -321,6 +321,10 @@ h1 {
   font-size: 1.18rem;
   font-weight: 400;
   letter-spacing: 0.22em;
+  color: #2f241d;
+  text-shadow:
+    0 1px 14px rgba(247, 242, 235, 0.86),
+    0 0 3px rgba(247, 242, 235, 0.72);
 }
 
 .previewNav {
@@ -337,8 +341,12 @@ h1 {
   background: transparent;
   cursor: pointer;
   font-size: 0.74rem;
-  font-weight: 400;
+  font-weight: 500;
   letter-spacing: 0.045em;
+  color: #2f241d;
+  text-shadow:
+    0 1px 12px rgba(247, 242, 235, 0.84),
+    0 0 3px rgba(247, 242, 235, 0.68);
 }
 
 .previewNavItem::after {
@@ -348,13 +356,19 @@ h1 {
   right: 100%;
   bottom: 4px;
   height: 1px;
-  background: currentColor;
+  background: rgba(47, 36, 29, 0.92);
+  box-shadow: 0 0 8px rgba(247, 242, 235, 0.52);
   transition: right 180ms ease;
 }
 
 .previewNavItem:hover::after,
 .previewNavItem.isActive::after {
   right: 0;
+}
+
+.previewNavItem:hover,
+.previewBrand:hover {
+  opacity: 0.88;
 }
 
 .siteHeroContent {
