@@ -51,14 +51,7 @@ function AnimatedHeroLine({
 
 function InstagramIcon() {
   return (
-    <svg
-      aria-hidden="true"
-      viewBox="0 0 24 24"
-      width="22"
-      height="22"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg aria-hidden="true" viewBox="0 0 24 24" width="22" height="22" fill="none">
       <rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="12" cy="12" r="4.25" stroke="currentColor" strokeWidth="1.5" />
       <circle cx="17.4" cy="6.7" r="1" fill="currentColor" />
@@ -80,6 +73,26 @@ function PhotoPlaceholder({
   );
 }
 
+function JourneyRoute() {
+  return (
+    <div className="journeyRoute" aria-hidden="true">
+      <svg viewBox="0 0 100 1000" preserveAspectRatio="none">
+        <path
+          className="journeyRoutePath"
+          d="M58 0 C26 80 75 145 44 225 C22 285 78 345 48 420 C24 482 70 548 46 628 C24 700 73 760 48 838 C36 888 42 944 58 1000"
+          pathLength="1"
+        />
+        <circle cx="58" cy="6" r="4" className="journeyRouteDot" />
+        <circle cx="44" cy="225" r="3.2" className="journeyRouteDot journeyRouteDotSoft" />
+        <circle cx="48" cy="420" r="3.2" className="journeyRouteDot journeyRouteDotSoft" />
+        <circle cx="46" cy="628" r="3.2" className="journeyRouteDot journeyRouteDotSoft" />
+        <circle cx="48" cy="838" r="3.2" className="journeyRouteDot journeyRouteDotSoft" />
+        <circle cx="58" cy="994" r="4.5" className="journeyRouteDot" />
+      </svg>
+    </div>
+  );
+}
+
 export default function Home() {
   const [isUnlocked, setIsUnlocked] = useState(false);
   const [code, setCode] = useState("");
@@ -90,6 +103,30 @@ export default function Home() {
   useEffect(() => {
     setIsUnlocked(window.localStorage.getItem(accessStorageKey) === "unlocked");
   }, []);
+
+  useEffect(() => {
+    if (!isUnlocked) return;
+
+    const items = Array.from(document.querySelectorAll<HTMLElement>("[data-reveal]"));
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("isRevealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
+    );
+
+    items.forEach((item, index) => {
+      item.style.setProperty("--reveal-delay", `${Math.min(index % 3, 2) * 80}ms`);
+      observer.observe(item);
+    });
+
+    return () => observer.disconnect();
+  }, [isUnlocked]);
 
   function handleAccess(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -194,7 +231,7 @@ export default function Home() {
                 Voor de vrouw die alles draagt en zichzelf onderweg is kwijtgeraakt.
               </p>
 
-              <a className="feminineWayButton" href="#herkenning">
+              <a className="feminineWayButton journeyTrigger" href="#herkenning">
                 <span>Ontdek The Feminine Way</span>
                 <svg
                   className="feminineWayArrow"
@@ -203,7 +240,6 @@ export default function Home() {
                   width="18"
                   height="18"
                   fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
                 >
                   <path
                     d="M12 4V19M7 14L12 19L17 14"
@@ -219,9 +255,7 @@ export default function Home() {
         ) : (
           <div className="accessArea">
             <form className="accessForm" onSubmit={handleAccess}>
-              <label className="srOnly" htmlFor="preview-code">
-                Toegangscode
-              </label>
+              <label className="srOnly" htmlFor="preview-code">Toegangscode</label>
               <input
                 id="preview-code"
                 className="accessInput"
@@ -236,9 +270,7 @@ export default function Home() {
                 spellCheck={false}
                 aria-invalid={hasError}
               />
-              <button className="accessButton" type="submit" aria-label="Website bekijken">
-                →
-              </button>
+              <button className="accessButton" type="submit" aria-label="Website bekijken">→</button>
             </form>
             {hasError && <p className="accessError">Onjuiste code</p>}
           </div>
@@ -248,9 +280,7 @@ export default function Home() {
           <section className="heroContent" aria-labelledby="coming-soon-title">
             <p className="eyebrow">CHERELLE ELISA</p>
             <h1 id="coming-soon-title">Coming Soon.</h1>
-            <p className="intro">
-              Neem nu alvast een kijkje op mijn instagram voor meer info.
-            </p>
+            <p className="intro">Neem nu alvast een kijkje op mijn instagram voor meer info.</p>
             <a
               className="instagramLink"
               href={instagramUrl}
@@ -258,13 +288,9 @@ export default function Home() {
               rel="noreferrer"
               aria-label="Bekijk Cherelle Elisa op Instagram"
             >
-              <span className="instagramIcon">
-                <InstagramIcon />
-              </span>
+              <span className="instagramIcon"><InstagramIcon /></span>
               <span className="instagramHandle">@cherelle_elisa_</span>
-              <span className="instagramArrow" aria-hidden="true">
-                ↗
-              </span>
+              <span className="instagramArrow" aria-hidden="true">↗</span>
             </a>
           </section>
         )}
@@ -272,12 +298,16 @@ export default function Home() {
 
       {isUnlocked && (
         <>
+          <JourneyRoute />
+
           <section id="herkenning" className="contentSection sectionSplit">
-            <PhotoPlaceholder
-              note="Rustig sfeerbeeld, bijvoorbeeld handen op de buik of een vrouw met gesloten ogen"
-              className="photoPlaceholderSoft"
-            />
-            <div className="sectionCopy">
+            <div data-reveal>
+              <PhotoPlaceholder
+                note="Rustig sfeerbeeld, bijvoorbeeld handen op de buik of een vrouw met gesloten ogen"
+                className="photoPlaceholderSoft"
+              />
+            </div>
+            <div className="sectionCopy" data-reveal>
               <p className="sectionKicker">Herkenning</p>
               <h2>Herken je dit?</h2>
               <p>
@@ -294,7 +324,7 @@ export default function Home() {
           </section>
 
           <section id="mogelijkheden" className="contentSection sectionSplit sectionSplitReverse">
-            <div className="sectionCopy">
+            <div className="sectionCopy" data-reveal>
               <p className="sectionKicker">Wat er mogelijk is</p>
               <h2>Thuiskomen in je lichaam</h2>
               <p>
@@ -309,20 +339,22 @@ export default function Home() {
                 Van controle naar overgave.
               </p>
             </div>
-            <PhotoPlaceholder
-              note="Egypte, foto met armen omhoog bij de rotsen"
-              className="photoPlaceholderEarth"
-            />
+            <div data-reveal>
+              <PhotoPlaceholder
+                note="Egypte, foto met armen omhoog bij de rotsen"
+                className="photoPlaceholderEarth"
+              />
+            </div>
           </section>
 
           <section id="begeleiding" className="offersSection">
-            <div className="offersIntro">
+            <div className="offersIntro" data-reveal>
               <p className="sectionKicker">Zo kan ik je begeleiden</p>
               <h2>Een vorm die past bij waar jij nu bent.</h2>
             </div>
 
             <div className="offerList">
-              <article className="offerRow">
+              <article className="offerRow" data-reveal>
                 <span className="offerNumber">01</span>
                 <div className="offerBody">
                   <h3>The Feminine Way</h3>
@@ -338,7 +370,7 @@ export default function Home() {
                 </div>
               </article>
 
-              <article className="offerRow">
+              <article className="offerRow" data-reveal>
                 <span className="offerNumber">02</span>
                 <div className="offerBody">
                   <h3>1-op-1 sessie</h3>
@@ -352,7 +384,7 @@ export default function Home() {
                 </div>
               </article>
 
-              <article className="offerRow">
+              <article className="offerRow" data-reveal>
                 <span className="offerNumber">03</span>
                 <div className="offerBody">
                   <h3>Ceremonies</h3>
@@ -368,29 +400,40 @@ export default function Home() {
           </section>
 
           <section id="werkwijze" className="methodSection">
-            <div className="methodInner">
+            <div className="methodInner" data-reveal>
               <p className="sectionKicker">Mijn manier van werken</p>
-              <p className="methodLead">
-                We werken altijd in jouw tempo. Soms raken we diepe lagen aan, zoals oude patronen
-                of wat je van thuis hebt meegekregen. Daar ga ik zorgvuldig mee om, zodat het veilig
-                voelt en je niets hoeft te forceren.
-              </p>
-              <p className="methodLead methodLeadSecondary">
-                Jij bepaalt waar je naartoe wilt, ik loop met je mee en hou je vast als het spannend wordt.
-              </p>
-              <p className="methodNote">
-                Mijn begeleiding is geen vervanging van therapie of medische zorg. Twijfel je of dit
-                bij je past? Dan bespreken we dat gewoon samen.
-              </p>
+              <div className="methodColumns">
+                <p className="methodLead">
+                  We werken altijd in jouw tempo. Soms raken we diepe lagen aan, zoals oude patronen
+                  of wat je van thuis hebt meegekregen. Daar ga ik zorgvuldig mee om, zodat het veilig
+                  voelt en je niets hoeft te forceren.
+                </p>
+                <div className="methodSide">
+                  <p className="methodLead methodLeadSecondary">
+                    Jij bepaalt waar je naartoe wilt, ik loop met je mee en hou je vast als het spannend wordt.
+                  </p>
+                  <p className="methodNote">
+                    Mijn begeleiding is geen vervanging van therapie of medische zorg. Twijfel je of dit
+                    bij je past? Dan bespreken we dat gewoon samen.
+                  </p>
+                </div>
+              </div>
             </div>
           </section>
 
           <section id="over-mij" className="contentSection sectionSplit aboutSection">
-            <PhotoPlaceholder
-              note="Portret van Cherelle, bijvoorbeeld de foto uit de folder bij de rotsen"
-              className="photoPlaceholderPortrait"
-            />
-            <div className="sectionCopy">
+            <div className="aboutImageWrap" data-reveal>
+              <Image
+                src="/Overmij.webp"
+                alt="Cherelle ontspannen op een lichte loungebank"
+                fill
+                sizes="(max-width: 1000px) 100vw, 48vw"
+                quality={82}
+                className="aboutImage"
+              />
+              <span className="aboutImageAccent">Cherelle</span>
+            </div>
+            <div className="sectionCopy" data-reveal>
               <p className="sectionKicker">Over mij</p>
               <h2>Ik ben Cherelle</h2>
               <p>
@@ -409,14 +452,14 @@ export default function Home() {
           </section>
 
           <section id="ervaringen" className="testimonialsSection">
-            <div className="testimonialsHeading">
+            <div className="testimonialsHeading" data-reveal>
               <p className="sectionKicker">Ervaringen</p>
               <h2>Wat vrouwen zeggen</h2>
             </div>
 
             <div className="testimonialsGrid" aria-label="Ruimte voor ervaringen">
               {[1, 2, 3].map((item) => (
-                <article className="testimonialSlot" key={item}>
+                <article className="testimonialSlot" key={item} data-reveal>
                   <span>Ervaring 0{item}</span>
                   <p>Ruimte voor haar ervaring, in haar eigen woorden.</p>
                 </article>
@@ -425,7 +468,7 @@ export default function Home() {
           </section>
 
           <section id="uitnodiging" className="invitationSection">
-            <div className="invitationCopy">
+            <div className="invitationCopy" data-reveal>
               <p className="sectionKicker">Uitnodiging</p>
               <h2>Voel je dat het tijd is?</h2>
               <p>
@@ -436,19 +479,21 @@ export default function Home() {
                 Plan een kennismaking <span aria-hidden="true">→</span>
               </button>
             </div>
-            <PhotoPlaceholder
-              note="Warm uitnodigend beeld, bijvoorbeeld de omhelzing uit de folder"
-              className="photoPlaceholderWarm"
-            />
+            <div data-reveal>
+              <PhotoPlaceholder
+                note="Warm uitnodigend beeld, bijvoorbeeld de omhelzing uit de folder"
+                className="photoPlaceholderWarm"
+              />
+            </div>
           </section>
 
           <footer className="siteFooter">
-            <div className="footerBrand">
+            <div className="footerBrand" data-reveal>
               <a href="#top">CHERELLE ELISA</a>
               <p>Een zachtere weg naar jezelf.</p>
             </div>
 
-            <nav className="footerNav" aria-label="Footer navigatie">
+            <nav className="footerNav" aria-label="Footer navigatie" data-reveal>
               {menuItems.map((item) => (
                 <a key={item.id} href={`#${item.id}`}>
                   {item.label}
@@ -456,10 +501,8 @@ export default function Home() {
               ))}
             </nav>
 
-            <div className="footerMeta">
-              <a href={instagramUrl} target="_blank" rel="noreferrer">
-                Instagram ↗
-              </a>
+            <div className="footerMeta" data-reveal>
+              <a href={instagramUrl} target="_blank" rel="noreferrer">Instagram ↗</a>
               <span>© 2026 Cherelle Elisa</span>
             </div>
           </footer>
