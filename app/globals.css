@@ -1312,3 +1312,422 @@ h1 {
     grid-template-columns: 1fr;
   }
 }
+
+
+/* Queen Smoothie accent font */
+@font-face {
+  font-family: "Queen Smoothie";
+  src: url("/Queen Smoothie.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+
+/* 2026-10 visual consistency refresh */
+:root {
+  --ce-ink: #2f241d;
+  --ce-text: #5a4a40;
+  --ce-accent: #a86f5d;
+  --ce-accent-deep: #855747;
+  --ce-taupe: #b9a491;
+  --ce-line: #e2d8cf;
+  --ce-soft: #f5efe9;
+  --ce-white: #ffffff;
+  --font-accent: "Queen Smoothie";
+}
+
+body,
+.siteRoot {
+  background: var(--ce-white);
+  color: var(--ce-ink);
+}
+
+.contentSection,
+.sectionSplit,
+.sectionSplitReverse,
+.offersSection,
+.methodSection,
+.aboutSection,
+.testimonialsSection,
+.invitationSection {
+  background: var(--ce-white);
+}
+
+.contentSection,
+.offersSection,
+.methodSection,
+.testimonialsSection {
+  padding-left: clamp(24px, 6.5vw, 120px);
+  padding-right: clamp(24px, 6.5vw, 120px);
+}
+
+.contentSection,
+.offersSection,
+.testimonialsSection {
+  border-top: 1px solid var(--ce-line);
+}
+
+.sectionSplit,
+.sectionSplitReverse {
+  gap: clamp(58px, 7vw, 126px);
+}
+
+.sectionCopy,
+.offersIntro,
+.methodInner,
+.testimonialsHeading {
+  position: relative;
+}
+
+.sectionKicker {
+  margin: 0 0 22px;
+  font-family: var(--font-accent), cursive;
+  font-size: clamp(1.9rem, 2.4vw, 2.75rem);
+  line-height: 1.05;
+  text-transform: none;
+  letter-spacing: 0.01em;
+  color: var(--ce-accent);
+}
+
+.sectionCopy h2,
+.offersIntro h2,
+.testimonialsHeading h2,
+.invitationCopy h2 {
+  max-width: 820px;
+  font-size: clamp(3.25rem, 4.8vw, 5.7rem);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: var(--ce-ink);
+}
+
+.sectionCopy h2::after,
+.offersIntro h2::after,
+.testimonialsHeading h2::after,
+.invitationCopy h2::after {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 1px;
+  margin-top: 26px;
+  background: var(--ce-accent);
+}
+
+.sectionCopy > p:not(.sectionKicker):not(.sectionManifesto),
+.invitationCopy > p:not(.sectionKicker),
+.offerBody p {
+  color: var(--ce-text);
+}
+
+.sectionCopy > p:not(.sectionKicker):not(.sectionManifesto) {
+  max-width: 640px;
+  margin-top: 30px;
+  font-size: clamp(1rem, 1.1vw, 1.12rem);
+  line-height: 1.78;
+}
+
+.sectionCopy .sectionEmphasis {
+  max-width: 610px;
+  margin-top: 38px;
+  padding-left: 26px;
+  border-left: 1px solid var(--ce-accent);
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.55rem, 1.9vw, 2.05rem) !important;
+  line-height: 1.38 !important;
+  color: var(--ce-accent-deep) !important;
+}
+
+.sectionManifesto {
+  margin-top: 38px;
+  font-family: var(--font-accent), cursive;
+  font-size: clamp(2rem, 3vw, 3.35rem);
+  line-height: 1.12;
+  color: var(--ce-accent);
+}
+
+.photoPlaceholder {
+  min-height: clamp(520px, 50vw, 760px);
+  background: var(--ce-soft);
+  border: 0;
+  outline: 1px solid var(--ce-line);
+  outline-offset: -1px;
+}
+
+.photoPlaceholder::before {
+  inset: 16px;
+  border: 1px solid color-mix(in srgb, var(--ce-accent) 44%, transparent);
+}
+
+.photoPlaceholder::after {
+  background: color-mix(in srgb, var(--ce-accent) 46%, transparent);
+}
+
+.photoPlaceholder span {
+  font-family: var(--font-accent), cursive;
+  font-size: 1.55rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ce-accent);
+}
+
+.photoPlaceholderSoft {
+  background: #f6f0eb;
+}
+
+.photoPlaceholderEarth {
+  background: #efe6dd;
+}
+
+.photoPlaceholderPortrait {
+  background: #f3ebe5;
+}
+
+.photoPlaceholderWarm {
+  background: #f0e4dd;
+}
+
+.offersIntro {
+  display: grid;
+  grid-template-columns: minmax(180px, 0.55fr) minmax(0, 1.45fr);
+  gap: clamp(48px, 6vw, 100px);
+  align-items: start;
+  margin-bottom: clamp(64px, 7vw, 108px);
+}
+
+.offersIntro .sectionKicker {
+  margin-top: 2px;
+}
+
+.offersIntro h2 {
+  max-width: 820px;
+  font-size: clamp(3.25rem, 4.8vw, 5.7rem);
+}
+
+.offerList {
+  border-top: 1px solid var(--ce-line);
+}
+
+.offerRow {
+  grid-template-columns: 76px minmax(0, 1fr);
+  gap: clamp(30px, 5vw, 82px);
+  padding: clamp(40px, 4.5vw, 64px) 0;
+  border-bottom: 1px solid var(--ce-line);
+}
+
+.offerNumber {
+  padding-top: 5px;
+  font-family: var(--font-accent), cursive;
+  font-size: 1.8rem;
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--ce-accent);
+}
+
+.offerBody {
+  grid-template-columns: minmax(210px, 0.78fr) minmax(0, 1.22fr) auto;
+  gap: clamp(28px, 4.5vw, 72px);
+}
+
+.offerBody h3 {
+  font-size: clamp(2.15rem, 2.8vw, 3.3rem);
+  line-height: 1.06;
+  color: var(--ce-ink);
+}
+
+.offerBody p {
+  font-size: 0.98rem;
+  line-height: 1.72;
+}
+
+.sectionLink {
+  color: var(--ce-accent-deep);
+  border-bottom-color: color-mix(in srgb, var(--ce-accent) 55%, transparent);
+}
+
+.sectionLink:hover {
+  color: var(--ce-accent);
+  border-bottom-color: var(--ce-accent);
+}
+
+.methodSection {
+  position: relative;
+  color: var(--ce-ink);
+  border-top: 1px solid var(--ce-line);
+  border-bottom: 1px solid var(--ce-line);
+}
+
+.methodInner {
+  max-width: 1180px;
+  padding-left: clamp(24px, 4vw, 72px);
+  border-left: 1px solid var(--ce-accent);
+}
+
+.methodSection .sectionKicker {
+  color: var(--ce-accent);
+}
+
+.methodLead {
+  max-width: 1040px;
+  font-size: clamp(2.4rem, 3.8vw, 4.65rem);
+  line-height: 1.12;
+  color: var(--ce-ink);
+}
+
+.methodLeadSecondary {
+  margin-top: 0.62em;
+  color: var(--ce-accent-deep);
+}
+
+.methodNote {
+  max-width: 700px;
+  margin: 52px 0 0;
+  padding-top: 20px;
+  border-top: 1px solid var(--ce-line);
+  color: #7a6a5f;
+}
+
+.aboutSection {
+  border-top: 1px solid var(--ce-line);
+}
+
+.testimonialsSection {
+  border-top: 1px solid var(--ce-line);
+}
+
+.testimonialsGrid {
+  margin-top: clamp(58px, 6vw, 88px);
+  border-top: 1px solid var(--ce-line);
+  border-bottom: 1px solid var(--ce-line);
+}
+
+.testimonialSlot {
+  min-height: 300px;
+  padding: 34px;
+}
+
+.testimonialSlot + .testimonialSlot {
+  border-left: 1px solid var(--ce-line);
+}
+
+.testimonialSlot span {
+  font-family: var(--font-accent), cursive;
+  font-size: 1.65rem;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--ce-accent);
+}
+
+.testimonialSlot p {
+  color: #7b6b60;
+}
+
+.invitationSection {
+  border-top: 1px solid var(--ce-line);
+}
+
+.invitationCopy {
+  padding: clamp(72px, 7vw, 126px);
+}
+
+.invitationCopy > p:not(.sectionKicker) {
+  color: var(--ce-text);
+}
+
+.invitationSection .photoPlaceholder {
+  outline: 0;
+  border-left: 1px solid var(--ce-line);
+}
+
+.siteFooter {
+  background: var(--ce-ink);
+}
+
+.footerBrand p {
+  font-family: var(--font-accent), cursive;
+  font-size: 1.65rem;
+  line-height: 1.1;
+  color: #d8b8a7;
+}
+
+@media (max-width: 1000px) {
+  .offersIntro {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .offerBody {
+    grid-template-columns: 1fr;
+  }
+
+  .methodInner {
+    padding-left: 30px;
+  }
+}
+
+@media (max-width: 700px) {
+  .contentSection,
+  .offersSection,
+  .methodSection,
+  .testimonialsSection {
+    padding-left: 20px;
+    padding-right: 20px;
+  }
+
+  .sectionKicker {
+    margin-bottom: 16px;
+    font-size: clamp(1.75rem, 9vw, 2.4rem);
+  }
+
+  .sectionCopy h2,
+  .offersIntro h2,
+  .testimonialsHeading h2,
+  .invitationCopy h2 {
+    font-size: clamp(2.7rem, 12vw, 4rem);
+  }
+
+  .sectionCopy h2::after,
+  .offersIntro h2::after,
+  .testimonialsHeading h2::after,
+  .invitationCopy h2::after {
+    margin-top: 20px;
+    width: 42px;
+  }
+
+  .sectionManifesto {
+    font-size: clamp(1.9rem, 10vw, 2.75rem);
+  }
+
+  .photoPlaceholder span {
+    font-size: 1.35rem;
+  }
+
+  .offerRow {
+    grid-template-columns: 1fr;
+  }
+
+  .offerNumber {
+    font-size: 1.55rem;
+  }
+
+  .methodInner {
+    padding-left: 20px;
+  }
+
+  .methodLead {
+    font-size: clamp(2.2rem, 10.5vw, 3.5rem);
+  }
+
+  .testimonialSlot + .testimonialSlot {
+    border-left: 0;
+    border-top: 1px solid var(--ce-line);
+  }
+
+  .invitationSection .photoPlaceholder {
+    border-left: 0;
+    border-top: 1px solid var(--ce-line);
+  }
+
+  .footerBrand p {
+    font-size: 1.45rem;
+  }
+}
