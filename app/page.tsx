@@ -529,16 +529,17 @@ export default function Home() {
           </section>
 
           <section id="werkwijze" className="methodSection">
-            <Image
-              src="/Werkwijze.webp"
-              alt=""
-              aria-hidden="true"
-              fill
-              sizes="100vw"
-              quality={82}
-              className="methodBackgroundImage"
-            />
-            <div className="methodBackgroundWash" aria-hidden="true" />
+            <div className="methodImageLayer" aria-hidden="true">
+              <Image
+                src="/Werkwijze.webp"
+                alt=""
+                fill
+                sizes="(max-width: 900px) 100vw, 62vw"
+                quality={82}
+                className="methodBackgroundImage"
+              />
+              <div className="methodImageFade" />
+            </div>
 
             <div className="methodInner" data-reveal>
               <p className="sectionKicker">Mijn manier van werken</p>
