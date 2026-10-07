@@ -458,10 +458,21 @@ export default function Home() {
           </section>
 
           <section id="werkwijze" className="methodSection">
+            <Image
+              src="/Werkwijze.webp"
+              alt=""
+              aria-hidden="true"
+              fill
+              sizes="100vw"
+              quality={82}
+              className="methodBackgroundImage"
+            />
+            <div className="methodBackgroundWash" aria-hidden="true" />
+
             <div className="methodInner" data-reveal>
               <p className="sectionKicker">Mijn manier van werken</p>
               <div className="methodColumns">
-                <p className="methodLead">
+                <p className="methodLead methodLeadPrimary">
                   We werken altijd in jouw tempo. Soms raken we diepe lagen aan, zoals oude patronen
                   of wat je van thuis hebt meegekregen. Daar ga ik zorgvuldig mee om, zodat het veilig
                   voelt en je niets hoeft te forceren.
@@ -537,10 +548,14 @@ export default function Home() {
                 Plan een kennismaking <span aria-hidden="true">→</span>
               </button>
             </div>
-            <div data-reveal>
-              <PhotoPlaceholder
-                note="Warm uitnodigend beeld, bijvoorbeeld de omhelzing uit de folder"
-                className="photoPlaceholderWarm"
+            <div className="invitationImageWrap" data-reveal>
+              <Image
+                src="/Uitnodiging.webp"
+                alt="Cherelle in een warm en uitnodigend moment"
+                fill
+                sizes="(max-width: 1000px) 100vw, 56vw"
+                quality={82}
+                className="invitationImage"
               />
             </div>
           </section>
