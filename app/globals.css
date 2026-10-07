@@ -1365,7 +1365,7 @@ body,
 .contentSection,
 .offersSection,
 .testimonialsSection {
-  border-top: 1px solid var(--ce-line);
+  border-top: 0;
 }
 
 .sectionSplit,
@@ -1552,8 +1552,8 @@ body,
 .methodSection {
   position: relative;
   color: var(--ce-ink);
-  border-top: 1px solid var(--ce-line);
-  border-bottom: 1px solid var(--ce-line);
+  border-top: 0;
+  border-bottom: 0;
 }
 
 .methodInner {
@@ -1587,11 +1587,11 @@ body,
 }
 
 .aboutSection {
-  border-top: 1px solid var(--ce-line);
+  border-top: 0;
 }
 
 .testimonialsSection {
-  border-top: 1px solid var(--ce-line);
+  border-top: 0;
 }
 
 .testimonialsGrid {
@@ -1622,7 +1622,7 @@ body,
 }
 
 .invitationSection {
-  border-top: 1px solid var(--ce-line);
+  border-top: 0;
 }
 
 .invitationCopy {
@@ -1741,9 +1741,10 @@ body,
 .previewHeader {
   position: fixed;
   z-index: 60;
-  background: transparent;
-  -webkit-backdrop-filter: none;
-  backdrop-filter: none;
+  background: rgba(255, 255, 255, 0.34);
+  -webkit-backdrop-filter: blur(18px) saturate(115%);
+  backdrop-filter: blur(18px) saturate(115%);
+  box-shadow: 0 8px 28px rgba(47, 36, 29, 0.035);
 }
 
 .previewBrand,
@@ -1894,6 +1895,9 @@ body,
   .previewHeader {
     position: fixed;
     z-index: 60;
+    background: rgba(255, 255, 255, 0.38);
+    -webkit-backdrop-filter: blur(16px) saturate(115%);
+    backdrop-filter: blur(16px) saturate(115%);
   }
 
   .contentSection,
@@ -1999,7 +2003,7 @@ body,
   padding: clamp(92px, 9vw, 150px) clamp(28px, 6.5vw, 120px);
   overflow: hidden;
   background: var(--ce-white);
-  border-top: 1px solid var(--ce-line);
+  border-top: 0;
   scroll-margin-top: 104px;
 }
 
@@ -2008,6 +2012,7 @@ body,
   inset: 0 auto 0 0;
   width: 62%;
   overflow: hidden;
+  transform: translateX(-4vw);
 }
 
 .possibilityImage {
@@ -2063,8 +2068,9 @@ body,
 
   .possibilityImageLayer {
     position: relative;
-    width: 100%;
+    width: 104%;
     height: min(72vh, 680px);
+    transform: translateX(-4%);
   }
 
   .possibilityImageFade {
