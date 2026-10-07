@@ -2850,3 +2850,103 @@ body,
     display: none !important;
   }
 }
+
+
+/* Header language switch, single-line offer heading, invitation mirror */
+.languageSwitcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.languageFlag {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 2px;
+  font-size: 1.05rem;
+  line-height: 1;
+  cursor: pointer;
+  opacity: 0.42;
+  transform: translateY(0);
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.languageFlag:hover,
+.languageFlag.isActive {
+  opacity: 1;
+  transform: translateY(-1px);
+}
+
+.footerInstagram {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  color: rgba(244, 238, 231, 0.78);
+  border: 0 !important;
+}
+
+.footerInstagram:hover {
+  color: #fff;
+}
+
+.instagramLink {
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (min-width: 901px) {
+  .desktopPersistentHeader {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    column-gap: clamp(28px, 3vw, 54px);
+  }
+
+  .desktopPersistentHeader .previewNav {
+    justify-self: center;
+  }
+
+  .desktopPersistentHeader .languageSwitcher {
+    justify-self: end;
+  }
+
+  .offersIntro {
+    width: 100%;
+    max-width: none;
+  }
+
+  .offersIntro h2 {
+    max-width: none;
+    white-space: nowrap;
+    font-size: clamp(2.65rem, 3.6vw, 4.6rem);
+  }
+
+  .invitationSection {
+    grid-template-columns: minmax(440px, 0.92fr) minmax(0, 1.08fr);
+  }
+
+  .invitationImageWrap {
+    order: 1;
+  }
+
+  .invitationCopy {
+    order: 2;
+  }
+}
+
+@media (max-width: 900px) {
+  .mobileHeroHeader .languageSwitcher {
+    position: absolute;
+    right: 66px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 3;
+  }
+}
