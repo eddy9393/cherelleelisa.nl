@@ -1963,7 +1963,6 @@ body,
 }
 
 
-/* Herkenning + Thuiskomen image layouts */
 .recognitionSection {
   display: grid;
   grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
@@ -1994,57 +1993,6 @@ body,
   transform: scale(1.015);
 }
 
-.possibilitySection {
-  position: relative;
-  min-height: clamp(700px, 58vw, 900px);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  padding: clamp(92px, 9vw, 150px) clamp(28px, 6.5vw, 120px);
-  overflow: hidden;
-  background: var(--ce-white);
-  border-top: 0;
-  scroll-margin-top: 104px;
-}
-
-.possibilityImageLayer {
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 62%;
-  overflow: hidden;
-  transform: translateX(-4vw);
-}
-
-.possibilityImage {
-  object-fit: cover;
-  object-position: center;
-}
-
-.possibilityImageFade {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(255,255,255,0) 0%,
-      rgba(255,255,255,0) 48%,
-      rgba(255,255,255,0.16) 60%,
-      rgba(255,255,255,0.5) 72%,
-      rgba(255,255,255,0.82) 84%,
-      #fff 100%
-    );
-  pointer-events: none;
-}
-
-.possibilityCopy {
-  position: relative;
-  z-index: 2;
-  width: min(38vw, 640px);
-  margin-left: auto;
-  margin-right: clamp(18px, 2.5vw, 44px);
-  padding-left: clamp(56px, 6vw, 110px);
-}
-
 @media (max-width: 900px) {
   .recognitionSection {
     grid-template-columns: 1fr;
@@ -2058,37 +2006,6 @@ body,
   .recognitionImageWrap {
     order: 2;
     min-height: 560px;
-  }
-
-  .possibilitySection {
-    display: block;
-    min-height: 0;
-    padding: 0;
-  }
-
-  .possibilityImageLayer {
-    position: relative;
-    width: 104%;
-    height: min(72vh, 680px);
-    transform: translateX(-4%);
-  }
-
-  .possibilityImageFade {
-    background:
-      linear-gradient(
-        180deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0) 58%,
-        rgba(255,255,255,0.38) 76%,
-        rgba(255,255,255,0.82) 90%,
-        #fff 100%
-      );
-  }
-
-  .possibilityCopy {
-    width: 100%;
-    margin: 0;
-    padding: 46px 24px 88px;
   }
 
   .recognitionImageWrap {
@@ -2106,23 +2023,9 @@ body,
     min-height: 460px;
     border-radius: 88px 88px 0 0;
   }
-
-  .possibilitySection {
-    scroll-margin-top: 78px;
-  }
-
-  .possibilityImageLayer {
-    height: 58vh;
-    min-height: 430px;
-  }
-
-  .possibilityCopy {
-    padding: 34px 20px 78px;
-  }
 }
 
 
-/* Desktop-only persistent header + Thuiskomen positioning */
 .desktopPersistentHeader {
   display: flex;
 }
@@ -2143,11 +2046,6 @@ body,
     backdrop-filter: blur(18px) saturate(115%);
     box-shadow: 0 8px 28px rgba(47, 36, 29, 0.035);
   }
-
-  .possibilityImageLayer {
-    width: 64%;
-    transform: translateX(-8vw);
-  }
 }
 
 @media (max-width: 900px) {
@@ -2161,77 +2059,10 @@ body,
 }
 
 
-/* Desktop refinement: clean nav text + stronger Thuiskomen offset */
 @media (min-width: 901px) {
   .desktopPersistentHeader .previewBrand,
   .desktopPersistentHeader .previewNavItem {
     text-shadow: none;
-  }
-
-  .possibilityImageLayer {
-    width: 62%;
-    transform: translateX(-16vw);
-  }
-}
-
-
-/* Desktop: Thuiskomen as a true left image column */
-@media (min-width: 901px) {
-  .possibilitySection {
-    display: grid;
-    grid-template-columns: minmax(0, 43vw) minmax(0, 1fr);
-    align-items: stretch;
-    justify-content: initial;
-    min-height: clamp(700px, 58vw, 900px);
-    padding: 0 clamp(28px, 6.5vw, 120px) 0 0;
-    overflow: hidden;
-  }
-
-  .possibilityImageLayer {
-    position: relative;
-    inset: auto;
-    grid-column: 1;
-    width: calc(100% + 11vw);
-    height: 100%;
-    min-height: inherit;
-    margin-left: -8vw;
-    overflow: hidden;
-    transform: none;
-  }
-
-  .possibilityImageLayer[data-reveal] {
-    transform: translateY(28px);
-  }
-
-  .possibilityImageLayer[data-reveal].isRevealed {
-    transform: translateY(0);
-  }
-
-  .possibilityImage {
-    object-fit: cover;
-    object-position: center;
-  }
-
-  .possibilityImageFade {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0) 68%,
-        rgba(255,255,255,0.16) 76%,
-        rgba(255,255,255,0.48) 84%,
-        rgba(255,255,255,0.82) 92%,
-        #fff 100%
-      );
-  }
-
-  .possibilityCopy {
-    grid-column: 2;
-    align-self: center;
-    width: min(38vw, 640px);
-    margin-left: auto;
-    margin-right: clamp(18px, 2.5vw, 44px);
-    padding-left: clamp(72px, 7vw, 128px);
   }
 }
 
@@ -2291,58 +2122,33 @@ body,
 }
 
 
-/* Desktop: start Thuiskomen fade around viewport X 784 */
-@media (min-width: 901px) {
-  .possibilityImageLayer {
-    width: 70vw;
-    margin-left: -8vw;
-  }
 
-  .possibilityImageFade {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0) 79%,
-        rgba(255,255,255,0.16) 83%,
-        rgba(255,255,255,0.46) 88%,
-        rgba(255,255,255,0.78) 94%,
-        #fff 100%
-      );
-  }
+
+/* Thuiskomen — clean baseline */
+.possibilitySection {
+  width: 100%;
+  min-height: clamp(700px, 58vw, 900px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: clamp(92px, 9vw, 150px) clamp(28px, 6.5vw, 120px);
+  background: var(--ce-white);
+  scroll-margin-top: 104px;
 }
 
+.possibilityCopy {
+  width: min(42vw, 680px);
+  margin-left: auto;
+}
 
-/* Desktop: zoom Thuiskomen image out and add more breathing room before copy */
-@media (min-width: 901px) {
-  .possibilityImage {
-    object-fit: contain;
-    object-position: left center;
-    background: #fff;
-  }
-
-  .possibilityImageLayer {
-    width: 66vw;
-    margin-left: -6vw;
-  }
-
-  .possibilityImageFade {
-    background:
-      linear-gradient(
-        90deg,
-        rgba(255,255,255,0) 0%,
-        rgba(255,255,255,0) 78%,
-        rgba(255,255,255,0.18) 84%,
-        rgba(255,255,255,0.52) 90%,
-        rgba(255,255,255,0.84) 95%,
-        #fff 100%
-      );
+@media (max-width: 900px) {
+  .possibilitySection {
+    min-height: 0;
+    padding: 82px 24px;
   }
 
   .possibilityCopy {
-    width: min(36vw, 610px);
-    margin-left: auto;
-    margin-right: clamp(18px, 2.5vw, 44px);
-    padding-left: clamp(110px, 9vw, 168px);
+    width: 100%;
+    margin: 0;
   }
 }
