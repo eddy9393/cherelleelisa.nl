@@ -467,7 +467,6 @@ export default function Home() {
                       event.currentTarget.style.opacity = "0";
                     }}
                   />
-                  <div className="offerImageFade" aria-hidden="true" />
                 </div>
               </article>
 
@@ -495,7 +494,6 @@ export default function Home() {
                       event.currentTarget.style.opacity = "0";
                     }}
                   />
-                  <div className="offerImageFade" aria-hidden="true" />
                 </div>
               </article>
 
@@ -522,7 +520,6 @@ export default function Home() {
                       event.currentTarget.style.opacity = "0";
                     }}
                   />
-                  <div className="offerImageFade" aria-hidden="true" />
                 </div>
               </article>
             </div>
@@ -538,6 +535,7 @@ export default function Home() {
                 quality={82}
                 className="methodBackgroundImage"
               />
+              <div className="methodImageFade" />
             </div>
 
             <div className="methodInner" data-reveal>
