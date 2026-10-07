@@ -296,7 +296,7 @@ export default function Home() {
             </div>
             <div className="recognitionImageWrap" data-reveal>
               <Image
-                src="/Herkenning.webp"
+                src="/Herkenning.jpg"
                 alt="Cherelle in een rustig moment"
                 fill
                 sizes="(max-width: 900px) 100vw, 48vw"
@@ -309,7 +309,7 @@ export default function Home() {
           <section id="mogelijkheden" className="possibilitySection">
             <div className="possibilityImageLayer" data-reveal>
               <Image
-                src="/Thuiskomen.webp"
+                src="/Thuiskomen.jpg"
                 alt="Cherelle met haar armen omhoog bij de rotsen"
                 fill
                 sizes="(max-width: 900px) 100vw, 60vw"
