@@ -1977,6 +1977,7 @@ body,
   min-height: clamp(560px, 50vw, 760px);
   overflow: hidden;
   background: var(--ce-soft);
+  border-radius: 180px 180px 0 0;
 }
 
 .recognitionImage {
@@ -2033,9 +2034,10 @@ body,
 .possibilityCopy {
   position: relative;
   z-index: 2;
-  width: min(42vw, 680px);
+  width: min(38vw, 640px);
   margin-left: auto;
-  padding-left: clamp(30px, 4vw, 72px);
+  margin-right: clamp(18px, 2.5vw, 44px);
+  padding-left: clamp(56px, 6vw, 110px);
 }
 
 @media (max-width: 900px) {
@@ -2082,6 +2084,10 @@ body,
     margin: 0;
     padding: 46px 24px 88px;
   }
+
+  .recognitionImageWrap {
+    border-radius: 120px 120px 0 0;
+  }
 }
 
 @media (max-width: 700px) {
@@ -2092,6 +2098,7 @@ body,
 
   .recognitionImageWrap {
     min-height: 460px;
+    border-radius: 88px 88px 0 0;
   }
 
   .possibilitySection {
