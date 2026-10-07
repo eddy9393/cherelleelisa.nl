@@ -306,7 +306,7 @@ export default function Home() {
 
       <section id="top" className={`hero ${isUnlocked ? "heroUnlocked" : "heroLocked"}`}>
         <Image
-          className="heroBackdrop"
+          className={isUnlocked ? "heroBackdrop heroBackdropDesktopNew" : "heroBackdrop"}
           src={isUnlocked ? "/CherHero.png" : "/HeroCherelle.webp"}
           alt=""
           aria-hidden="true"
@@ -315,6 +315,17 @@ export default function Home() {
           sizes="100vw"
           quality={82}
         />
+        {isUnlocked && (
+          <Image
+            className="heroBackdrop heroBackdropMobileOld"
+            src="/HeroCherelle.webp"
+            alt=""
+            aria-hidden="true"
+            fill
+            sizes="100vw"
+            quality={82}
+          />
+        )}
         <div className="heroVeil" aria-hidden="true" />
 
         {isUnlocked ? (
