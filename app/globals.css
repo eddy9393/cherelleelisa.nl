@@ -2159,3 +2159,17 @@ body,
     display: flex;
   }
 }
+
+
+/* Desktop refinement: clean nav text + stronger Thuiskomen offset */
+@media (min-width: 901px) {
+  .desktopPersistentHeader .previewBrand,
+  .desktopPersistentHeader .previewNavItem {
+    text-shadow: none;
+  }
+
+  .possibilityImageLayer {
+    width: 62%;
+    transform: translateX(-16vw);
+  }
+}
