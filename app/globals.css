@@ -2984,6 +2984,7 @@ body,
   }
 
   .siteHeroContent {
+    position: relative;
     width: min(41vw, 650px);
     max-width: none;
     margin: 0;
