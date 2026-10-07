@@ -2120,3 +2120,42 @@ body,
     padding: 34px 20px 78px;
   }
 }
+
+
+/* Desktop-only persistent header + Thuiskomen positioning */
+.desktopPersistentHeader {
+  display: flex;
+}
+
+.mobileHeroHeader {
+  display: none;
+}
+
+@media (min-width: 901px) {
+  .desktopPersistentHeader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 9999;
+    background: rgba(255, 255, 255, 0.34);
+    -webkit-backdrop-filter: blur(18px) saturate(115%);
+    backdrop-filter: blur(18px) saturate(115%);
+    box-shadow: 0 8px 28px rgba(47, 36, 29, 0.035);
+  }
+
+  .possibilityImageLayer {
+    width: 64%;
+    transform: translateX(-8vw);
+  }
+}
+
+@media (max-width: 900px) {
+  .desktopPersistentHeader {
+    display: none;
+  }
+
+  .mobileHeroHeader {
+    display: flex;
+  }
+}
