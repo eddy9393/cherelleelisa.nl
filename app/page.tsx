@@ -395,7 +395,7 @@ export default function Home() {
                   />
                   <span className="siteHeroLine heroAccentLine" aria-hidden="true">
                     <span className="heroAccentWord">
-                      {language === "nl" ? "zacht" : "gentle"}
+                      {language === "nl" ? "Zacht" : "Gentle"}
                     </span>
                     <span className="heroAccentTail">
                       {language === "nl" ? "geweest" : ""}
@@ -413,7 +413,7 @@ export default function Home() {
                   </span>
                   <span className="mobileHeroSentence mobileHeroSentenceSecond">
                     {language === "nl"
-                      ? "Maar ben je ook zacht geweest voor jezelf?"
+                      ? "Maar ben je ook Zacht geweest voor jezelf?"
                       : "But have you also been gentle with yourself?"}
                   </span>
                 </span>
@@ -426,7 +426,7 @@ export default function Home() {
               </p>
 
               <a className="feminineWayButton" href="#herkenning">
-                <span>{language === "nl" ? "Ontdek The Feminine Way" : "Discover The Feminine Way"}</span>
+                <span>{language === "nl" ? "Herkenbaar?" : "Recognize this?"}</span>
                 <svg
                   className="feminineWayArrow"
                   aria-hidden="true"
