@@ -2234,3 +2234,17 @@ body,
     padding-left: clamp(72px, 7vw, 128px);
   }
 }
+
+
+/* Desktop: align Thuiskomen image with main content gutter */
+@media (min-width: 901px) {
+  .possibilitySection {
+    grid-template-columns: minmax(0, 43vw) minmax(0, 1fr);
+    padding-left: clamp(24px, 6.5vw, 120px);
+  }
+
+  .possibilityImageLayer {
+    width: 100%;
+    margin-left: 0;
+  }
+}
