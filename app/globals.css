@@ -1316,8 +1316,8 @@ h1 {
 
 /* Queen Smoothie accent font */
 @font-face {
-  font-family: "Queen Smoothie";
-  src: url("/Queen Smoothie.otf") format("opentype");
+  font-family: "Wistania";
+  src: url("/Wistania.ttf") format("truetype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -1334,7 +1334,7 @@ h1 {
   --ce-line: #e2d8cf;
   --ce-soft: #f5efe9;
   --ce-white: #ffffff;
-  --font-accent: "Queen Smoothie";
+  --font-accent: "Wistania";
 }
 
 body,
@@ -3174,15 +3174,15 @@ body,
 
 /* Desktop hero polish: softer accent, lower artwork, containerless CTA */
 :root {
-  --hero-accent-soft: #c9a7a1;
+  --hero-accent-soft: #a86f5d;
 }
 
 @media (min-width: 901px) {
   .heroUnlocked .heroBackdropDesktopNew {
     object-fit: contain;
-    object-position: center top;
+    object-position: right top;
     transform: translateY(22px) scale(0.985);
-    transform-origin: center top;
+    transform-origin: right top;
   }
 
   .heroAccentWord {
