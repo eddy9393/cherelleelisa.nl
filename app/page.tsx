@@ -54,22 +54,12 @@ function AnimatedHeroLine({
   className?: string;
 }) {
   return (
-    <span className={`siteHeroLine ${className}`.trim()} aria-hidden="true">
-      {Array.from(text).map((character, index) => {
-        const shuffledStep =
-          ((index * 17 + offset * 11) % 37) + ((index * 7 + offset) % 5) * 37;
-        const delay = 120 + shuffledStep * 9;
-
-        return (
-          <span
-            className="heroLetter"
-            key={`${offset}-${index}`}
-            style={{ animationDelay: `${delay}ms` }}
-          >
-            {character === " " ? "\u00A0" : character}
-          </span>
-        );
-      })}
+    <span
+      className={`siteHeroLine heroLineReveal ${className}`.trim()}
+      aria-hidden="true"
+      style={{ animationDelay: `${320 + offset * 430}ms` }}
+    >
+      {text}
     </span>
   );
 }
@@ -393,7 +383,11 @@ export default function Home() {
                     text={language === "nl" ? "Maar ben je ook" : "But have you also been"}
                     offset={3}
                   />
-                  <span className="siteHeroLine heroAccentLine" aria-hidden="true">
+                  <span
+                    className="siteHeroLine heroAccentLine heroLineReveal"
+                    aria-hidden="true"
+                    style={{ animationDelay: "2040ms" }}
+                  >
                     <span className="heroAccentWord">
                       {language === "nl" ? "Zacht" : "Gentle"}
                     </span>
@@ -403,7 +397,7 @@ export default function Home() {
                   </span>
                   <AnimatedHeroLine
                     text={language === "nl" ? "voor jezelf?" : "with yourself?"}
-                    offset={4}
+                    offset={5}
                   />
                 </span>
 
