@@ -2171,3 +2171,67 @@ body,
     margin: 0;
   }
 }
+
+
+/* Werkwijze background image */
+.methodSection {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: transparent;
+}
+
+.methodBackgroundImage {
+  z-index: 0;
+  object-fit: cover;
+  object-position: center;
+}
+
+.methodBackgroundWash {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.76);
+  pointer-events: none;
+}
+
+.methodSection .methodInner {
+  position: relative;
+  z-index: 2;
+}
+
+.methodLeadPrimary {
+  max-width: 620px;
+  font-size: clamp(1.15rem, 1.35vw, 1.45rem);
+  line-height: 1.62;
+  letter-spacing: -0.01em;
+}
+
+/* Uitnodiging real image */
+.invitationImageWrap {
+  position: relative;
+  min-height: 760px;
+  overflow: hidden;
+}
+
+.invitationImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (max-width: 1000px) {
+  .invitationImageWrap {
+    min-height: 620px;
+  }
+}
+
+@media (max-width: 700px) {
+  .methodLeadPrimary {
+    font-size: 1.12rem;
+    line-height: 1.6;
+  }
+
+  .invitationImageWrap {
+    min-height: 480px;
+  }
+}
