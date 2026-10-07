@@ -377,17 +377,6 @@ export default function Home() {
           </section>
 
           <section id="mogelijkheden" className="possibilitySection">
-            <div className="possibilityImageLayer" data-reveal>
-              <Image
-                src="/Thuiskomen.jpg"
-                alt="Cherelle met haar armen omhoog bij de rotsen"
-                fill
-                sizes="(max-width: 900px) 100vw, 60vw"
-                quality={82}
-                className="possibilityImage"
-              />
-              <div className="possibilityImageFade" aria-hidden="true" />
-            </div>
             <div className="sectionCopy possibilityCopy" data-reveal>
               <p className="sectionKicker">Wat er mogelijk is</p>
               <h2>Thuiskomen in je lichaam</h2>
