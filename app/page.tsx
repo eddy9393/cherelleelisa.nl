@@ -279,14 +279,8 @@ export default function Home() {
       {isUnlocked && (
         <>
 
-          <section id="herkenning" className="contentSection sectionSplit">
-            <div data-reveal>
-              <PhotoPlaceholder
-                note="Rustig sfeerbeeld, bijvoorbeeld handen op de buik of een vrouw met gesloten ogen"
-                className="photoPlaceholderSoft"
-              />
-            </div>
-            <div className="sectionCopy" data-reveal>
+          <section id="herkenning" className="contentSection recognitionSection">
+            <div className="sectionCopy recognitionCopy" data-reveal>
               <p className="sectionKicker">Herkenning</p>
               <h2>Herken je dit?</h2>
               <p>
@@ -300,10 +294,31 @@ export default function Home() {
                 niet te vinden is.
               </p>
             </div>
+            <div className="recognitionImageWrap" data-reveal>
+              <Image
+                src="/Herkenning.webp"
+                alt="Cherelle in een rustig moment"
+                fill
+                sizes="(max-width: 900px) 100vw, 48vw"
+                quality={82}
+                className="recognitionImage"
+              />
+            </div>
           </section>
 
-          <section id="mogelijkheden" className="contentSection sectionSplit sectionSplitReverse">
-            <div className="sectionCopy" data-reveal>
+          <section id="mogelijkheden" className="possibilitySection">
+            <div className="possibilityImageLayer" data-reveal>
+              <Image
+                src="/Thuiskomen.webp"
+                alt="Cherelle met haar armen omhoog bij de rotsen"
+                fill
+                sizes="(max-width: 900px) 100vw, 60vw"
+                quality={82}
+                className="possibilityImage"
+              />
+              <div className="possibilityImageFade" aria-hidden="true" />
+            </div>
+            <div className="sectionCopy possibilityCopy" data-reveal>
               <p className="sectionKicker">Wat er mogelijk is</p>
               <h2>Thuiskomen in je lichaam</h2>
               <p>
@@ -317,12 +332,6 @@ export default function Home() {
                 Van doen naar zijn.<br />
                 Van controle naar overgave.
               </p>
-            </div>
-            <div data-reveal>
-              <PhotoPlaceholder
-                note="Egypte, foto met armen omhoog bij de rotsen"
-                className="photoPlaceholderEarth"
-              />
             </div>
           </section>
 
