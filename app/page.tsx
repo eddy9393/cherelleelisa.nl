@@ -538,7 +538,6 @@ export default function Home() {
                 quality={82}
                 className="methodBackgroundImage"
               />
-              <div className="methodImageFade" />
             </div>
 
             <div className="methodInner" data-reveal>
