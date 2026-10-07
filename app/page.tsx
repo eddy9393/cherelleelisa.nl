@@ -508,6 +508,16 @@ export default function Home() {
         <>
 
           <section id="herkenning" className="contentSection recognitionSection">
+            <div className="heroRecognitionTransition" aria-hidden="true">
+              <Image
+                src="/overgang1.png"
+                alt=""
+                fill
+                sizes="110vw"
+                className="heroRecognitionTransitionImage"
+              />
+            </div>
+
             <div className="sectionCopy recognitionCopy" data-reveal>
               <p className="sectionKicker">{language === "nl" ? "Herkenning" : "Recognition"}</p>
               <h2>{language === "nl" ? "Herken je dit?" : "Does this feel familiar?"}</h2>
