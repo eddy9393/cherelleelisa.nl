@@ -1957,3 +1957,153 @@ body,
     transform: none !important;
   }
 }
+
+
+/* Herkenning + Thuiskomen image layouts */
+.recognitionSection {
+  display: grid;
+  grid-template-columns: minmax(0, 0.88fr) minmax(0, 1.12fr);
+  align-items: center;
+  gap: clamp(58px, 7vw, 126px);
+}
+
+.recognitionCopy {
+  order: 1;
+}
+
+.recognitionImageWrap {
+  order: 2;
+  position: relative;
+  min-height: clamp(560px, 50vw, 760px);
+  overflow: hidden;
+  background: var(--ce-soft);
+}
+
+.recognitionImage {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 1.15s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.recognitionImageWrap.isRevealed .recognitionImage {
+  transform: scale(1.015);
+}
+
+.possibilitySection {
+  position: relative;
+  min-height: clamp(700px, 58vw, 900px);
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: clamp(92px, 9vw, 150px) clamp(28px, 6.5vw, 120px);
+  overflow: hidden;
+  background: var(--ce-white);
+  border-top: 1px solid var(--ce-line);
+  scroll-margin-top: 104px;
+}
+
+.possibilityImageLayer {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 62%;
+  overflow: hidden;
+}
+
+.possibilityImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.possibilityImageFade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0) 0%,
+      rgba(255,255,255,0) 48%,
+      rgba(255,255,255,0.16) 60%,
+      rgba(255,255,255,0.5) 72%,
+      rgba(255,255,255,0.82) 84%,
+      #fff 100%
+    );
+  pointer-events: none;
+}
+
+.possibilityCopy {
+  position: relative;
+  z-index: 2;
+  width: min(42vw, 680px);
+  margin-left: auto;
+  padding-left: clamp(30px, 4vw, 72px);
+}
+
+@media (max-width: 900px) {
+  .recognitionSection {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+
+  .recognitionCopy {
+    order: 1;
+  }
+
+  .recognitionImageWrap {
+    order: 2;
+    min-height: 560px;
+  }
+
+  .possibilitySection {
+    display: block;
+    min-height: 0;
+    padding: 0;
+  }
+
+  .possibilityImageLayer {
+    position: relative;
+    width: 100%;
+    height: min(72vh, 680px);
+  }
+
+  .possibilityImageFade {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0) 58%,
+        rgba(255,255,255,0.38) 76%,
+        rgba(255,255,255,0.82) 90%,
+        #fff 100%
+      );
+  }
+
+  .possibilityCopy {
+    width: 100%;
+    margin: 0;
+    padding: 46px 24px 88px;
+  }
+}
+
+@media (max-width: 700px) {
+  .recognitionSection {
+    padding-top: 78px;
+    padding-bottom: 78px;
+  }
+
+  .recognitionImageWrap {
+    min-height: 460px;
+  }
+
+  .possibilitySection {
+    scroll-margin-top: 78px;
+  }
+
+  .possibilityImageLayer {
+    height: 58vh;
+    min-height: 430px;
+  }
+
+  .possibilityCopy {
+    padding: 34px 20px 78px;
+  }
+}
