@@ -107,6 +107,7 @@ export default function Home() {
   const [coordinateMode, setCoordinateMode] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [language, setLanguage] = useState<Language>("nl");
+  const [headerScrolled, setHeaderScrolled] = useState(false);
 
   useEffect(() => {
     setIsUnlocked(window.localStorage.getItem(accessStorageKey) === "unlocked");
@@ -120,6 +121,13 @@ export default function Home() {
     window.localStorage.setItem(languageStorageKey, language);
     document.documentElement.lang = language;
   }, [language]);
+
+  useEffect(() => {
+    const updateHeader = () => setHeaderScrolled(window.scrollY > 24);
+    updateHeader();
+    window.addEventListener("scroll", updateHeader, { passive: true });
+    return () => window.removeEventListener("scroll", updateHeader);
+  }, []);
 
   useEffect(() => {
     if (!coordinateMode) return;
@@ -186,8 +194,9 @@ export default function Home() {
           aria-label="Nederlands"
           aria-pressed={language === "nl"}
         >
-          🇳🇱
+          NL
         </button>
+        <span className="languageDivider" aria-hidden="true">/</span>
         <button
           type="button"
           className={language === "en" ? "languageFlag isActive" : "languageFlag"}
@@ -195,7 +204,7 @@ export default function Home() {
           aria-label="English"
           aria-pressed={language === "en"}
         >
-          🇬🇧
+          EN
         </button>
       </div>
     );
@@ -266,7 +275,7 @@ export default function Home() {
       )}
 
       {isUnlocked && (
-        <header className="previewHeader desktopPersistentHeader">
+        <header className={`previewHeader desktopPersistentHeader ${headerScrolled ? "isScrolled" : ""}`}>
           <a
             className="previewBrand"
             href="#top"
@@ -298,7 +307,7 @@ export default function Home() {
       <section id="top" className={`hero ${isUnlocked ? "heroUnlocked" : "heroLocked"}`}>
         <Image
           className="heroBackdrop"
-          src="/HeroCherelle.webp"
+          src={isUnlocked ? "/CherHero.png" : "/HeroCherelle.webp"}
           alt=""
           aria-hidden="true"
           fill
@@ -310,7 +319,7 @@ export default function Home() {
 
         {isUnlocked ? (
           <>
-            <header className={`previewHeader mobileHeroHeader ${menuOpen ? "menuOpen" : ""}`}>
+            <header className={`previewHeader mobileHeroHeader ${menuOpen ? "menuOpen" : ""} ${headerScrolled ? "isScrolled" : ""}`}>
               <a
                 className="previewBrand"
                 href="#top"
@@ -359,19 +368,31 @@ export default function Home() {
                     : "You have been strong for so long. But have you also been gentle with yourself?"
                 }
               >
-                <span className="desktopHeroTitle">
+                <span className="desktopHeroTitle desktopHeroTitleReference">
                   <AnimatedHeroLine
-                    text={language === "nl" ? "Je bent al zo lang sterk geweest." : "You have been strong for so long."}
+                    text={language === "nl" ? "Je bent al zo lang" : "You have been strong"}
                     offset={1}
                   />
                   <AnimatedHeroLine
-                    text={language === "nl" ? "Maar ben je ook zacht geweest" : "But have you also been gentle"}
+                    text={language === "nl" ? "sterk geweest." : "for so long."}
                     offset={2}
-                    className="siteHeroLineSecondSentence"
                   />
+                  <span className="heroReferenceGap" aria-hidden="true" />
+                  <AnimatedHeroLine
+                    text={language === "nl" ? "Maar ben je ook" : "But have you also been"}
+                    offset={3}
+                  />
+                  <span className="siteHeroLine heroAccentLine" aria-hidden="true">
+                    <span className="heroAccentWord">
+                      {language === "nl" ? "zacht" : "gentle"}
+                    </span>
+                    <span className="heroAccentTail">
+                      {language === "nl" ? "geweest" : ""}
+                    </span>
+                  </span>
                   <AnimatedHeroLine
                     text={language === "nl" ? "voor jezelf?" : "with yourself?"}
-                    offset={3}
+                    offset={4}
                   />
                 </span>
 
