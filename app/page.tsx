@@ -130,6 +130,35 @@ export default function Home() {
 
   return (
     <main className={isUnlocked ? "siteRoot" : "siteRoot siteRootLocked"}>
+      {isUnlocked && (
+        <header className="previewHeader desktopPersistentHeader">
+          <a
+            className="previewBrand"
+            href="#top"
+            onClick={() => {
+              setActiveItem(null);
+              setMenuOpen(false);
+            }}
+          >
+            CHERELLE ELISA
+          </a>
+
+          <nav className="previewNav" aria-label="Hoofdnavigatie">
+            {menuItems.map((item) => (
+              <button
+                key={item.id}
+                className={activeItem === item.id ? "previewNavItem isActive" : "previewNavItem"}
+                type="button"
+                aria-current={activeItem === item.id ? "page" : undefined}
+                onClick={() => goToSection(item.id)}
+              >
+                {item.label}
+              </button>
+            ))}
+          </nav>
+        </header>
+      )}
+
       <section id="top" className={`hero ${isUnlocked ? "heroUnlocked" : "heroLocked"}`}>
         <Image
           className="heroBackdrop"
@@ -145,7 +174,7 @@ export default function Home() {
 
         {isUnlocked ? (
           <>
-            <header className={`previewHeader ${menuOpen ? "menuOpen" : ""}`}>
+            <header className={`previewHeader mobileHeroHeader ${menuOpen ? "menuOpen" : ""}`}>
               <a
                 className="previewBrand"
                 href="#top"
