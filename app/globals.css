@@ -2950,3 +2950,222 @@ body,
     z-index: 3;
   }
 }
+
+
+/* 2026-10-07 desktop hero refresh based on CherHero */
+:root {
+  --ce-hero-ivory: #f7f1ea;
+}
+
+.heroBackdropMobileOld {
+  display: none;
+}
+
+.languageDivider {
+  color: rgba(47, 36, 29, 0.36);
+  font-size: 0.68rem;
+  line-height: 1;
+}
+
+@media (min-width: 901px) {
+  /* New desktop hero artwork, with the mobile hero kept untouched */
+  .heroUnlocked {
+    background: var(--ce-hero-ivory);
+  }
+
+  .heroUnlocked .heroBackdropDesktopNew {
+    display: block;
+    object-fit: cover;
+    object-position: center center;
+  }
+
+  .heroUnlocked .heroVeil {
+    background: none !important;
+  }
+
+  .siteHeroContent {
+    width: min(41vw, 650px);
+    max-width: none;
+    margin: 0;
+    padding:
+      clamp(112px, 10vh, 150px)
+      0
+      clamp(64px, 7vh, 96px)
+      clamp(66px, 7.3vw, 122px);
+    justify-self: start;
+    align-self: center;
+    transform: none;
+    text-align: left;
+  }
+
+  .siteHeroContent::before {
+    content: "";
+    position: absolute;
+    left: clamp(38px, 4.1vw, 68px);
+    top: 34%;
+    width: 1px;
+    height: clamp(160px, 19vh, 230px);
+    background: rgba(168, 111, 93, 0.62);
+  }
+
+  .siteHeroTitle {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    font-size: clamp(3.25rem, 4.05vw, 4.85rem);
+    line-height: 0.98;
+    letter-spacing: -0.032em;
+    color: #2f241d;
+    text-shadow: none;
+  }
+
+  .desktopHeroTitleReference {
+    display: block;
+  }
+
+  .desktopHeroTitleReference .siteHeroLine {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .desktopHeroTitleReference .siteHeroLineSecondSentence {
+    margin-top: 0;
+  }
+
+  .heroReferenceGap {
+    display: block;
+    height: 0.72em;
+  }
+
+  .heroAccentLine {
+    display: flex !important;
+    align-items: baseline;
+    gap: 0.18em;
+    min-height: 1.05em;
+  }
+
+  .heroAccentWord {
+    display: inline-block;
+    font-family: var(--font-accent), cursive;
+    font-size: 1.18em;
+    line-height: 0.85;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--ce-accent);
+    transform: translateY(0.04em) rotate(-2deg);
+  }
+
+  .heroAccentTail {
+    display: inline-block;
+    font-family: var(--font-display), serif;
+    font-size: 1em;
+    line-height: 1;
+    color: #2f241d;
+  }
+
+  .siteHeroSubtitle {
+    max-width: 470px;
+    margin: 34px 0 0;
+    font-size: 0.69rem;
+    line-height: 1.7;
+    letter-spacing: 0.21em;
+    text-transform: uppercase;
+    color: rgba(74, 58, 50, 0.68);
+  }
+
+  .feminineWayButton {
+    margin-top: 34px;
+    min-width: 280px;
+    justify-content: space-between;
+    padding: 14px 24px;
+    border: 1px solid rgba(168, 111, 93, 0.72);
+    border-radius: 999px;
+    background: rgba(247, 241, 234, 0.34);
+    font-size: 0.8rem;
+    letter-spacing: 0.01em;
+  }
+
+  .feminineWayButton:hover {
+    border-color: var(--ce-accent-deep);
+    background: rgba(255, 255, 255, 0.28);
+  }
+
+  /* Header is completely clean at the top, glass only after scrolling */
+  .desktopPersistentHeader {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    transition:
+      background-color 260ms ease,
+      backdrop-filter 260ms ease,
+      box-shadow 260ms ease;
+  }
+
+  .desktopPersistentHeader.isScrolled {
+    background: rgba(247, 241, 234, 0.78) !important;
+    -webkit-backdrop-filter: blur(18px) saturate(115%) !important;
+    backdrop-filter: blur(18px) saturate(115%) !important;
+    box-shadow: 0 8px 28px rgba(47, 36, 29, 0.045) !important;
+  }
+
+  /* Language switch: text instead of emoji flags */
+  .desktopPersistentHeader .languageSwitcher {
+    gap: 7px;
+  }
+
+  .desktopPersistentHeader .languageFlag {
+    padding: 2px 0;
+    font-size: 0.68rem;
+    font-weight: 500;
+    letter-spacing: 0.13em;
+    color: var(--ce-ink);
+    opacity: 0.42;
+  }
+
+  .desktopPersistentHeader .languageFlag:hover,
+  .desktopPersistentHeader .languageFlag.isActive {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Homepage colour rhythm: alternate white with the warm hero ivory */
+  #herkenning {
+    background: var(--ce-white);
+  }
+
+  #mogelijkheden {
+    background: var(--ce-hero-ivory);
+  }
+
+  #begeleiding {
+    background: var(--ce-white);
+  }
+
+  #werkwijze {
+    background: var(--ce-white);
+  }
+
+  #over-mij {
+    background: var(--ce-hero-ivory);
+  }
+
+  #ervaringen {
+    background: var(--ce-white);
+  }
+
+  #uitnodiging,
+  #uitnodiging .invitationCopy {
+    background: var(--ce-hero-ivory);
+  }
+}
+
+@media (max-width: 900px) {
+  .heroBackdropDesktopNew {
+    display: none !important;
+  }
+
+  .heroBackdropMobileOld {
+    display: block;
+  }
+}
