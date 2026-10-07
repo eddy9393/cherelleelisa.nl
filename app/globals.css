@@ -2124,27 +2124,46 @@ body,
 
 
 
-/* Thuiskomen — clean baseline */
+/* Thuiskomen — clean image + text baseline */
 .possibilitySection {
   width: 100%;
   min-height: clamp(700px, 58vw, 900px);
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: stretch;
+  gap: clamp(64px, 7vw, 120px);
   padding: clamp(92px, 9vw, 150px) clamp(28px, 6.5vw, 120px);
   background: var(--ce-white);
   scroll-margin-top: 104px;
 }
 
+.possibilityImageWrap {
+  position: relative;
+  min-height: clamp(560px, 50vw, 760px);
+  overflow: hidden;
+}
+
+.possibilityImage {
+  object-fit: cover;
+  object-position: center;
+}
+
 .possibilityCopy {
-  width: min(42vw, 680px);
-  margin-left: auto;
+  width: 100%;
+  max-width: 680px;
+  align-self: center;
 }
 
 @media (max-width: 900px) {
   .possibilitySection {
     min-height: 0;
+    grid-template-columns: 1fr;
+    gap: 40px;
     padding: 82px 24px;
+  }
+
+  .possibilityImageWrap {
+    min-height: 560px;
   }
 
   .possibilityCopy {
