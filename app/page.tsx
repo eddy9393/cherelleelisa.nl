@@ -4,6 +4,7 @@ import Image from "next/image";
 import { FormEvent, useEffect, useState } from "react";
 
 const instagramUrl = "https://www.instagram.com/cherelle_elisa_/";
+const contactEmail = "info@cherelleelisa.nl";
 const accessCode = "Cher2026!";
 const accessStorageKey = "cherelle-preview-access";
 
@@ -139,6 +140,34 @@ export default function Home() {
     setActiveItem(id);
     setMenuOpen(false);
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
+  function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const form = new FormData(event.currentTarget);
+    const name = String(form.get("name") ?? "");
+    const email = String(form.get("email") ?? "");
+    const phone = String(form.get("phone") ?? "");
+    const interest = String(form.get("interest") ?? "");
+    const message = String(form.get("message") ?? "");
+
+    const subject = encodeURIComponent(`Kennismaking via cherelleelisa.nl — ${interest || "algemene vraag"}`);
+    const body = encodeURIComponent(
+      [
+        `Naam: ${name}`,
+        `E-mail: ${email}`,
+        phone ? `Telefoon: ${phone}` : "",
+        `Interesse: ${interest}`,
+        "",
+        "Waar ik nu sta / waar ik naar verlang:",
+        message,
+      ]
+        .filter(Boolean)
+        .join("\n")
+    );
+
+    window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
   }
 
   return (
@@ -413,8 +442,8 @@ export default function Home() {
 
             <div className="offerList">
               <article className="offerRow" data-reveal>
-                <span className="offerNumber">01</span>
-                <div className="offerBody">
+                <div className="offerText">
+                  <span className="offerNumber">01</span>
                   <h3>The Feminine Way</h3>
                   <p>
                     Een persoonlijk traject van zes maanden waarin je stap voor stap terugkomt
@@ -426,11 +455,25 @@ export default function Home() {
                     Lees meer <span aria-hidden="true">→</span>
                   </button>
                 </div>
+                <div className="offerImageWrap">
+                  <Image
+                    src="/feminine.jpg"
+                    alt="The Feminine Way"
+                    fill
+                    sizes="(max-width: 900px) 100vw, 31vw"
+                    quality={82}
+                    className="offerImage"
+                    onError={(event) => {
+                      event.currentTarget.style.opacity = "0";
+                    }}
+                  />
+                  <div className="offerImageFade" aria-hidden="true" />
+                </div>
               </article>
 
               <article className="offerRow" data-reveal>
-                <span className="offerNumber">02</span>
-                <div className="offerBody">
+                <div className="offerText">
+                  <span className="offerNumber">02</span>
                   <h3>1-op-1 sessie</h3>
                   <p>
                     Een sessie van ongeveer anderhalf uur waarin we samen werken met wat er op
@@ -440,11 +483,25 @@ export default function Home() {
                     Bekijk sessies <span aria-hidden="true">→</span>
                   </button>
                 </div>
+                <div className="offerImageWrap">
+                  <Image
+                    src="/1-op-1.jpg"
+                    alt="1-op-1 sessie met Cherelle"
+                    fill
+                    sizes="(max-width: 900px) 100vw, 31vw"
+                    quality={82}
+                    className="offerImage"
+                    onError={(event) => {
+                      event.currentTarget.style.opacity = "0";
+                    }}
+                  />
+                  <div className="offerImageFade" aria-hidden="true" />
+                </div>
               </article>
 
               <article className="offerRow" data-reveal>
-                <span className="offerNumber">03</span>
-                <div className="offerBody">
+                <div className="offerText">
+                  <span className="offerNumber">03</span>
                   <h3>Ceremonies</h3>
                   <p>
                     Samen met andere vrouwen ruimte maken om te voelen, los te laten en te verbinden.
@@ -452,6 +509,20 @@ export default function Home() {
                   <button className="sectionLink" type="button">
                     Bekijk ceremonies <span aria-hidden="true">→</span>
                   </button>
+                </div>
+                <div className="offerImageWrap">
+                  <Image
+                    src="/ceremonies.jpg"
+                    alt="Ceremonie voor vrouwen"
+                    fill
+                    sizes="(max-width: 900px) 100vw, 31vw"
+                    quality={82}
+                    className="offerImage"
+                    onError={(event) => {
+                      event.currentTarget.style.opacity = "0";
+                    }}
+                  />
+                  <div className="offerImageFade" aria-hidden="true" />
                 </div>
               </article>
             </div>
@@ -544,16 +615,57 @@ export default function Home() {
                 Plan een vrijblijvend kennismakingsgesprek. We kijken samen waar je nu staat en
                 wat bij je past. Je mag ook gewoon een berichtje sturen.
               </p>
-              <button className="sectionLink sectionLinkLarge" type="button">
-                Plan een kennismaking <span aria-hidden="true">→</span>
-              </button>
+
+              <form className="contactForm" onSubmit={handleContactSubmit}>
+                <div className="contactFormRow">
+                  <label>
+                    <span>Naam</span>
+                    <input type="text" name="name" autoComplete="name" required />
+                  </label>
+                  <label>
+                    <span>E-mail</span>
+                    <input type="email" name="email" autoComplete="email" required />
+                  </label>
+                </div>
+
+                <div className="contactFormRow">
+                  <label>
+                    <span>Telefoon <small>optioneel</small></span>
+                    <input type="tel" name="phone" autoComplete="tel" />
+                  </label>
+                  <label>
+                    <span>Waar heb je interesse in?</span>
+                    <select name="interest" defaultValue="Kennismaken" required>
+                      <option value="Kennismaken">Eerst even kennismaken</option>
+                      <option value="The Feminine Way">The Feminine Way</option>
+                      <option value="1-op-1 sessie">1-op-1 sessie</option>
+                      <option value="Ceremonies">Ceremonies</option>
+                    </select>
+                  </label>
+                </div>
+
+                <label className="contactMessage">
+                  <span>Waar sta je nu, en waar verlang je naar?</span>
+                  <textarea name="message" rows={5} required />
+                </label>
+
+                <div className="contactFormFooter">
+                  <button className="contactSubmit" type="submit">
+                    Stuur mijn bericht <span aria-hidden="true">→</span>
+                  </button>
+                  <a href={`mailto:${contactEmail}`} className="contactEmail">
+                    {contactEmail}
+                  </a>
+                </div>
+              </form>
             </div>
+
             <div className="invitationImageWrap" data-reveal>
               <Image
                 src="/Uitnodiging.webp"
                 alt="Cherelle in een warm en uitnodigend moment"
                 fill
-                sizes="(max-width: 1000px) 100vw, 56vw"
+                sizes="(max-width: 1000px) 100vw, 48vw"
                 quality={82}
                 className="invitationImage"
               />
@@ -575,6 +687,7 @@ export default function Home() {
             </nav>
 
             <div className="footerMeta" data-reveal>
+              <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
               <a href={instagramUrl} target="_blank" rel="noreferrer">Instagram ↗</a>
               <span>© 2026 Cherelle Elisa</span>
             </div>
