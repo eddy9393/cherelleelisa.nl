@@ -1316,8 +1316,8 @@ h1 {
 
 /* Queen Smoothie accent font */
 @font-face {
-  font-family: "Wistania";
-  src: url("/Wistania.ttf") format("truetype");
+  font-family: "Natalia Signature";
+  src: url("/Natalia Signature.otf") format("opentype");
   font-style: normal;
   font-weight: 400;
   font-display: swap;
@@ -1334,7 +1334,7 @@ h1 {
   --ce-line: #e2d8cf;
   --ce-soft: #f5efe9;
   --ce-white: #ffffff;
-  --font-accent: "Wistania";
+  --font-accent: "Natalia Signature";
 }
 
 body,
@@ -3262,5 +3262,45 @@ body,
     88% {
       transform: translateY(1px);
     }
+  }
+}
+
+
+/* Recognition + Thuiskomen desktop composition */
+.recognitionImageWrap {
+  border-radius: 0 !important;
+}
+
+@media (min-width: 901px) {
+  .recognitionSection {
+    grid-template-columns: minmax(0, 1.12fr) minmax(0, 0.88fr);
+  }
+
+  .recognitionImageWrap {
+    order: 1;
+  }
+
+  .recognitionCopy {
+    order: 2;
+  }
+
+  .recognitionImage {
+    transform: scaleX(-1);
+  }
+
+  .recognitionImageWrap.isRevealed .recognitionImage {
+    transform: scaleX(-1) scale(1.015);
+  }
+
+  .possibilityImageWrap {
+    order: 2;
+  }
+
+  .possibilityCopy {
+    order: 1;
+  }
+
+  .possibilityImage {
+    transform: scaleX(-1);
   }
 }
