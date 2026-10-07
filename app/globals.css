@@ -2610,3 +2610,41 @@ body,
     margin-top: 34px;
   }
 }
+
+
+/* Service cards: let copy overlap the image fade on desktop */
+@media (min-width: 901px) {
+  .offerRow {
+    gap: 0;
+  }
+
+  .offerText {
+    min-height: 315px;
+    padding-bottom: 24px;
+  }
+
+  .offerText .sectionLink {
+    margin-top: auto;
+    padding-top: 18px;
+    position: relative;
+    z-index: 3;
+  }
+
+  .offerImageWrap {
+    margin-top: -46px;
+    min-height: clamp(370px, 29vw, 500px);
+  }
+
+  .offerImageFade {
+    background:
+      linear-gradient(
+        180deg,
+        #fff 0%,
+        rgba(255,255,255,0.97) 10%,
+        rgba(255,255,255,0.86) 20%,
+        rgba(255,255,255,0.58) 32%,
+        rgba(255,255,255,0.24) 43%,
+        rgba(255,255,255,0) 58%
+      );
+  }
+}
