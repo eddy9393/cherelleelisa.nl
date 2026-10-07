@@ -7,16 +7,40 @@ const instagramUrl = "https://www.instagram.com/cherelle_elisa_/";
 const contactEmail = "info@cherelleelisa.nl";
 const accessCode = "Cher2026!";
 const accessStorageKey = "cherelle-preview-access";
+const languageStorageKey = "cherelle-language";
 
 const menuItems = [
-  { label: "Herkenning", id: "herkenning" },
-  { label: "Wat er mogelijk is", id: "mogelijkheden" },
-  { label: "Zo kan ik je begeleiden", id: "begeleiding" },
-  { label: "Mijn manier van werken", id: "werkwijze" },
-  { label: "Over mij", id: "over-mij" },
-  { label: "Ervaringen", id: "ervaringen" },
-  { label: "Uitnodiging", id: "uitnodiging" },
+  { id: "herkenning" },
+  { id: "mogelijkheden" },
+  { id: "begeleiding" },
+  { id: "werkwijze" },
+  { id: "over-mij" },
+  { id: "ervaringen" },
+  { id: "uitnodiging" },
 ] as const;
+
+type Language = "nl" | "en";
+
+const menuLabels: Record<Language, Record<MenuItemId, string>> = {
+  nl: {
+    herkenning: "Herkenning",
+    mogelijkheden: "Thuiskomen",
+    begeleiding: "Begeleiding",
+    werkwijze: "Werkwijze",
+    "over-mij": "Over mij",
+    ervaringen: "Ervaringen",
+    uitnodiging: "Uitnodiging",
+  },
+  en: {
+    herkenning: "Recognition",
+    mogelijkheden: "Coming home",
+    begeleiding: "Guidance",
+    werkwijze: "Approach",
+    "over-mij": "About me",
+    ervaringen: "Experiences",
+    uitnodiging: "Invitation",
+  },
+};
 
 type MenuItemId = (typeof menuItems)[number]["id"];
 
@@ -82,10 +106,20 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [coordinateMode, setCoordinateMode] = useState(false);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+  const [language, setLanguage] = useState<Language>("nl");
 
   useEffect(() => {
     setIsUnlocked(window.localStorage.getItem(accessStorageKey) === "unlocked");
+    const savedLanguage = window.localStorage.getItem(languageStorageKey);
+    if (savedLanguage === "en" || savedLanguage === "nl") {
+      setLanguage(savedLanguage);
+    }
   }, []);
+
+  useEffect(() => {
+    window.localStorage.setItem(languageStorageKey, language);
+    document.documentElement.lang = language;
+  }, [language]);
 
   useEffect(() => {
     if (!coordinateMode) return;
@@ -142,6 +176,31 @@ export default function Home() {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
+  function LanguageSwitcher() {
+    return (
+      <div className="languageSwitcher" aria-label={language === "nl" ? "Taal kiezen" : "Choose language"}>
+        <button
+          type="button"
+          className={language === "nl" ? "languageFlag isActive" : "languageFlag"}
+          onClick={() => setLanguage("nl")}
+          aria-label="Nederlands"
+          aria-pressed={language === "nl"}
+        >
+          🇳🇱
+        </button>
+        <button
+          type="button"
+          className={language === "en" ? "languageFlag isActive" : "languageFlag"}
+          onClick={() => setLanguage("en")}
+          aria-label="English"
+          aria-pressed={language === "en"}
+        >
+          🇬🇧
+        </button>
+      </div>
+    );
+  }
+
   function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -152,15 +211,21 @@ export default function Home() {
     const interest = String(form.get("interest") ?? "");
     const message = String(form.get("message") ?? "");
 
-    const subject = encodeURIComponent(`Kennismaking via cherelleelisa.nl — ${interest || "algemene vraag"}`);
+    const subject = encodeURIComponent(
+      language === "nl"
+        ? `Kennismaking via cherelleelisa.nl — ${interest || "algemene vraag"}`
+        : `Introduction via cherelleelisa.nl — ${interest || "general question"}`
+    );
     const body = encodeURIComponent(
       [
-        `Naam: ${name}`,
+        language === "nl" ? `Naam: ${name}` : `Name: ${name}`,
         `E-mail: ${email}`,
-        phone ? `Telefoon: ${phone}` : "",
-        `Interesse: ${interest}`,
+        phone ? (language === "nl" ? `Telefoon: ${phone}` : `Phone: ${phone}`) : "",
+        language === "nl" ? `Interesse: ${interest}` : `Interest: ${interest}`,
         "",
-        "Waar ik nu sta / waar ik naar verlang:",
+        language === "nl"
+          ? "Waar ik nu sta / waar ik naar verlang:"
+          : "Where I am now / what I long for:",
         message,
       ]
         .filter(Boolean)
@@ -222,10 +287,11 @@ export default function Home() {
                 aria-current={activeItem === item.id ? "page" : undefined}
                 onClick={() => goToSection(item.id)}
               >
-                {item.label}
+                {menuLabels[language][item.id]}
               </button>
             ))}
           </nav>
+          <LanguageSwitcher />
         </header>
       )}
 
@@ -276,42 +342,59 @@ export default function Home() {
                     aria-current={activeItem === item.id ? "page" : undefined}
                     onClick={() => goToSection(item.id)}
                   >
-                    {item.label}
+                    {menuLabels[language][item.id]}
                   </button>
                 ))}
               </nav>
+              <LanguageSwitcher />
             </header>
 
             <section className="siteHeroContent" aria-labelledby="site-hero-title">
               <h1
                 id="site-hero-title"
                 className="siteHeroTitle"
-                aria-label="Je bent al zo lang sterk geweest. Maar ben je ook zacht geweest voor jezelf?"
+                aria-label={
+                  language === "nl"
+                    ? "Je bent al zo lang sterk geweest. Maar ben je ook zacht geweest voor jezelf?"
+                    : "You have been strong for so long. But have you also been gentle with yourself?"
+                }
               >
                 <span className="desktopHeroTitle">
-                  <AnimatedHeroLine text="Je bent al zo lang sterk geweest." offset={1} />
                   <AnimatedHeroLine
-                    text="Maar ben je ook zacht geweest"
+                    text={language === "nl" ? "Je bent al zo lang sterk geweest." : "You have been strong for so long."}
+                    offset={1}
+                  />
+                  <AnimatedHeroLine
+                    text={language === "nl" ? "Maar ben je ook zacht geweest" : "But have you also been gentle"}
                     offset={2}
                     className="siteHeroLineSecondSentence"
                   />
-                  <AnimatedHeroLine text="voor jezelf?" offset={3} />
+                  <AnimatedHeroLine
+                    text={language === "nl" ? "voor jezelf?" : "with yourself?"}
+                    offset={3}
+                  />
                 </span>
 
                 <span className="mobileHeroTitle" aria-hidden="true">
-                  <span className="mobileHeroSentence">Je bent al zo lang sterk geweest.</span>
+                  <span className="mobileHeroSentence">
+                    {language === "nl" ? "Je bent al zo lang sterk geweest." : "You have been strong for so long."}
+                  </span>
                   <span className="mobileHeroSentence mobileHeroSentenceSecond">
-                    Maar ben je ook zacht geweest voor jezelf?
+                    {language === "nl"
+                      ? "Maar ben je ook zacht geweest voor jezelf?"
+                      : "But have you also been gentle with yourself?"}
                   </span>
                 </span>
               </h1>
 
               <p className="siteHeroSubtitle">
-                Voor de vrouw die alles draagt en zichzelf onderweg is kwijtgeraakt.
+                {language === "nl"
+                  ? "Voor de vrouw die alles draagt en zichzelf onderweg is kwijtgeraakt."
+                  : "For the woman who carries everything and lost herself along the way."}
               </p>
 
               <a className="feminineWayButton" href="#herkenning">
-                <span>Ontdek The Feminine Way</span>
+                <span>{language === "nl" ? "Ontdek The Feminine Way" : "Discover The Feminine Way"}</span>
                 <svg
                   className="feminineWayArrow"
                   aria-hidden="true"
@@ -334,7 +417,9 @@ export default function Home() {
         ) : (
           <div className="accessArea">
             <form className="accessForm" onSubmit={handleAccess}>
-              <label className="srOnly" htmlFor="preview-code">Toegangscode</label>
+              <label className="srOnly" htmlFor="preview-code">
+                {language === "nl" ? "Toegangscode" : "Access code"}
+              </label>
               <input
                 id="preview-code"
                 className="accessInput"
@@ -344,14 +429,24 @@ export default function Home() {
                   setCode(event.target.value);
                   if (hasError) setHasError(false);
                 }}
-                placeholder="Toegangscode"
+                placeholder={language === "nl" ? "Toegangscode" : "Access code"}
                 autoComplete="off"
                 spellCheck={false}
                 aria-invalid={hasError}
               />
-              <button className="accessButton" type="submit" aria-label="Website bekijken">→</button>
+              <button
+                className="accessButton"
+                type="submit"
+                aria-label={language === "nl" ? "Website bekijken" : "View website"}
+              >
+                →
+              </button>
             </form>
-            {hasError && <p className="accessError">Onjuiste code</p>}
+            {hasError && (
+              <p className="accessError">
+                {language === "nl" ? "Onjuiste code" : "Incorrect code"}
+              </p>
+            )}
           </div>
         )}
 
@@ -359,17 +454,19 @@ export default function Home() {
           <section className="heroContent" aria-labelledby="coming-soon-title">
             <p className="eyebrow">CHERELLE ELISA</p>
             <h1 id="coming-soon-title">Coming Soon.</h1>
-            <p className="intro">Neem nu alvast een kijkje op mijn instagram voor meer info.</p>
+            <p className="intro">
+              {language === "nl"
+                ? "Neem nu alvast een kijkje op mijn Instagram voor meer info."
+                : "Take a look at my Instagram for more information."}
+            </p>
             <a
               className="instagramLink"
               href={instagramUrl}
               target="_blank"
               rel="noreferrer"
-              aria-label="Bekijk Cherelle Elisa op Instagram"
+              aria-label={language === "nl" ? "Bekijk Cherelle Elisa op Instagram" : "View Cherelle Elisa on Instagram"}
             >
               <span className="instagramIcon"><InstagramIcon /></span>
-              <span className="instagramHandle">@cherelle_elisa_</span>
-              <span className="instagramArrow" aria-hidden="true">↗</span>
             </a>
           </section>
         )}
@@ -380,17 +477,17 @@ export default function Home() {
 
           <section id="herkenning" className="contentSection recognitionSection">
             <div className="sectionCopy recognitionCopy" data-reveal>
-              <p className="sectionKicker">Herkenning</p>
-              <h2>Herken je dit?</h2>
+              <p className="sectionKicker">{language === "nl" ? "Herkenning" : "Recognition"}</p>
+              <h2>{language === "nl" ? "Herken je dit?" : "Does this feel familiar?"}</h2>
               <p>
-                Je staat altijd klaar, voor je werk, je gezin en iedereen om je heen.
-                &apos;s Avonds lig je in bed en je hoofd blijft maar doorgaan. Je bent moe,
-                al zo lang dat je bijna vergeten bent hoe het anders voelde. Van buiten ziet
-                je leven er goed uit, en toch vraag je je soms af waarom jij dat geluk niet voelt.
+                {language === "nl"
+                  ? "Je staat altijd klaar, voor je werk, je gezin en iedereen om je heen. ’s Avonds lig je in bed en je hoofd blijft maar doorgaan. Je bent moe, al zo lang dat je bijna vergeten bent hoe het anders voelde. Van buiten ziet je leven er goed uit, en toch vraag je je soms af waarom jij dat geluk niet voelt."
+                  : "You are always there for your work, your family and everyone around you. At night you lie in bed while your mind keeps going. You are tired, for so long that you have almost forgotten what it felt like to feel different. From the outside your life looks good, yet sometimes you wonder why you do not feel that happiness."}
               </p>
               <p className="sectionEmphasis">
-                Er is niets mis met je. Je hebt alleen heel lang gezocht op een plek waar het
-                niet te vinden is.
+                {language === "nl"
+                  ? "Er is niets mis met je. Je hebt alleen heel lang gezocht op een plek waar het niet te vinden is."
+                  : "There is nothing wrong with you. You have simply been searching for a long time in a place where it cannot be found."}
               </p>
             </div>
             <div className="recognitionImageWrap" data-reveal>
@@ -418,26 +515,35 @@ export default function Home() {
             </div>
 
             <div className="sectionCopy possibilityCopy" data-reveal>
-              <p className="sectionKicker">Wat er mogelijk is</p>
-              <h2>Thuiskomen in je lichaam</h2>
+              <p className="sectionKicker">{language === "nl" ? "Wat er mogelijk is" : "What becomes possible"}</p>
+              <h2>{language === "nl" ? "Thuiskomen in je lichaam" : "Coming home to your body"}</h2>
               <p>
-                Stel je voor dat je weer voelt wat je nodig hebt, en daar ook naar durft te
-                handelen. Dat je nee kunt zeggen zonder schuldgevoel en hulp kunt aannemen
-                zonder dat het ongemakkelijk voelt. Dat je rust neemt omdat je moe bent, en
-                dat er weer ruimte is voor plezier, sensualiteit en vrijheid.
+                {language === "nl"
+                  ? "Stel je voor dat je weer voelt wat je nodig hebt, en daar ook naar durft te handelen. Dat je nee kunt zeggen zonder schuldgevoel en hulp kunt aannemen zonder dat het ongemakkelijk voelt. Dat je rust neemt omdat je moe bent, en dat er weer ruimte is voor plezier, sensualiteit en vrijheid."
+                  : "Imagine feeling what you need again, and daring to act on it. Saying no without guilt and accepting help without discomfort. Resting because you are tired, while making space again for pleasure, sensuality and freedom."}
               </p>
               <p className="sectionManifesto">
-                Van hoofd naar hart.<br />
-                Van doen naar zijn.<br />
-                Van controle naar overgave.
+                {language === "nl" ? (
+                  <>
+                    Van hoofd naar hart.<br />
+                    Van doen naar zijn.<br />
+                    Van controle naar overgave.
+                  </>
+                ) : (
+                  <>
+                    From head to heart.<br />
+                    From doing to being.<br />
+                    From control to surrender.
+                  </>
+                )}
               </p>
             </div>
           </section>
 
           <section id="begeleiding" className="offersSection">
             <div className="offersIntro" data-reveal>
-              <p className="sectionKicker">Zo kan ik je begeleiden</p>
-              <h2>Een vorm die past bij waar jij nu bent.</h2>
+              <p className="sectionKicker">{language === "nl" ? "Zo kan ik je begeleiden" : "How I can support you"}</p>
+              <h2>{language === "nl" ? "Een vorm die past bij waar jij nu bent." : "A form of support that meets you where you are."}</h2>
             </div>
 
             <div className="offerList">
@@ -446,13 +552,12 @@ export default function Home() {
                   <span className="offerNumber">01</span>
                   <h3>The Feminine Way</h3>
                   <p>
-                    Een persoonlijk traject van zes maanden waarin je stap voor stap terugkomt
-                    in je lichaam en weer leert leven vanuit je vrouwelijke energie. Volledig
-                    afgestemd op jou en in jouw tempo. Veel vrouwen merken dat ze na dit traject
-                    rustiger zijn, beter voelen wat ze nodig hebben en weer kunnen ontvangen.
+                    {language === "nl"
+                      ? "Een persoonlijk traject van zes maanden waarin je stap voor stap terugkomt in je lichaam en weer leert leven vanuit je vrouwelijke energie. Volledig afgestemd op jou en in jouw tempo. Veel vrouwen merken dat ze na dit traject rustiger zijn, beter voelen wat ze nodig hebben en weer kunnen ontvangen."
+                      : "A personal six-month journey in which you gradually return to your body and learn to live from your feminine energy again. Fully tailored to you and at your pace. Many women notice they feel calmer, sense what they need more clearly and are able to receive again."}
                   </p>
                   <button className="sectionLink" type="button">
-                    Lees meer <span aria-hidden="true">→</span>
+                    {language === "nl" ? "Lees meer" : "Read more"} <span aria-hidden="true">→</span>
                   </button>
                 </div>
                 <div className="offerImageWrap">
@@ -475,11 +580,12 @@ export default function Home() {
                   <span className="offerNumber">02</span>
                   <h3>1-op-1 sessie</h3>
                   <p>
-                    Een sessie van ongeveer anderhalf uur waarin we samen werken met wat er op
-                    dat moment in jou leeft. Ook mogelijk samen met je partner, vriendin of moeder.
+                    {language === "nl"
+                      ? "Een sessie van ongeveer anderhalf uur waarin we samen werken met wat er op dat moment in jou leeft. Ook mogelijk samen met je partner, vriendin of moeder."
+                      : "A session of around ninety minutes in which we work together with whatever is alive in you at that moment. Also possible together with your partner, a friend or your mother."}
                   </p>
                   <button className="sectionLink" type="button">
-                    Bekijk sessies <span aria-hidden="true">→</span>
+                    {language === "nl" ? "Bekijk sessies" : "View sessions"} <span aria-hidden="true">→</span>
                   </button>
                 </div>
                 <div className="offerImageWrap">
@@ -502,10 +608,12 @@ export default function Home() {
                   <span className="offerNumber">03</span>
                   <h3>Ceremonies</h3>
                   <p>
-                    Samen met andere vrouwen ruimte maken om te voelen, los te laten en te verbinden.
+                    {language === "nl"
+                      ? "Samen met andere vrouwen ruimte maken om te voelen, los te laten en te verbinden."
+                      : "Creating space with other women to feel, let go and connect."}
                   </p>
                   <button className="sectionLink" type="button">
-                    Bekijk ceremonies <span aria-hidden="true">→</span>
+                    {language === "nl" ? "Bekijk ceremonies" : "View ceremonies"} <span aria-hidden="true">→</span>
                   </button>
                 </div>
                 <div className="offerImageWrap">
@@ -539,20 +647,23 @@ export default function Home() {
             </div>
 
             <div className="methodInner" data-reveal>
-              <p className="sectionKicker">Mijn manier van werken</p>
+              <p className="sectionKicker">{language === "nl" ? "Mijn manier van werken" : "My approach"}</p>
               <div className="methodColumns">
                 <p className="methodLead methodLeadPrimary">
-                  We werken altijd in jouw tempo. Soms raken we diepe lagen aan, zoals oude patronen
-                  of wat je van thuis hebt meegekregen. Daar ga ik zorgvuldig mee om, zodat het veilig
-                  voelt en je niets hoeft te forceren.
+                  {language === "nl"
+                    ? "We werken altijd in jouw tempo. Soms raken we diepe lagen aan, zoals oude patronen of wat je van thuis hebt meegekregen. Daar ga ik zorgvuldig mee om, zodat het veilig voelt en je niets hoeft te forceren."
+                    : "We always work at your pace. Sometimes we touch deeper layers, such as old patterns or things you learned at home. I approach those carefully, so it feels safe and nothing needs to be forced."}
                 </p>
                 <div className="methodSide">
                   <p className="methodLead methodLeadSecondary">
-                    Jij bepaalt waar je naartoe wilt, ik loop met je mee en hou je vast als het spannend wordt.
+                    {language === "nl"
+                      ? "Jij bepaalt waar je naartoe wilt, ik loop met je mee en hou je vast als het spannend wordt."
+                      : "You decide where you want to go. I walk beside you and support you when it feels vulnerable."}
                   </p>
                   <p className="methodNote">
-                    Mijn begeleiding is geen vervanging van therapie of medische zorg. Twijfel je of dit
-                    bij je past? Dan bespreken we dat gewoon samen.
+                    {language === "nl"
+                      ? "Mijn begeleiding is geen vervanging van therapie of medische zorg. Twijfel je of dit bij je past? Dan bespreken we dat gewoon samen."
+                      : "My guidance is not a replacement for therapy or medical care. Unsure whether this is right for you? We can simply discuss that together."}
                   </p>
                 </div>
               </div>
@@ -572,52 +683,69 @@ export default function Home() {
               <span className="aboutImageAccent">Cherelle</span>
             </div>
             <div className="sectionCopy" data-reveal>
-              <p className="sectionKicker">Over mij</p>
-              <h2>Ik ben Cherelle</h2>
+              <p className="sectionKicker">{language === "nl" ? "Over mij" : "About me"}</p>
+              <h2>{language === "nl" ? "Ik ben Cherelle" : "I’m Cherelle"}</h2>
               <p>
-                Ik ken dit van binnenuit. Jarenlang deed ik alles goed: harder werken, meer leren,
-                er altijd voor anderen zijn. En toch bleef het van binnen leeg. Op een reis naar
-                Egypte voelde ik voor het eerst hoe het is om gewoon te zijn, vrij en in het moment.
+                {language === "nl"
+                  ? "Ik ken dit van binnenuit. Jarenlang deed ik alles goed: harder werken, meer leren, er altijd voor anderen zijn. En toch bleef het van binnen leeg. Op een reis naar Egypte voelde ik voor het eerst hoe het is om gewoon te zijn, vrij en in het moment."
+                  : "I know this from the inside. For years I did everything right: working harder, learning more and always being there for others. Yet inside it still felt empty. During a journey to Egypt I felt for the first time what it is like to simply be, free and present."}
               </p>
               <p>
-                Sindsdien begeleid ik vrouwen terug naar zichzelf. Inmiddels zijn dat er zo&apos;n
-                500, en organiseerde ik ongeveer 15 ceremonies.
+                {language === "nl"
+                  ? "Sindsdien begeleid ik vrouwen terug naar zichzelf. Inmiddels zijn dat er zo’n 500, en organiseerde ik ongeveer 15 ceremonies."
+                  : "Since then I have guided women back to themselves. By now that is around 500 women, and I have organised about 15 ceremonies."}
               </p>
               <button className="sectionLink sectionLinkLarge" type="button">
-                Lees mijn verhaal <span aria-hidden="true">→</span>
+                {language === "nl" ? "Lees mijn verhaal" : "Read my story"} <span aria-hidden="true">→</span>
               </button>
             </div>
           </section>
 
           <section id="ervaringen" className="testimonialsSection">
             <div className="testimonialsHeading" data-reveal>
-              <p className="sectionKicker">Ervaringen</p>
-              <h2>Wat vrouwen zeggen</h2>
+              <p className="sectionKicker">{language === "nl" ? "Ervaringen" : "Experiences"}</p>
+              <h2>{language === "nl" ? "Wat vrouwen zeggen" : "What women say"}</h2>
             </div>
 
             <div className="testimonialsGrid" aria-label="Ruimte voor ervaringen">
               {[1, 2, 3].map((item) => (
                 <article className="testimonialSlot" key={item} data-reveal>
-                  <span>Ervaring 0{item}</span>
-                  <p>Ruimte voor haar ervaring, in haar eigen woorden.</p>
+                  <span>{language === "nl" ? `Ervaring 0${item}` : `Experience 0${item}`}</span>
+                  <p>
+                    {language === "nl"
+                      ? "Ruimte voor haar ervaring, in haar eigen woorden."
+                      : "Space for her experience, in her own words."}
+                  </p>
                 </article>
               ))}
             </div>
           </section>
 
           <section id="uitnodiging" className="invitationSection">
+            <div className="invitationImageWrap" data-reveal>
+              <Image
+                src="/Uitnodiging.webp"
+                alt={language === "nl" ? "Cherelle in een warm en uitnodigend moment" : "Cherelle in a warm and inviting moment"}
+                fill
+                sizes="(max-width: 1000px) 100vw, 48vw"
+                quality={82}
+                className="invitationImage"
+              />
+            </div>
+
             <div className="invitationCopy" data-reveal>
-              <p className="sectionKicker">Uitnodiging</p>
-              <h2>Voel je dat het tijd is?</h2>
+              <p className="sectionKicker">{language === "nl" ? "Uitnodiging" : "Invitation"}</p>
+              <h2>{language === "nl" ? "Voel je dat het tijd is?" : "Do you feel it is time?"}</h2>
               <p>
-                Plan een vrijblijvend kennismakingsgesprek. We kijken samen waar je nu staat en
-                wat bij je past. Je mag ook gewoon een berichtje sturen.
+                {language === "nl"
+                  ? "Plan een vrijblijvend kennismakingsgesprek. We kijken samen waar je nu staat en wat bij je past. Je mag ook gewoon een berichtje sturen."
+                  : "Plan a no-obligation introductory conversation. Together we will look at where you are now and what suits you. You are also welcome to simply send a message."}
               </p>
 
               <form className="contactForm" onSubmit={handleContactSubmit}>
                 <div className="contactFormRow">
                   <label>
-                    <span>Naam</span>
+                    <span>{language === "nl" ? "Naam" : "Name"}</span>
                     <input type="text" name="name" autoComplete="name" required />
                   </label>
                   <label>
@@ -628,65 +756,69 @@ export default function Home() {
 
                 <div className="contactFormRow">
                   <label>
-                    <span>Telefoon <small>optioneel</small></span>
+                    <span>
+                      {language === "nl" ? "Telefoon" : "Phone"}{" "}
+                      <small>{language === "nl" ? "optioneel" : "optional"}</small>
+                    </span>
                     <input type="tel" name="phone" autoComplete="tel" />
                   </label>
                   <label>
-                    <span>Waar heb je interesse in?</span>
+                    <span>{language === "nl" ? "Waar heb je interesse in?" : "What are you interested in?"}</span>
                     <select name="interest" defaultValue="Kennismaken" required>
-                      <option value="Kennismaken">Eerst even kennismaken</option>
+                      <option value="Kennismaken">
+                        {language === "nl" ? "Eerst even kennismaken" : "An introductory conversation"}
+                      </option>
                       <option value="The Feminine Way">The Feminine Way</option>
-                      <option value="1-op-1 sessie">1-op-1 sessie</option>
+                      <option value="1-op-1 sessie">{language === "nl" ? "1-op-1 sessie" : "1-to-1 session"}</option>
                       <option value="Ceremonies">Ceremonies</option>
                     </select>
                   </label>
                 </div>
 
                 <label className="contactMessage">
-                  <span>Waar sta je nu, en waar verlang je naar?</span>
+                  <span>
+                    {language === "nl"
+                      ? "Waar sta je nu, en waar verlang je naar?"
+                      : "Where are you now, and what do you long for?"}
+                  </span>
                   <textarea name="message" rows={5} required />
                 </label>
 
                 <div className="contactFormFooter">
                   <button className="contactSubmit" type="submit">
-                    Stuur mijn bericht <span aria-hidden="true">→</span>
+                    {language === "nl" ? "Stuur mijn bericht" : "Send my message"}{" "}
+                    <span aria-hidden="true">→</span>
                   </button>
-                  <a href={`mailto:${contactEmail}`} className="contactEmail">
-                    {contactEmail}
-                  </a>
                 </div>
               </form>
-            </div>
-
-            <div className="invitationImageWrap" data-reveal>
-              <Image
-                src="/Uitnodiging.webp"
-                alt="Cherelle in een warm en uitnodigend moment"
-                fill
-                sizes="(max-width: 1000px) 100vw, 48vw"
-                quality={82}
-                className="invitationImage"
-              />
             </div>
           </section>
 
           <footer className="siteFooter">
             <div className="footerBrand" data-reveal>
               <a href="#top">CHERELLE ELISA</a>
-              <p>Een zachtere weg naar jezelf.</p>
+              <p>{language === "nl" ? "Een zachtere weg naar jezelf." : "A gentler way back to yourself."}</p>
             </div>
 
             <nav className="footerNav" aria-label="Footer navigatie" data-reveal>
               {menuItems.map((item) => (
                 <a key={item.id} href={`#${item.id}`}>
-                  {item.label}
+                  {menuLabels[language][item.id]}
                 </a>
               ))}
             </nav>
 
             <div className="footerMeta" data-reveal>
               <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
-              <a href={instagramUrl} target="_blank" rel="noreferrer">Instagram ↗</a>
+              <a
+                className="footerInstagram"
+                href={instagramUrl}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Instagram"
+              >
+                <InstagramIcon />
+              </a>
               <span>© 2026 Cherelle Elisa</span>
             </div>
           </footer>
