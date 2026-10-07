@@ -79,10 +79,23 @@ export default function Home() {
   const [hasError, setHasError] = useState(false);
   const [activeItem, setActiveItem] = useState<MenuItemId | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [coordinateMode, setCoordinateMode] = useState(false);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     setIsUnlocked(window.localStorage.getItem(accessStorageKey) === "unlocked");
   }, []);
+
+  useEffect(() => {
+    if (!coordinateMode) return;
+
+    const handleMouseMove = (event: MouseEvent) => {
+      setMousePosition({ x: event.clientX, y: event.clientY });
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [coordinateMode]);
 
   useEffect(() => {
     if (!isUnlocked) return;
@@ -130,6 +143,34 @@ export default function Home() {
 
   return (
     <main className={isUnlocked ? "siteRoot" : "siteRoot siteRootLocked"}>
+      {isUnlocked && (
+        <>
+          <button
+            className={coordinateMode ? "coordinateAdminButton isActive" : "coordinateAdminButton"}
+            type="button"
+            onClick={() => setCoordinateMode((enabled) => !enabled)}
+            aria-pressed={coordinateMode}
+            title="Toon muiscoördinaten"
+          >
+            XY
+          </button>
+
+          {coordinateMode && (
+            <div
+              className="coordinateReadout"
+              style={{
+                left: Math.min(mousePosition.x + 18, window.innerWidth - 122),
+                top: Math.min(mousePosition.y + 18, window.innerHeight - 54),
+              }}
+              aria-hidden="true"
+            >
+              <span>X {mousePosition.x}</span>
+              <span>Y {mousePosition.y}</span>
+            </div>
+          )}
+        </>
+      )}
+
       {isUnlocked && (
         <header className="previewHeader desktopPersistentHeader">
           <a
