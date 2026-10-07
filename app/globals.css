@@ -2289,3 +2289,25 @@ body,
     box-shadow: 0 8px 24px rgba(47,36,29,0.14);
   }
 }
+
+
+/* Desktop: start Thuiskomen fade around viewport X 784 */
+@media (min-width: 901px) {
+  .possibilityImageLayer {
+    width: 70vw;
+    margin-left: -8vw;
+  }
+
+  .possibilityImageFade {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0) 79%,
+        rgba(255,255,255,0.16) 83%,
+        rgba(255,255,255,0.46) 88%,
+        rgba(255,255,255,0.78) 94%,
+        #fff 100%
+      );
+  }
+}
