@@ -3455,3 +3455,20 @@ body,
     animation: none;
   }
 }
+
+
+/* Hero image always fills the full viewport width */
+.heroBackdrop,
+.heroUnlocked .heroBackdropDesktopNew,
+.heroBackdropMobileOld {
+  width: 100%;
+  height: 100%;
+  object-fit: cover !important;
+}
+
+@media (min-width: 901px) {
+  .heroUnlocked .heroBackdropDesktopNew {
+    object-position: center top;
+    transform: none;
+  }
+}
