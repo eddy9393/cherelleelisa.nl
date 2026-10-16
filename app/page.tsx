@@ -297,7 +297,7 @@ export default function Home() {
       <section id="top" className={`hero ${isUnlocked ? "heroUnlocked" : "heroLocked"}`}>
         <Image
           className={isUnlocked ? "heroBackdrop heroBackdropDesktopNew" : "heroBackdrop"}
-          src={isUnlocked ? "/CherHero.png" : "/HeroCherelle.webp"}
+          src="/HeroCherelle.webp"
           alt=""
           aria-hidden="true"
           fill
