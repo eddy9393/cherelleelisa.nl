@@ -3529,3 +3529,27 @@ body,
       ) !important;
   }
 }
+
+
+/* Slightly lighter desktop hero fade */
+@media (min-width: 901px) {
+  .heroUnlocked .heroVeil {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.88) 0%,
+        rgba(255, 255, 255, 0.82) 18%,
+        rgba(255, 255, 255, 0.68) 34%,
+        rgba(255, 255, 255, 0.44) 46%,
+        rgba(255, 255, 255, 0.18) 57%,
+        rgba(255, 255, 255, 0.05) 66%,
+        rgba(255, 255, 255, 0) 75%
+      ),
+      radial-gradient(
+        circle at 26% 52%,
+        rgba(255, 255, 255, 0.18) 0%,
+        rgba(255, 255, 255, 0.08) 28%,
+        rgba(255, 255, 255, 0) 58%
+      ) !important;
+  }
+}
