@@ -500,6 +500,17 @@ export default function Home() {
 
       {isUnlocked && (
         <>
+          <div className="heroRecognitionTear" aria-hidden="true">
+            <div className="heroRecognitionTearInner">
+              <Image
+                src="/Realistische gescheurde papierstrook op transparante achtergrond.png"
+                alt=""
+                fill
+                sizes="100vw"
+                className="heroRecognitionTearImage"
+              />
+            </div>
+          </div>
 
           <section id="herkenning" className="contentSection recognitionSection">
             <div className="sectionCopy recognitionCopy" data-reveal>
