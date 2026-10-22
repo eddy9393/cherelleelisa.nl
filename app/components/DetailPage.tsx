@@ -9,6 +9,7 @@ type DetailKey = "herkenning" | "thuiskomen" | "begeleiding" | "werkwijze" | "ov
 const languageStorageKey = "cherelle-language";
 
 const navItems = [
+  { href: "/", nl: "Home", en: "Home" },
   { href: "/herkenning", nl: "Herkenning", en: "Recognition" },
   { href: "/thuiskomen", nl: "Thuiskomen", en: "Coming home" },
   { href: "/begeleiding", nl: "Begeleiding", en: "Guidance" },
