@@ -3984,3 +3984,19 @@ body,
     padding: 28px 20px;
   }
 }
+
+
+/* Navigation links now point to full pages */
+.previewNavItem {
+  text-decoration: none;
+}
+
+.feminineWayArrow {
+  transform: none !important;
+  animation: none !important;
+  transition: transform 220ms ease;
+}
+
+.feminineWayButton:hover .feminineWayArrow {
+  transform: translateX(4px) !important;
+}
