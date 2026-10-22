@@ -446,22 +446,7 @@ export default function Home() {
 
               <a className="feminineWayButton" href="/herkenning">
                 <span>{language === "nl" ? "Herkenbaar?" : "Recognize this?"}</span>
-                <svg
-                  className="feminineWayArrow"
-                  aria-hidden="true"
-                  viewBox="0 0 24 24"
-                  width="18"
-                  height="18"
-                  fill="none"
-                >
-                  <path
-                    d="M5 12H19M14 7L19 12L14 17"
-                    stroke="currentColor"
-                    strokeWidth="1.25"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
+                <span aria-hidden="true">→</span>
               </a>
             </section>
           </>
