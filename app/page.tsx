@@ -450,7 +450,7 @@ export default function Home() {
                   fill="none"
                 >
                   <path
-                    d="M12 4V19M7 14L12 19L17 14"
+                    d="M5 12H19M14 7L19 12L14 17"
                     stroke="currentColor"
                     strokeWidth="1.25"
                     strokeLinecap="round"
