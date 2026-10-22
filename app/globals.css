@@ -3553,3 +3553,34 @@ body,
       ) !important;
   }
 }
+
+
+/* Torn-paper transition: hero → Herkenning */
+.heroRecognitionTear {
+  position: relative;
+  z-index: 40;
+  width: 100%;
+  height: 0;
+  pointer-events: none;
+}
+
+.heroRecognitionTearInner {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 100vw;
+  height: clamp(82px, 7.5vw, 138px);
+  transform: translate(-50%, -50%);
+  overflow: hidden;
+}
+
+.heroRecognitionTearImage {
+  object-fit: cover;
+  object-position: center 50%;
+}
+
+@media (max-width: 900px) {
+  .heroRecognitionTearInner {
+    height: clamp(64px, 14vw, 96px);
+  }
+}
