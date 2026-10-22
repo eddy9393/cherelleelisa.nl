@@ -677,43 +677,55 @@ export default function Home() {
             </div>
           </section>
 
-          <section id="werkwijze" className="methodSection">
-            <div className="methodImageLayer" aria-hidden="true">
-              <Image
-                src="/Werkwijze.webp"
-                alt=""
-                fill
-                sizes="(max-width: 900px) 100vw, 62vw"
-                quality={82}
-                className="methodBackgroundImage"
-              />
-              <div className="methodImageFade" />
-            </div>
-
-            <div className="methodInner" data-reveal>
+          <section id="werkwijze" className="methodSection methodSectionEditorial">
+            <div className="methodEditorialCopy" data-reveal>
               <p className="sectionKicker">{language === "nl" ? "Mijn manier van werken" : "My approach"}</p>
-              <div className="methodColumns">
-                <p className="methodLead methodLeadPrimary">
+              <h2 className="methodEditorialTitle">
+                {language === "nl"
+                  ? "Zacht waar het kan. Helder waar het nodig is."
+                  : "Gentle where possible. Clear where needed."}
+              </h2>
+
+              <div className="methodEditorialText">
+                <p>
                   {language === "nl"
-                    ? "We werken altijd in jouw tempo. Soms raken we diepe lagen aan, zoals oude patronen of wat je van thuis hebt meegekregen. Daar ga ik zorgvuldig mee om, zodat het veilig voelt en je niets hoeft te forceren."
+                    ? "We werken altijd in jouw tempo. Soms raken we diepere lagen aan, zoals oude patronen of wat je van thuis hebt meegekregen. Daar ga ik zorgvuldig mee om, zodat het veilig voelt en je niets hoeft te forceren."
                     : "We always work at your pace. Sometimes we touch deeper layers, such as old patterns or things you learned at home. I approach those carefully, so it feels safe and nothing needs to be forced."}
                 </p>
-                <div className="methodSide">
-                  <p className="methodLead methodLeadSecondary">
-                    {language === "nl"
-                      ? "Jij bepaalt waar je naartoe wilt, ik loop met je mee en hou je vast als het spannend wordt."
-                      : "You decide where you want to go. I walk beside you and support you when it feels vulnerable."}
-                  </p>
-                  <p className="methodNote">
-                    {language === "nl"
-                      ? "Mijn begeleiding is geen vervanging van therapie of medische zorg. Twijfel je of dit bij je past? Dan bespreken we dat gewoon samen."
-                      : "My guidance is not a replacement for therapy or medical care. Unsure whether this is right for you? We can simply discuss that together."}
-                  </p>
-                  <a className="sectionLink methodPageLink" href="/werkwijze">
-                    {language === "nl" ? "Lees meer over mijn werkwijze" : "Read more about my approach"} <span aria-hidden="true">→</span>
-                  </a>
-                </div>
+
+                <p className="methodEditorialStatement">
+                  {language === "nl"
+                    ? "Jij bepaalt waar je naartoe wilt. Ik loop met je mee en help je vertragen wanneer dat nodig is."
+                    : "You decide where you want to go. I walk beside you and help you slow down when needed."}
+                </p>
+
+                <p className="methodEditorialNote">
+                  {language === "nl"
+                    ? "Mijn begeleiding is geen vervanging van therapie of medische zorg."
+                    : "My guidance is not a replacement for therapy or medical care."}
+                </p>
+
+                <a className="sectionLink methodPageLink" href="/werkwijze">
+                  {language === "nl" ? "Ontdek mijn werkwijze" : "Discover my approach"} <span aria-hidden="true">→</span>
+                </a>
               </div>
+            </div>
+
+            <div className="methodEditorialVisual" data-reveal>
+              <div className="methodEditorialHalo" aria-hidden="true" />
+              <div className="methodEditorialImageWrap">
+                <Image
+                  src="/Werkwijze.png"
+                  alt={language === "nl" ? "Cherelle in een warme, natuurlijke omgeving" : "Cherelle in a warm, natural setting"}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 42vw"
+                  quality={88}
+                  className="methodEditorialImage"
+                />
+              </div>
+              <span className="methodEditorialAccent" aria-hidden="true">
+                {language === "nl" ? "in jouw tempo" : "at your pace"}
+              </span>
             </div>
           </section>
 
