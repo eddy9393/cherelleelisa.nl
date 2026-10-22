@@ -3553,3 +3553,434 @@ body,
       ) !important;
   }
 }
+
+
+/* Clearer hero invitation */
+.feminineWayButton {
+  min-width: 0 !important;
+  padding: 11px 18px 12px !important;
+  border: 1px solid rgba(168, 111, 93, 0.46) !important;
+  border-radius: 18px 18px 18px 5px !important;
+  background: rgba(255, 255, 255, 0.28) !important;
+  -webkit-backdrop-filter: blur(7px);
+  backdrop-filter: blur(7px);
+  box-shadow: 0 7px 24px rgba(74, 58, 50, 0.045);
+  text-decoration: none;
+  transition:
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    transform 220ms ease;
+}
+
+.feminineWayButton::after {
+  display: none !important;
+}
+
+.feminineWayButton:hover {
+  background: rgba(255, 255, 255, 0.48) !important;
+  border-color: rgba(168, 111, 93, 0.72) !important;
+  box-shadow: 0 10px 28px rgba(74, 58, 50, 0.07);
+  transform: translateY(-1px);
+}
+
+.sectionLink {
+  text-decoration: none;
+}
+
+.sectionPageLink {
+  margin-top: 28px;
+}
+
+.methodPageLink {
+  margin-top: 28px;
+  color: #f4eee7;
+  border-bottom-color: rgba(244, 238, 231, 0.34);
+}
+
+/* Detail pages */
+.detailPage {
+  min-height: 100vh;
+  background: #fff;
+  color: #2f241d;
+}
+
+.detailHeader {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  min-height: 82px;
+  padding: 0 clamp(24px, 4.2vw, 72px);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: clamp(24px, 3vw, 54px);
+  background: rgba(247, 241, 234, 0.9);
+  -webkit-backdrop-filter: blur(18px) saturate(110%);
+  backdrop-filter: blur(18px) saturate(110%);
+  border-bottom: 1px solid rgba(74, 58, 50, 0.06);
+}
+
+.detailBrand {
+  font-family: var(--font-display), serif;
+  font-size: 1.08rem;
+  letter-spacing: 0.21em;
+  color: #2f241d;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.detailNav {
+  display: flex;
+  justify-content: center;
+  gap: clamp(18px, 2.4vw, 42px);
+}
+
+.detailNav a {
+  position: relative;
+  padding: 10px 0;
+  font-family: var(--font-display), serif;
+  font-size: 0.88rem;
+  color: #2f241d;
+  text-decoration: none;
+}
+
+.detailNav a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 4px;
+  height: 1px;
+  background: rgba(168, 111, 93, 0.78);
+  transition: right 180ms ease;
+}
+
+.detailNav a:hover::after {
+  right: 0;
+}
+
+.detailLanguage {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.68rem;
+}
+
+.detailLanguage button {
+  border: 0;
+  padding: 2px;
+  background: transparent;
+  color: rgba(47, 36, 29, 0.42);
+  cursor: pointer;
+}
+
+.detailLanguage button.isActive {
+  color: #2f241d;
+}
+
+.detailLanguage span {
+  color: rgba(47, 36, 29, 0.26);
+}
+
+.detailHero {
+  position: relative;
+  min-height: min(790px, calc(100vh - 82px));
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  background: #f7f1ea;
+}
+
+.detailHeroImage {
+  position: absolute;
+  inset: 0;
+}
+
+.detailHeroImage > img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.detailHeroFade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.96) 0%,
+      rgba(255,255,255,0.9) 19%,
+      rgba(255,255,255,0.68) 36%,
+      rgba(255,255,255,0.25) 53%,
+      rgba(255,255,255,0) 70%
+    );
+}
+
+.detailHeroCopy {
+  position: relative;
+  z-index: 2;
+  width: min(660px, 48vw);
+  margin-left: clamp(54px, 7vw, 126px);
+  padding: 90px 0;
+}
+
+.detailKicker {
+  margin: 0 0 22px;
+  font-family: var(--font-accent), cursive;
+  font-size: 1.45rem;
+  line-height: 1;
+  color: #a86f5d;
+}
+
+.detailHeroCopy h1,
+.detailContentIntro h2,
+.detailInvitation h2 {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  color: #2f241d;
+}
+
+.detailHeroCopy h1 {
+  font-size: clamp(3.5rem, 5vw, 6.6rem);
+  line-height: 0.98;
+}
+
+.detailHeroCopy > p:last-child {
+  max-width: 560px;
+  margin: 34px 0 0;
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: rgba(74, 58, 50, 0.78);
+}
+
+.detailContent {
+  padding: clamp(100px, 10vw, 170px) clamp(32px, 7vw, 126px);
+  display: grid;
+  grid-template-columns: minmax(280px, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(64px, 8vw, 150px);
+  background: #fff;
+}
+
+.detailContentIntro {
+  align-self: start;
+  position: sticky;
+  top: 130px;
+}
+
+.detailContentIntro h2 {
+  max-width: 560px;
+  font-size: clamp(2.7rem, 4vw, 5rem);
+  line-height: 1.03;
+}
+
+.detailBlocks {
+  border-top: 1px solid rgba(47, 36, 29, 0.16);
+}
+
+.detailBlock {
+  scroll-margin-top: 120px;
+  padding: 44px 0 52px;
+  border-bottom: 1px solid rgba(47, 36, 29, 0.16);
+}
+
+.detailBlock > span {
+  display: block;
+  margin-bottom: 20px;
+  font-size: 0.67rem;
+  letter-spacing: 0.18em;
+  color: rgba(168, 111, 93, 0.78);
+}
+
+.detailBlock h3 {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(2rem, 2.6vw, 3.2rem);
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+.detailBlock p {
+  max-width: 700px;
+  margin: 22px 0 0;
+  font-size: 1rem;
+  line-height: 1.78;
+  color: rgba(74, 58, 50, 0.74);
+}
+
+.detailQuote {
+  padding: clamp(100px, 10vw, 170px) clamp(32px, 11vw, 190px);
+  background: #f7f1ea;
+}
+
+.detailQuote p {
+  max-width: 1180px;
+  margin: 0 auto;
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.5rem, 4.4vw, 5.6rem);
+  line-height: 1.08;
+  letter-spacing: -0.03em;
+  text-align: center;
+  color: #4a3a32;
+}
+
+.detailInvitation {
+  padding: clamp(110px, 11vw, 180px) clamp(32px, 7vw, 126px);
+  background: #fff;
+  text-align: center;
+}
+
+.detailInvitation h2 {
+  max-width: 850px;
+  margin: 0 auto;
+  font-size: clamp(2.8rem, 4.2vw, 5.2rem);
+  line-height: 1.02;
+}
+
+.detailInvitation > p:not(.detailKicker) {
+  max-width: 650px;
+  margin: 30px auto 0;
+  line-height: 1.75;
+  color: rgba(74, 58, 50, 0.72);
+}
+
+.detailCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 36px;
+  padding: 13px 20px 14px;
+  border: 1px solid rgba(168, 111, 93, 0.5);
+  border-radius: 18px 18px 18px 5px;
+  color: #2f241d;
+  text-decoration: none;
+  background: #f7f1ea;
+  transition: transform 180ms ease, border-color 180ms ease;
+}
+
+.detailCta:hover {
+  transform: translateY(-2px);
+  border-color: rgba(168, 111, 93, 0.82);
+}
+
+.detailCta span {
+  color: #a86f5d;
+}
+
+.detailFooter {
+  padding: 34px clamp(32px, 7vw, 126px);
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  background: #392d27;
+}
+
+.detailFooter a {
+  color: rgba(244, 238, 231, 0.86);
+  text-decoration: none;
+  font-family: var(--font-display), serif;
+}
+
+@media (max-width: 1100px) {
+  .detailHeader {
+    grid-template-columns: auto auto;
+  }
+
+  .detailNav {
+    display: none;
+  }
+
+  .detailLanguage {
+    justify-self: end;
+  }
+
+  .detailHeroCopy {
+    width: min(650px, 67vw);
+  }
+}
+
+@media (max-width: 700px) {
+  .feminineWayButton {
+    padding: 10px 15px 11px !important;
+    border-radius: 16px 16px 16px 5px !important;
+  }
+
+  .detailHeader {
+    min-height: 70px;
+    padding: 0 18px;
+  }
+
+  .detailBrand {
+    font-size: 0.86rem;
+    letter-spacing: 0.16em;
+  }
+
+  .detailHero {
+    min-height: 720px;
+    align-items: end;
+  }
+
+  .detailHeroImage > img {
+    object-position: 62% center;
+  }
+
+  .detailHeroFade {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(255,255,255,0.02) 15%,
+        rgba(255,255,255,0.25) 42%,
+        rgba(255,255,255,0.84) 72%,
+        rgba(255,255,255,0.97) 100%
+      );
+  }
+
+  .detailHeroCopy {
+    width: 100%;
+    margin: 0;
+    padding: 80px 20px 58px;
+  }
+
+  .detailHeroCopy h1 {
+    font-size: clamp(2.8rem, 13vw, 4.5rem);
+  }
+
+  .detailHeroCopy > p:last-child {
+    font-size: 0.95rem;
+  }
+
+  .detailContent {
+    padding: 88px 20px;
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .detailContentIntro {
+    position: static;
+  }
+
+  .detailContentIntro h2 {
+    font-size: clamp(2.4rem, 11vw, 3.8rem);
+  }
+
+  .detailQuote {
+    padding: 92px 22px;
+  }
+
+  .detailQuote p {
+    font-size: clamp(2.15rem, 10vw, 3.8rem);
+  }
+
+  .detailInvitation {
+    padding: 92px 20px;
+  }
+
+  .detailInvitation h2 {
+    font-size: clamp(2.45rem, 11vw, 4rem);
+  }
+
+  .detailFooter {
+    padding: 28px 20px;
+  }
+}
