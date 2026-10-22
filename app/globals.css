@@ -4166,3 +4166,30 @@ body,
     font-size: 0.9rem !important;
   }
 }
+
+
+/* 2026-10-22 CTA arrow consistency + clean photo edges */
+.feminineWayArrow {
+  display: none !important;
+}
+
+.recognitionImageWrap::after,
+.possibilityImageWrap::after {
+  display: none !important;
+  content: none !important;
+  background: none !important;
+}
+
+@media (min-width: 901px) {
+  .offerImageWrap {
+    border-radius: 50% 50% 0 0 / 28% 28% 0 0 !important;
+    overflow: hidden;
+  }
+}
+
+@media (max-width: 900px) {
+  .offerImageWrap {
+    border-radius: 50% 50% 0 0 / 22% 22% 0 0 !important;
+    overflow: hidden;
+  }
+}
