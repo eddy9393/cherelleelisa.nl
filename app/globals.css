@@ -4193,3 +4193,225 @@ body,
     overflow: hidden;
   }
 }
+
+
+/* 2026-10-23 Werkwijze editorial redesign */
+.methodSectionEditorial {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(420px, 0.78fr);
+  align-items: center;
+  gap: clamp(70px, 8vw, 150px);
+  min-height: 760px;
+  padding:
+    clamp(90px, 8vw, 140px)
+    clamp(42px, 7vw, 126px);
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 84% 18%, rgba(201,167,161,0.12), transparent 30%),
+    linear-gradient(180deg, #fbf8f4 0%, #f7f1ea 100%);
+  color: var(--ce-ink);
+}
+
+.methodSectionEditorial::before {
+  content: "";
+  position: absolute;
+  left: clamp(42px, 7vw, 126px);
+  top: clamp(78px, 7vw, 120px);
+  width: 1px;
+  height: clamp(120px, 14vw, 190px);
+  background: rgba(168,111,93,0.48);
+  z-index: 0;
+}
+
+.methodEditorialCopy {
+  position: relative;
+  z-index: 2;
+  max-width: 720px;
+  padding-left: clamp(34px, 3vw, 58px);
+}
+
+.methodSectionEditorial .sectionKicker {
+  margin-bottom: 18px;
+  color: var(--ce-accent);
+}
+
+.methodEditorialTitle {
+  max-width: 720px;
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(3.25rem, 4.9vw, 6.2rem);
+  line-height: 0.98;
+  font-weight: 400;
+  letter-spacing: -0.038em;
+  color: var(--ce-ink);
+}
+
+.methodEditorialText {
+  max-width: 610px;
+  margin-top: clamp(34px, 4vw, 56px);
+}
+
+.methodEditorialText > p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.78;
+  color: rgba(74,58,50,0.75);
+}
+
+.methodEditorialStatement {
+  margin-top: 26px !important;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.55rem, 2vw, 2.35rem) !important;
+  line-height: 1.25 !important;
+  letter-spacing: -0.02em;
+  color: var(--ce-ink) !important;
+}
+
+.methodEditorialNote {
+  margin-top: 28px !important;
+  padding-top: 18px;
+  border-top: 1px solid rgba(74,58,50,0.15);
+  font-size: 0.8rem !important;
+  color: rgba(74,58,50,0.54) !important;
+}
+
+.methodSectionEditorial .methodPageLink {
+  margin-top: 28px;
+  color: var(--ce-ink) !important;
+  background: rgba(255,255,255,0.62) !important;
+  border-color: rgba(168,111,93,0.42) !important;
+  box-shadow:
+    0 8px 24px rgba(74,58,50,0.045),
+    inset 0 1px 0 rgba(255,255,255,0.72);
+}
+
+.methodEditorialVisual {
+  position: relative;
+  z-index: 2;
+  justify-self: end;
+  width: min(100%, 540px);
+  min-height: 680px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.methodEditorialHalo {
+  position: absolute;
+  width: 88%;
+  aspect-ratio: 0.78;
+  border-radius: 50% 50% 46% 54% / 42% 44% 56% 58%;
+  background:
+    linear-gradient(180deg, rgba(216,198,178,0.5), rgba(201,167,161,0.16));
+  transform: translate(8%, 2%) rotate(4deg);
+  filter: blur(0.2px);
+}
+
+.methodEditorialImageWrap {
+  position: relative;
+  width: min(84%, 440px);
+  aspect-ratio: 0.69;
+  overflow: hidden;
+  border-radius: 48% 48% 24% 24% / 28% 28% 16% 16%;
+  box-shadow: 0 28px 70px rgba(74,58,50,0.12);
+  background: #e8d9ca;
+}
+
+.methodEditorialImage {
+  object-fit: cover;
+  object-position: center 38%;
+}
+
+.methodEditorialAccent {
+  position: absolute;
+  left: -2%;
+  bottom: 9%;
+  z-index: 3;
+  font-family: var(--font-accent), cursive;
+  font-size: clamp(1.6rem, 2vw, 2.2rem);
+  line-height: 1;
+  color: var(--ce-accent);
+  transform: rotate(-4deg);
+  text-shadow: 0 1px 0 rgba(255,255,255,0.6);
+}
+
+@media (max-width: 1100px) {
+  .methodSectionEditorial {
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.78fr);
+    gap: 52px;
+  }
+
+  .methodEditorialTitle {
+    font-size: clamp(3rem, 5.4vw, 5rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .methodSectionEditorial {
+    grid-template-columns: 1fr;
+    gap: 54px;
+    min-height: 0;
+    padding: 82px 24px 96px;
+  }
+
+  .methodSectionEditorial::before {
+    left: 24px;
+    top: 74px;
+    height: 120px;
+  }
+
+  .methodEditorialCopy {
+    max-width: none;
+    padding-left: 28px;
+  }
+
+  .methodEditorialTitle {
+    max-width: 620px;
+    font-size: clamp(2.9rem, 10vw, 4.6rem);
+  }
+
+  .methodEditorialVisual {
+    justify-self: center;
+    width: min(100%, 520px);
+    min-height: 620px;
+  }
+
+  .methodEditorialImageWrap {
+    width: min(78vw, 410px);
+  }
+
+  .methodEditorialAccent {
+    left: 4%;
+  }
+}
+
+@media (max-width: 600px) {
+  .methodSectionEditorial {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .methodSectionEditorial::before {
+    left: 18px;
+  }
+
+  .methodEditorialCopy {
+    padding-left: 24px;
+  }
+
+  .methodEditorialVisual {
+    min-height: 540px;
+  }
+
+  .methodEditorialImageWrap {
+    width: min(82vw, 360px);
+  }
+
+  .methodEditorialAccent {
+    left: 2%;
+    bottom: 7%;
+    font-size: 1.55rem;
+  }
+}
