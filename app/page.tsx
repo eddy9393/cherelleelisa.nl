@@ -268,7 +268,7 @@ export default function Home() {
         <header className={`previewHeader desktopPersistentHeader ${headerScrolled ? "isScrolled" : ""}`}>
           <a
             className="previewBrand"
-            href="#top"
+            href="/"
             onClick={() => {
               setActiveItem(null);
               setMenuOpen(false);
@@ -278,17 +278,27 @@ export default function Home() {
           </a>
 
           <nav className="previewNav" aria-label="Hoofdnavigatie">
-            {menuItems.map((item) => (
-              <button
-                key={item.id}
-                className={activeItem === item.id ? "previewNavItem isActive" : "previewNavItem"}
-                type="button"
-                aria-current={activeItem === item.id ? "page" : undefined}
-                onClick={() => goToSection(item.id)}
-              >
-                {menuLabels[language][item.id]}
-              </button>
-            ))}
+            {menuItems.map((item) => {
+              const href =
+                item.id === "herkenning" ? "/herkenning" :
+                item.id === "mogelijkheden" ? "/thuiskomen" :
+                item.id === "begeleiding" ? "/begeleiding" :
+                item.id === "werkwijze" ? "/werkwijze" :
+                item.id === "over-mij" ? "/over-mij" :
+                item.id === "ervaringen" ? "/#ervaringen" :
+                "/#uitnodiging";
+
+              return (
+                <a
+                  key={item.id}
+                  className="previewNavItem"
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {menuLabels[language][item.id]}
+                </a>
+              );
+            })}
           </nav>
           <LanguageSwitcher />
         </header>
@@ -323,7 +333,7 @@ export default function Home() {
             <header className={`previewHeader mobileHeroHeader ${menuOpen ? "menuOpen" : ""} ${headerScrolled ? "isScrolled" : ""}`}>
               <a
                 className="previewBrand"
-                href="#top"
+                href="/"
                 onClick={() => {
                   setActiveItem(null);
                   setMenuOpen(false);
@@ -344,17 +354,27 @@ export default function Home() {
               </button>
 
               <nav className="previewNav" aria-label="Hoofdnavigatie">
-                {menuItems.map((item) => (
-                  <button
-                    key={item.id}
-                    className={activeItem === item.id ? "previewNavItem isActive" : "previewNavItem"}
-                    type="button"
-                    aria-current={activeItem === item.id ? "page" : undefined}
-                    onClick={() => goToSection(item.id)}
-                  >
-                    {menuLabels[language][item.id]}
-                  </button>
-                ))}
+                {menuItems.map((item) => {
+                  const href =
+                    item.id === "herkenning" ? "/herkenning" :
+                    item.id === "mogelijkheden" ? "/thuiskomen" :
+                    item.id === "begeleiding" ? "/begeleiding" :
+                    item.id === "werkwijze" ? "/werkwijze" :
+                    item.id === "over-mij" ? "/over-mij" :
+                    item.id === "ervaringen" ? "/#ervaringen" :
+                    "/#uitnodiging";
+
+                  return (
+                    <a
+                      key={item.id}
+                      className="previewNavItem"
+                      href={href}
+                      onClick={() => setMenuOpen(false)}
+                    >
+                      {menuLabels[language][item.id]}
+                    </a>
+                  );
+                })}
               </nav>
               <LanguageSwitcher />
             </header>
@@ -419,7 +439,7 @@ export default function Home() {
                   : "For the woman who carries everything and lost herself along the way."}
               </p>
 
-              <a className="feminineWayButton" href="#herkenning">
+              <a className="feminineWayButton" href="/herkenning">
                 <span>{language === "nl" ? "Herkenbaar?" : "Recognize this?"}</span>
                 <svg
                   className="feminineWayArrow"
@@ -514,6 +534,9 @@ export default function Home() {
                   ? "Er is niets mis met je. Je hebt alleen heel lang gezocht op een plek waar het niet te vinden is."
                   : "There is nothing wrong with you. You have simply been searching for a long time in a place where it cannot be found."}
               </p>
+              <a className="sectionLink sectionPageLink" href="/herkenning">
+                {language === "nl" ? "Lees verder over herkenning" : "Read more about recognition"} <span aria-hidden="true">→</span>
+              </a>
             </div>
             <div className="recognitionImageWrap" data-reveal>
               <Image
@@ -562,6 +585,9 @@ export default function Home() {
                   </>
                 )}
               </p>
+              <a className="sectionLink sectionPageLink" href="/thuiskomen">
+                {language === "nl" ? "Ontdek wat thuiskomen betekent" : "Discover what coming home means"} <span aria-hidden="true">→</span>
+              </a>
             </div>
           </section>
 
@@ -569,6 +595,9 @@ export default function Home() {
             <div className="offersIntro" data-reveal>
               <p className="sectionKicker">{language === "nl" ? "Zo kan ik je begeleiden" : "How I can support you"}</p>
               <h2>{language === "nl" ? "Een vorm die past bij waar jij nu bent." : "A form of support that meets you where you are."}</h2>
+              <a className="sectionLink sectionPageLink" href="/begeleiding">
+                {language === "nl" ? "Bekijk alle begeleiding" : "Explore all guidance"} <span aria-hidden="true">→</span>
+              </a>
             </div>
 
             <div className="offerList">
@@ -581,9 +610,9 @@ export default function Home() {
                       ? "Een persoonlijk traject van zes maanden waarin je stap voor stap terugkomt in je lichaam en weer leert leven vanuit je vrouwelijke energie. Volledig afgestemd op jou en in jouw tempo. Veel vrouwen merken dat ze na dit traject rustiger zijn, beter voelen wat ze nodig hebben en weer kunnen ontvangen."
                       : "A personal six-month journey in which you gradually return to your body and learn to live from your feminine energy again. Fully tailored to you and at your pace. Many women notice they feel calmer, sense what they need more clearly and are able to receive again."}
                   </p>
-                  <button className="sectionLink" type="button">
+                  <a className="sectionLink" href="/begeleiding#the-feminine-way">
                     {language === "nl" ? "Lees meer" : "Read more"} <span aria-hidden="true">→</span>
-                  </button>
+                  </a>
                 </div>
                 <div className="offerImageWrap">
                   <Image
@@ -609,9 +638,9 @@ export default function Home() {
                       ? "Een sessie van ongeveer anderhalf uur waarin we samen werken met wat er op dat moment in jou leeft. Ook mogelijk samen met je partner, vriendin of moeder."
                       : "A session of around ninety minutes in which we work together with whatever is alive in you at that moment. Also possible together with your partner, a friend or your mother."}
                   </p>
-                  <button className="sectionLink" type="button">
+                  <a className="sectionLink" href="/begeleiding#een-op-een">
                     {language === "nl" ? "Bekijk sessies" : "View sessions"} <span aria-hidden="true">→</span>
-                  </button>
+                  </a>
                 </div>
                 <div className="offerImageWrap">
                   <Image
@@ -637,9 +666,9 @@ export default function Home() {
                       ? "Samen met andere vrouwen ruimte maken om te voelen, los te laten en te verbinden."
                       : "Creating space with other women to feel, let go and connect."}
                   </p>
-                  <button className="sectionLink" type="button">
+                  <a className="sectionLink" href="/begeleiding#ceremonies">
                     {language === "nl" ? "Bekijk ceremonies" : "View ceremonies"} <span aria-hidden="true">→</span>
-                  </button>
+                  </a>
                 </div>
                 <div className="offerImageWrap">
                   <Image
@@ -690,6 +719,9 @@ export default function Home() {
                       ? "Mijn begeleiding is geen vervanging van therapie of medische zorg. Twijfel je of dit bij je past? Dan bespreken we dat gewoon samen."
                       : "My guidance is not a replacement for therapy or medical care. Unsure whether this is right for you? We can simply discuss that together."}
                   </p>
+                  <a className="sectionLink methodPageLink" href="/werkwijze">
+                    {language === "nl" ? "Lees meer over mijn werkwijze" : "Read more about my approach"} <span aria-hidden="true">→</span>
+                  </a>
                 </div>
               </div>
             </div>
@@ -720,9 +752,9 @@ export default function Home() {
                   ? "Sindsdien begeleid ik vrouwen terug naar zichzelf. Inmiddels zijn dat er zo’n 500, en organiseerde ik ongeveer 15 ceremonies."
                   : "Since then I have guided women back to themselves. By now that is around 500 women, and I have organised about 15 ceremonies."}
               </p>
-              <button className="sectionLink sectionLinkLarge" type="button">
+              <a className="sectionLink sectionLinkLarge" href="/over-mij">
                 {language === "nl" ? "Lees mijn verhaal" : "Read my story"} <span aria-hidden="true">→</span>
-              </button>
+              </a>
             </div>
           </section>
 
@@ -821,16 +853,27 @@ export default function Home() {
 
           <footer className="siteFooter">
             <div className="footerBrand" data-reveal>
-              <a href="#top">CHERELLE ELISA</a>
+              <a href="/">CHERELLE ELISA</a>
               <p>{language === "nl" ? "Een zachtere weg naar jezelf." : "A gentler way back to yourself."}</p>
             </div>
 
             <nav className="footerNav" aria-label="Footer navigatie" data-reveal>
-              {menuItems.map((item) => (
-                <a key={item.id} href={`#${item.id}`}>
-                  {menuLabels[language][item.id]}
-                </a>
-              ))}
+              {menuItems.map((item) => {
+                const href =
+                  item.id === "herkenning" ? "/herkenning" :
+                  item.id === "mogelijkheden" ? "/thuiskomen" :
+                  item.id === "begeleiding" ? "/begeleiding" :
+                  item.id === "werkwijze" ? "/werkwijze" :
+                  item.id === "over-mij" ? "/over-mij" :
+                  item.id === "ervaringen" ? "/#ervaringen" :
+                  "/#uitnodiging";
+
+                return (
+                  <a key={item.id} href={href}>
+                    {menuLabels[language][item.id]}
+                  </a>
+                );
+              })}
             </nav>
 
             <div className="footerMeta" data-reveal>
