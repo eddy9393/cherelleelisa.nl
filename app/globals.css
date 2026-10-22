@@ -4000,3 +4000,169 @@ body,
 .feminineWayButton:hover .feminineWayArrow {
   transform: translateX(4px) !important;
 }
+
+
+/* 2026-10-22 unified feminine CTA system */
+.feminineWayButton,
+.sectionLink,
+.contactSubmit,
+.detailCta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  min-height: 46px;
+  padding: 11px 20px 12px !important;
+  border: 1px solid rgba(168, 111, 93, 0.5) !important;
+  border-radius: 999px !important;
+  background: rgba(255, 252, 248, 0.74) !important;
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  box-shadow:
+    0 8px 24px rgba(74, 58, 50, 0.055),
+    inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  color: var(--ce-ink) !important;
+  font-family: var(--font-display), serif !important;
+  font-size: 0.92rem !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.015em !important;
+  line-height: 1 !important;
+  text-decoration: none !important;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    transform 220ms ease,
+    background-color 220ms ease,
+    border-color 220ms ease,
+    box-shadow 220ms ease,
+    color 220ms ease;
+}
+
+.feminineWayButton::after,
+.sectionLink::after,
+.contactSubmit::after,
+.detailCta::after {
+  display: none !important;
+}
+
+.feminineWayButton:hover,
+.sectionLink:hover,
+.contactSubmit:hover,
+.detailCta:hover {
+  transform: translateY(-2px);
+  background: rgba(247, 241, 234, 0.94) !important;
+  border-color: rgba(168, 111, 93, 0.78) !important;
+  box-shadow:
+    0 12px 30px rgba(74, 58, 50, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.86);
+}
+
+.feminineWayButton span,
+.sectionLink span,
+.contactSubmit span,
+.detailCta span {
+  transition: transform 220ms ease;
+}
+
+.feminineWayButton:hover span:last-child,
+.sectionLink:hover span:last-child,
+.contactSubmit:hover span:last-child,
+.detailCta:hover span:last-child {
+  transform: translateX(4px);
+}
+
+.feminineWayArrow {
+  color: var(--ce-accent-deep);
+}
+
+.methodPageLink {
+  color: #f4eee7 !important;
+  background: rgba(57, 45, 39, 0.3) !important;
+  border-color: rgba(244, 238, 231, 0.36) !important;
+  box-shadow: none;
+}
+
+.methodPageLink:hover {
+  background: rgba(244, 238, 231, 0.1) !important;
+  border-color: rgba(244, 238, 231, 0.62) !important;
+}
+
+.contactSubmit {
+  appearance: none;
+}
+
+.sectionPageLink,
+.sectionLinkLarge,
+.detailCta {
+  margin-top: 28px;
+}
+
+/* Asymmetrical oval image edges on homepage */
+@media (min-width: 901px) {
+  .recognitionImageWrap {
+    border-radius: 0 46% 46% 0 / 0 50% 50% 0 !important;
+    overflow: hidden;
+  }
+
+  .recognitionImageWrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0) 68%,
+        rgba(255,255,255,0.10) 76%,
+        rgba(255,255,255,0.34) 85%,
+        rgba(255,255,255,0.72) 94%,
+        rgba(255,255,255,1) 100%
+      );
+  }
+
+  .possibilityImageWrap {
+    border-radius: 46% 0 0 46% / 50% 0 0 50% !important;
+    overflow: hidden;
+  }
+
+  .possibilityImageWrap::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: inherit;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(247,241,234,1) 0%,
+        rgba(247,241,234,0.72) 6%,
+        rgba(247,241,234,0.34) 15%,
+        rgba(247,241,234,0.10) 24%,
+        rgba(247,241,234,0) 32%,
+        rgba(247,241,234,0) 100%
+      );
+  }
+}
+
+@media (max-width: 900px) {
+  .recognitionImageWrap {
+    border-radius: 0 34% 34% 0 / 0 30% 30% 0 !important;
+  }
+
+  .possibilityImageWrap {
+    border-radius: 34% 0 0 34% / 30% 0 0 30% !important;
+  }
+
+  .feminineWayButton,
+  .sectionLink,
+  .contactSubmit,
+  .detailCta {
+    min-height: 44px;
+    padding: 10px 17px 11px !important;
+    font-size: 0.9rem !important;
+  }
+}
