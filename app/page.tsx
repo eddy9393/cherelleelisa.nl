@@ -10,6 +10,7 @@ const accessStorageKey = "cherelle-preview-access";
 const languageStorageKey = "cherelle-language";
 
 const menuItems = [
+  { id: "home" },
   { id: "herkenning" },
   { id: "mogelijkheden" },
   { id: "begeleiding" },
@@ -23,6 +24,7 @@ type Language = "nl" | "en";
 
 const menuLabels: Record<Language, Record<MenuItemId, string>> = {
   nl: {
+    home: "Home",
     herkenning: "Herkenning",
     mogelijkheden: "Thuiskomen",
     begeleiding: "Begeleiding",
@@ -32,6 +34,7 @@ const menuLabels: Record<Language, Record<MenuItemId, string>> = {
     uitnodiging: "Uitnodiging",
   },
   en: {
+    home: "Home",
     herkenning: "Recognition",
     mogelijkheden: "Coming home",
     begeleiding: "Guidance",
@@ -280,6 +283,7 @@ export default function Home() {
           <nav className="previewNav" aria-label="Hoofdnavigatie">
             {menuItems.map((item) => {
               const href =
+                item.id === "home" ? "/" :
                 item.id === "herkenning" ? "/herkenning" :
                 item.id === "mogelijkheden" ? "/thuiskomen" :
                 item.id === "begeleiding" ? "/begeleiding" :
@@ -356,6 +360,7 @@ export default function Home() {
               <nav className="previewNav" aria-label="Hoofdnavigatie">
                 {menuItems.map((item) => {
                   const href =
+                    item.id === "home" ? "/" :
                     item.id === "herkenning" ? "/herkenning" :
                     item.id === "mogelijkheden" ? "/thuiskomen" :
                     item.id === "begeleiding" ? "/begeleiding" :
@@ -860,6 +865,7 @@ export default function Home() {
             <nav className="footerNav" aria-label="Footer navigatie" data-reveal>
               {menuItems.map((item) => {
                 const href =
+                  item.id === "home" ? "/" :
                   item.id === "herkenning" ? "/herkenning" :
                   item.id === "mogelijkheden" ? "/thuiskomen" :
                   item.id === "begeleiding" ? "/begeleiding" :
