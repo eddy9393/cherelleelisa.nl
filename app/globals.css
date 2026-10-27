@@ -4853,3 +4853,56 @@ body,
     opacity: 0.10 !important;
   }
 }
+
+
+/* 2026-10-27 fix CherArt1 placement: section-level, full-height crop */
+#herkenning.recognitionSection {
+  position: relative;
+  isolation: isolate;
+}
+
+#herkenning .recognitionCopy::after {
+  content: none !important;
+  display: none !important;
+}
+
+#herkenning.recognitionSection::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 46%;
+  background-image: url("/CherArt1.png");
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: auto 100%;
+  opacity: 0.18;
+  pointer-events: none;
+  z-index: 0;
+}
+
+#herkenning .recognitionImageWrap,
+#herkenning .recognitionCopy {
+  position: relative;
+  z-index: 1;
+}
+
+@media (max-width: 1100px) and (min-width: 901px) {
+  #herkenning.recognitionSection::after {
+    width: 48%;
+    background-size: auto 92%;
+    opacity: 0.14;
+  }
+}
+
+@media (max-width: 900px) {
+  #herkenning.recognitionSection::after {
+    top: auto;
+    width: 58%;
+    height: 58%;
+    background-position: right bottom;
+    background-size: auto 100%;
+    opacity: 0.09;
+  }
+}
