@@ -4927,22 +4927,7 @@ body,
 }
 
 
-/* 2026-10-27 homepage begeleiding banner + tighter Werkwijze/Ervaringen transition */
-#begeleiding.offersSection {
-  background: var(--ce-white) !important;
-  padding-top: 0 !important;
-}
-
-#begeleiding .offersIntro {
-  margin-left: calc(clamp(32px, 6.5vw, 120px) * -1);
-  margin-right: calc(clamp(32px, 6.5vw, 120px) * -1);
-  margin-bottom: clamp(70px, 8vw, 120px);
-  padding:
-    clamp(46px, 5vw, 72px)
-    clamp(32px, 6.5vw, 120px);
-  background: var(--ce-hero-ivory);
-}
-
+/* 2026-10-27 tighter Werkwijze/Ervaringen transition */
 #werkwijze .methodEditorialImageWrap,
 #werkwijze .methodEditorialImage {
   border-radius: 0 !important;
@@ -4964,16 +4949,6 @@ body,
 }
 
 @media (max-width: 900px) {
-  #begeleiding.offersSection {
-    padding-top: 0 !important;
-  }
-
-  #begeleiding .offersIntro {
-    margin-left: -24px;
-    margin-right: -24px;
-    padding: 42px 24px;
-  }
-
   #werkwijze .methodEditorialImageWrap,
   #werkwijze .methodEditorialImage {
     border-radius: 0 !important;
