@@ -4906,3 +4906,22 @@ body,
     opacity: 0.09;
   }
 }
+
+
+/* 2026-10-27 Werkwijze image flush with left viewport edge */
+@media (min-width: 901px) {
+  #werkwijze.methodSectionEditorial {
+    padding-left: 0 !important;
+  }
+
+  #werkwijze .methodEditorialVisual {
+    justify-self: stretch !important;
+    width: 100% !important;
+    max-width: none !important;
+  }
+
+  #werkwijze .methodEditorialImageWrap {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
