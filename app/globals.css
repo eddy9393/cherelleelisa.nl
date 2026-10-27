@@ -4523,3 +4523,33 @@ body,
     font-size: clamp(1.45rem, 6.5vw, 2.15rem);
   }
 }
+
+
+/* 2026-10-27 homepage invitation: copy left, mirrored image right */
+#uitnodiging .invitationCopy {
+  order: 1 !important;
+}
+
+#uitnodiging .invitationImageWrap {
+  order: 2 !important;
+}
+
+#uitnodiging .invitationImage {
+  transform: scaleX(-1) !important;
+}
+
+@media (min-width: 901px) {
+  #uitnodiging.invitationSection {
+    grid-template-columns: minmax(0, 1.08fr) minmax(440px, 0.92fr);
+  }
+}
+
+@media (max-width: 900px) {
+  #uitnodiging .invitationCopy {
+    order: 1 !important;
+  }
+
+  #uitnodiging .invitationImageWrap {
+    order: 2 !important;
+  }
+}
