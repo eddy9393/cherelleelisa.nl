@@ -4415,3 +4415,43 @@ body,
     font-size: 1.55rem;
   }
 }
+
+
+/* 2026-10-27 homepage cleanup */
+#mogelijkheden,
+#over-mij,
+#over-mij .sectionCopy {
+  background: var(--ce-white) !important;
+}
+
+#begeleiding .offerImageWrap {
+  border-radius: 0 !important;
+  overflow: hidden;
+}
+
+#begeleiding .offerImage {
+  border-radius: 0 !important;
+}
+
+@media (min-width: 901px) {
+  .methodSectionEditorial {
+    grid-template-columns: minmax(420px, 0.78fr) minmax(0, 0.92fr);
+  }
+
+  .methodEditorialVisual {
+    grid-column: 1;
+    grid-row: 1;
+    justify-self: start;
+  }
+
+  .methodEditorialCopy {
+    grid-column: 2;
+    grid-row: 1;
+    max-width: 720px;
+  }
+
+  .methodSectionEditorial::before {
+    left: auto;
+    right: clamp(42px, 7vw, 126px);
+  }
+}
