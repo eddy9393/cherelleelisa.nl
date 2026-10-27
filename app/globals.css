@@ -4818,3 +4818,38 @@ body,
     opacity: 0.08;
   }
 }
+
+
+/* 2026-10-27 use the new full-height CherArt1 treatment in Herkenning */
+#herkenning .recognitionCopy::after {
+  right: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  width: clamp(300px, 42%, 560px) !important;
+  height: 100% !important;
+  background:
+    url("/CherArt1.png")
+    right center / contain
+    no-repeat !important;
+  opacity: 0.20 !important;
+  transform: none !important;
+}
+
+@media (max-width: 1100px) {
+  #herkenning .recognitionCopy::after {
+    width: clamp(240px, 40%, 380px) !important;
+    opacity: 0.16 !important;
+  }
+}
+
+@media (max-width: 900px) {
+  #herkenning .recognitionCopy::after {
+    right: 0 !important;
+    top: auto !important;
+    bottom: 0 !important;
+    width: min(56vw, 260px) !important;
+    height: 70% !important;
+    background-position: right bottom !important;
+    opacity: 0.10 !important;
+  }
+}
