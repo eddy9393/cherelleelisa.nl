@@ -15,8 +15,8 @@ const menuItems = [
   { id: "mogelijkheden" },
   { id: "begeleiding" },
   { id: "werkwijze" },
-  { id: "over-mij" },
   { id: "ervaringen" },
+  { id: "over-mij" },
   { id: "uitnodiging" },
 ] as const;
 
@@ -469,6 +469,15 @@ export default function Home() {
 
       {isUnlocked && (
         <>
+          <section className="cherelleQuoteBar" aria-label={language === "nl" ? "Quote van Cherelle" : "Quote by Cherelle"}>
+            <p>
+              {language === "nl"
+                ? "Van hoofd naar hart. Van doen naar zijn. Van controle naar overgave."
+                : "From head to heart. From doing to being. From control to surrender."}
+            </p>
+            <span>— Cherelle Elisa</span>
+          </section>
+
           <section id="herkenning" className="contentSection recognitionSection">
             <div className="sectionCopy recognitionCopy" data-reveal>
               <p className="sectionKicker">{language === "nl" ? "Herkenning" : "Recognition"}</p>
@@ -646,9 +655,6 @@ export default function Home() {
                   className="methodEditorialImage"
                 />
               </div>
-              <span className="methodEditorialAccent" aria-hidden="true">
-                {language === "nl" ? "in jouw tempo" : "at your pace"}
-              </span>
             </div>
 
             <div className="methodEditorialCopy" data-reveal>
@@ -685,6 +691,26 @@ export default function Home() {
             </div>
           </section>
 
+          <section id="ervaringen" className="testimonialsSection">
+            <div className="testimonialsHeading" data-reveal>
+              <p className="sectionKicker">{language === "nl" ? "Ervaringen" : "Experiences"}</p>
+              <h2>{language === "nl" ? "Wat vrouwen zeggen" : "What women say"}</h2>
+            </div>
+
+            <div className="testimonialsGrid" aria-label="Ruimte voor ervaringen">
+              {[1, 2, 3].map((item) => (
+                <article className="testimonialSlot" key={item} data-reveal>
+                  <span>{language === "nl" ? `Ervaring 0${item}` : `Experience 0${item}`}</span>
+                  <p>
+                    {language === "nl"
+                      ? "Ruimte voor haar ervaring, in haar eigen woorden."
+                      : "Space for her experience, in her own words."}
+                  </p>
+                </article>
+              ))}
+            </div>
+          </section>
+
           <section id="over-mij" className="contentSection sectionSplit aboutSection">
             <div className="aboutImageWrap" data-reveal>
               <Image
@@ -713,26 +739,6 @@ export default function Home() {
               <a className="sectionLink sectionLinkLarge" href="/over-mij">
                 {language === "nl" ? "Lees mijn verhaal" : "Read my story"} <span aria-hidden="true">→</span>
               </a>
-            </div>
-          </section>
-
-          <section id="ervaringen" className="testimonialsSection">
-            <div className="testimonialsHeading" data-reveal>
-              <p className="sectionKicker">{language === "nl" ? "Ervaringen" : "Experiences"}</p>
-              <h2>{language === "nl" ? "Wat vrouwen zeggen" : "What women say"}</h2>
-            </div>
-
-            <div className="testimonialsGrid" aria-label="Ruimte voor ervaringen">
-              {[1, 2, 3].map((item) => (
-                <article className="testimonialSlot" key={item} data-reveal>
-                  <span>{language === "nl" ? `Ervaring 0${item}` : `Experience 0${item}`}</span>
-                  <p>
-                    {language === "nl"
-                      ? "Ruimte voor haar ervaring, in haar eigen woorden."
-                      : "Space for her experience, in her own words."}
-                  </p>
-                </article>
-              ))}
             </div>
           </section>
 
