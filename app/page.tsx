@@ -97,8 +97,6 @@ export default function Home() {
   const [hasError, setHasError] = useState(false);
   const [activeItem, setActiveItem] = useState<MenuItemId | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
-  const [coordinateMode, setCoordinateMode] = useState(false);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [language, setLanguage] = useState<Language>("nl");
   const [headerScrolled, setHeaderScrolled] = useState(false);
 
@@ -121,17 +119,6 @@ export default function Home() {
     window.addEventListener("scroll", updateHeader, { passive: true });
     return () => window.removeEventListener("scroll", updateHeader);
   }, []);
-
-  useEffect(() => {
-    if (!coordinateMode) return;
-
-    const handleMouseMove = (event: MouseEvent) => {
-      setMousePosition({ x: event.clientX, y: event.clientY });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-    return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, [coordinateMode]);
 
   useEffect(() => {
     if (!isUnlocked) return;
@@ -239,34 +226,6 @@ export default function Home() {
 
   return (
     <main className={isUnlocked ? "siteRoot" : "siteRoot siteRootLocked"}>
-      {isUnlocked && (
-        <>
-          <button
-            className={coordinateMode ? "coordinateAdminButton isActive" : "coordinateAdminButton"}
-            type="button"
-            onClick={() => setCoordinateMode((enabled) => !enabled)}
-            aria-pressed={coordinateMode}
-            title="Toon muiscoördinaten"
-          >
-            XY
-          </button>
-
-          {coordinateMode && (
-            <div
-              className="coordinateReadout"
-              style={{
-                left: Math.min(mousePosition.x + 18, window.innerWidth - 122),
-                top: Math.min(mousePosition.y + 18, window.innerHeight - 54),
-              }}
-              aria-hidden="true"
-            >
-              <span>X {mousePosition.x}</span>
-              <span>Y {mousePosition.y}</span>
-            </div>
-          )}
-        </>
-      )}
-
       {isUnlocked && (
         <header className={`previewHeader desktopPersistentHeader ${headerScrolled ? "isScrolled" : ""}`}>
           <a
@@ -585,9 +544,6 @@ export default function Home() {
             <div className="offersIntro" data-reveal>
               <p className="sectionKicker">{language === "nl" ? "Zo kan ik je begeleiden" : "How I can support you"}</p>
               <h2>{language === "nl" ? "Een vorm die past bij waar jij nu bent." : "A form of support that meets you where you are."}</h2>
-              <a className="sectionLink sectionPageLink" href="/begeleiding">
-                {language === "nl" ? "Bekijk alle begeleiding" : "Explore all guidance"} <span aria-hidden="true">→</span>
-              </a>
             </div>
 
             <div className="offerList">
@@ -678,6 +634,23 @@ export default function Home() {
           </section>
 
           <section id="werkwijze" className="methodSection methodSectionEditorial">
+            <div className="methodEditorialVisual" data-reveal>
+              <div className="methodEditorialHalo" aria-hidden="true" />
+              <div className="methodEditorialImageWrap">
+                <Image
+                  src="/Werkwijze.png"
+                  alt={language === "nl" ? "Cherelle in een warme, natuurlijke omgeving" : "Cherelle in a warm, natural setting"}
+                  fill
+                  sizes="(max-width: 900px) 100vw, 42vw"
+                  quality={88}
+                  className="methodEditorialImage"
+                />
+              </div>
+              <span className="methodEditorialAccent" aria-hidden="true">
+                {language === "nl" ? "in jouw tempo" : "at your pace"}
+              </span>
+            </div>
+
             <div className="methodEditorialCopy" data-reveal>
               <p className="sectionKicker">{language === "nl" ? "Mijn manier van werken" : "My approach"}</p>
               <h2 className="methodEditorialTitle">
@@ -709,23 +682,6 @@ export default function Home() {
                   {language === "nl" ? "Ontdek mijn werkwijze" : "Discover my approach"} <span aria-hidden="true">→</span>
                 </a>
               </div>
-            </div>
-
-            <div className="methodEditorialVisual" data-reveal>
-              <div className="methodEditorialHalo" aria-hidden="true" />
-              <div className="methodEditorialImageWrap">
-                <Image
-                  src="/Werkwijze.png"
-                  alt={language === "nl" ? "Cherelle in een warme, natuurlijke omgeving" : "Cherelle in a warm, natural setting"}
-                  fill
-                  sizes="(max-width: 900px) 100vw, 42vw"
-                  quality={88}
-                  className="methodEditorialImage"
-                />
-              </div>
-              <span className="methodEditorialAccent" aria-hidden="true">
-                {language === "nl" ? "in jouw tempo" : "at your pace"}
-              </span>
             </div>
           </section>
 
