@@ -4778,3 +4778,32 @@ body,
     border-radius: 34% 0 0 34% / 30% 0 0 30% !important;
   }
 }
+
+
+/* 2026-10-27 subtle botanical decoration in Herkenning */
+#herkenning .recognitionCopy {
+  position: relative;
+  isolation: isolate;
+}
+
+#herkenning .recognitionCopy::after {
+  content: "";
+  position: absolute;
+  right: clamp(18px, 2.2vw, 42px);
+  bottom: clamp(18px, 2.2vw, 40px);
+  width: clamp(150px, 16vw, 245px);
+  aspect-ratio: 1;
+  background: url("/herkenning-decoratie.webp") center / contain no-repeat;
+  opacity: 0.12;
+  pointer-events: none;
+  z-index: -1;
+}
+
+@media (max-width: 900px) {
+  #herkenning .recognitionCopy::after {
+    width: clamp(120px, 34vw, 180px);
+    right: 8px;
+    bottom: 12px;
+    opacity: 0.09;
+  }
+}
