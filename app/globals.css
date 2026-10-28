@@ -4954,3 +4954,671 @@ body,
     border-radius: 0 !important;
   }
 }
+
+
+/* 2026-10-28 mobile-only refinement pass */
+@media (max-width: 900px) {
+  html,
+  body {
+    overflow-x: hidden;
+  }
+
+  .siteRoot,
+  .detailPage {
+    width: 100%;
+    overflow-x: clip;
+  }
+
+  /* Mobile navigation */
+  .mobileHeroHeader {
+    min-height: 68px;
+    padding:
+      max(14px, env(safe-area-inset-top))
+      18px
+      12px !important;
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  .mobileHeroHeader.isScrolled,
+  .mobileHeroHeader.menuOpen {
+    background: rgba(247, 241, 234, 0.9) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(115%) !important;
+    backdrop-filter: blur(16px) saturate(115%) !important;
+    box-shadow: 0 6px 24px rgba(47, 36, 29, 0.045) !important;
+  }
+
+  .mobileHeroHeader .previewBrand {
+    max-width: 48vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.88rem !important;
+    letter-spacing: 0.14em !important;
+    white-space: nowrap;
+  }
+
+  .mobileHeroHeader .languageSwitcher {
+    right: 60px !important;
+    gap: 5px;
+  }
+
+  .mobileHeroHeader .languageFlag {
+    min-width: 28px;
+    min-height: 36px;
+    padding: 0 3px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.64rem;
+  }
+
+  .mobileMenuButton {
+    width: 40px !important;
+    height: 40px !important;
+    padding: 8px 4px !important;
+  }
+
+  .mobileMenuButton span {
+    width: 27px !important;
+  }
+
+  .previewNav {
+    padding:
+      calc(94px + env(safe-area-inset-top))
+      24px
+      calc(34px + env(safe-area-inset-bottom)) !important;
+    justify-content: flex-start !important;
+    gap: 7px !important;
+    overflow-y: auto;
+  }
+
+  .previewNavItem {
+    width: 100%;
+    padding: 8px 0 !important;
+    font-size: clamp(1.55rem, 7.2vw, 2.15rem) !important;
+    line-height: 1.05;
+  }
+
+  /* Mobile hero */
+  .hero.heroUnlocked {
+    min-height: 100svh;
+    height: auto;
+    background: var(--ce-hero-ivory);
+  }
+
+  .heroBackdropMobileOld {
+    object-fit: cover !important;
+    object-position: 58% center !important;
+  }
+
+  .heroUnlocked .heroVeil {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(247, 241, 234, 0.08) 0%,
+        rgba(247, 241, 234, 0.02) 34%,
+        rgba(247, 241, 234, 0.52) 68%,
+        rgba(247, 241, 234, 0.92) 100%
+      ) !important;
+  }
+
+  .siteHeroContent {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100svh;
+    margin: 0 !important;
+    padding:
+      calc(92px + env(safe-area-inset-top))
+      20px
+      calc(42px + env(safe-area-inset-bottom)) !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-start;
+    transform: none !important;
+    text-align: left;
+  }
+
+  .desktopHeroTitle {
+    display: none !important;
+  }
+
+  .mobileHeroTitle {
+    display: block !important;
+    max-width: 92%;
+  }
+
+  .siteHeroTitle {
+    width: 100%;
+    margin: 0;
+    font-size: clamp(2.7rem, 12vw, 4.15rem) !important;
+    line-height: 0.98 !important;
+    letter-spacing: -0.035em;
+  }
+
+  .mobileHeroSentence {
+    display: block;
+  }
+
+  .mobileHeroSentenceSecond {
+    margin-top: 0.22em;
+  }
+
+  .siteHeroSubtitle {
+    max-width: 330px;
+    margin-top: 18px !important;
+    font-size: 0.9rem !important;
+    line-height: 1.55;
+  }
+
+  .feminineWayButton,
+  .sectionLink,
+  .contactSubmit,
+  .detailCta {
+    min-height: 44px;
+    max-width: 100%;
+  }
+
+  .feminineWayButton {
+    min-width: 0 !important;
+    width: auto !important;
+    margin-top: 24px !important;
+    padding: 10px 16px 11px !important;
+    font-size: 0.88rem !important;
+  }
+
+  /* Quote divider */
+  .cherelleQuoteBar {
+    padding: 25px 20px 27px !important;
+    gap: 10px !important;
+  }
+
+  .cherelleQuoteBar p {
+    max-width: 330px;
+    font-size: clamp(1.35rem, 6vw, 1.8rem) !important;
+    line-height: 1.15 !important;
+  }
+
+  .cherelleQuoteBar span {
+    font-size: 0.64rem !important;
+  }
+
+  /* Shared homepage typography + spacing */
+  .contentSection,
+  .offersSection,
+  .testimonialsSection {
+    padding: 70px 20px !important;
+  }
+
+  .sectionKicker {
+    margin-bottom: 14px !important;
+    font-size: clamp(1.65rem, 8.2vw, 2.2rem) !important;
+  }
+
+  .sectionCopy h2,
+  .offersIntro h2,
+  .testimonialsHeading h2,
+  .invitationCopy h2 {
+    font-size: clamp(2.65rem, 12vw, 3.85rem) !important;
+    line-height: 0.99 !important;
+    letter-spacing: -0.035em;
+  }
+
+  .sectionCopy h2::after,
+  .offersIntro h2::after,
+  .testimonialsHeading h2::after,
+  .invitationCopy h2::after {
+    width: 38px !important;
+    margin-top: 18px !important;
+  }
+
+  .sectionCopy > p:not(.sectionKicker):not(.sectionManifesto),
+  .invitationCopy > p:not(.sectionKicker),
+  .offerText p {
+    font-size: 0.96rem !important;
+    line-height: 1.68 !important;
+  }
+
+  .sectionLink,
+  .contactSubmit,
+  .detailCta {
+    padding: 10px 16px 11px !important;
+    font-size: 0.86rem !important;
+  }
+
+  /* Herkenning */
+  #herkenning.recognitionSection {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 34px !important;
+    padding: 70px 20px !important;
+  }
+
+  #herkenning .recognitionCopy {
+    order: 1;
+    padding: 0 !important;
+  }
+
+  #herkenning .recognitionImageWrap {
+    order: 2;
+    width: calc(100% + 20px);
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5;
+    margin-left: -20px;
+    border-radius: 0 34% 34% 0 / 0 28% 28% 0 !important;
+  }
+
+  #herkenning .recognitionImage {
+    object-fit: cover;
+  }
+
+  #herkenning.recognitionSection::after {
+    width: 52% !important;
+    height: 46% !important;
+    opacity: 0.06 !important;
+  }
+
+  #herkenning .sectionEmphasis {
+    margin-top: 28px !important;
+    padding-left: 18px;
+    font-size: clamp(1.35rem, 6.2vw, 1.75rem) !important;
+    line-height: 1.3 !important;
+  }
+
+  /* Thuiskomen */
+  #mogelijkheden.possibilitySection {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 34px !important;
+    padding: 70px 20px !important;
+    background: var(--ce-white) !important;
+  }
+
+  #mogelijkheden .possibilityCopy {
+    order: 1;
+    padding: 0 !important;
+  }
+
+  #mogelijkheden .possibilityImageWrap {
+    order: 2;
+    width: calc(100% + 20px);
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5;
+    margin-right: -20px;
+    justify-self: end;
+    border-radius: 34% 0 0 34% / 28% 0 0 28% !important;
+  }
+
+  #mogelijkheden .possibilityImage {
+    object-fit: cover;
+  }
+
+  #mogelijkheden .sectionManifesto {
+    margin-top: 30px !important;
+    font-size: clamp(1.75rem, 8vw, 2.35rem) !important;
+    line-height: 1.12 !important;
+  }
+
+  /* Begeleiding */
+  #begeleiding.offersSection {
+    padding: 72px 20px !important;
+  }
+
+  #begeleiding .offersIntro {
+    display: block;
+    margin: 0 0 46px !important;
+  }
+
+  #begeleiding .offersIntro h2 {
+    max-width: 10ch;
+  }
+
+  #begeleiding .offerList {
+    gap: 48px !important;
+  }
+
+  #begeleiding .offerRow {
+    gap: 20px !important;
+  }
+
+  #begeleiding .offerText h3 {
+    font-size: clamp(2.2rem, 9vw, 2.9rem) !important;
+    line-height: 1.02;
+  }
+
+  #begeleiding .offerNumber {
+    margin-bottom: 12px;
+    font-size: 1.35rem !important;
+  }
+
+  #begeleiding .offerImageWrap {
+    width: 100%;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5;
+    border-radius: 0 !important;
+  }
+
+  #begeleiding .offerImage {
+    object-fit: cover;
+    border-radius: 0 !important;
+  }
+
+  /* Werkwijze */
+  #werkwijze.methodSectionEditorial {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0 !important;
+    padding: 0 !important;
+    background: var(--ce-white) !important;
+  }
+
+  #werkwijze .methodEditorialVisual {
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    margin: 0;
+  }
+
+  #werkwijze .methodEditorialImageWrap {
+    width: 100% !important;
+    border-radius: 0 !important;
+  }
+
+  #werkwijze .methodEditorialImage {
+    width: 100%;
+    height: auto;
+    border-radius: 0 !important;
+  }
+
+  #werkwijze .methodEditorialImageFade {
+    background:
+      linear-gradient(
+        90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0) 84%,
+        rgba(255,255,255,0.28) 93%,
+        rgba(255,255,255,0.72) 100%
+      ) !important;
+  }
+
+  #werkwijze .methodEditorialCopy {
+    width: 100%;
+    max-width: none !important;
+    padding: 54px 20px 68px !important;
+  }
+
+  #werkwijze .methodEditorialText {
+    margin-top: 22px !important;
+  }
+
+  #werkwijze .methodLeadPrimary {
+    font-size: 0.98rem !important;
+    line-height: 1.7 !important;
+  }
+
+  #werkwijze .methodLeadSecondary {
+    margin-top: 24px !important;
+    font-size: clamp(1.5rem, 7vw, 2rem) !important;
+  }
+
+  #werkwijze .methodNote {
+    margin-top: 24px !important;
+  }
+
+  /* Ervaringen */
+  #ervaringen.testimonialsSection {
+    margin-top: 0 !important;
+    padding: 68px 20px !important;
+    background: var(--ce-hero-ivory) !important;
+  }
+
+  #ervaringen .testimonialsGrid {
+    margin-top: 38px !important;
+  }
+
+  #ervaringen .testimonialSlot {
+    min-height: 0 !important;
+    padding: 28px 0 !important;
+  }
+
+  #ervaringen .testimonialSlot p {
+    margin-top: 32px;
+    font-size: clamp(1.45rem, 7vw, 1.9rem) !important;
+  }
+
+  /* Over mij */
+  #over-mij.aboutSection {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 36px !important;
+    padding: 70px 20px !important;
+    background: var(--ce-white) !important;
+  }
+
+  #over-mij .aboutImageWrap {
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5;
+    border-radius: 10px !important;
+  }
+
+  #over-mij .sectionCopy {
+    padding: 0 !important;
+  }
+
+  /* Uitnodiging */
+  #uitnodiging.invitationSection {
+    display: grid;
+    grid-template-columns: 1fr;
+    min-height: 0 !important;
+    background: var(--ce-hero-ivory) !important;
+  }
+
+  #uitnodiging .invitationCopy {
+    order: 1 !important;
+    padding: 70px 20px 58px !important;
+  }
+
+  #uitnodiging .invitationImageWrap {
+    order: 2 !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5;
+  }
+
+  #uitnodiging .contactForm {
+    margin-top: 32px !important;
+  }
+
+  #uitnodiging .contactFormRow {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+
+  #uitnodiging .contactForm input,
+  #uitnodiging .contactForm select,
+  #uitnodiging .contactForm textarea {
+    min-height: 44px;
+    font-size: 16px;
+  }
+
+  #uitnodiging .contactSubmit {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Footer */
+  .siteFooter {
+    padding:
+      54px
+      20px
+      calc(38px + env(safe-area-inset-bottom)) !important;
+    gap: 34px !important;
+  }
+
+  .footerNav {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px 20px !important;
+  }
+
+  .footerNav a,
+  .footerMeta a {
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .footerMeta {
+    gap: 12px !important;
+  }
+
+  /* Detail pages */
+  .detailHeader {
+    min-height: 66px !important;
+    padding:
+      max(10px, env(safe-area-inset-top))
+      16px
+      10px !important;
+  }
+
+  .detailBrand {
+    max-width: 58vw;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-size: 0.8rem !important;
+    letter-spacing: 0.14em !important;
+  }
+
+  .detailLanguage {
+    gap: 4px;
+  }
+
+  .detailLanguage button {
+    min-width: 30px;
+    min-height: 40px;
+  }
+
+  .detailHero {
+    min-height: 650px !important;
+  }
+
+  .detailHeroImage > img {
+    object-position: 60% center !important;
+  }
+
+  .detailHeroCopy {
+    padding:
+      100px
+      20px
+      48px !important;
+  }
+
+  .detailHeroCopy h1 {
+    font-size: clamp(2.75rem, 12vw, 4.15rem) !important;
+    line-height: 0.98 !important;
+  }
+
+  .detailHeroCopy > p:last-child {
+    margin-top: 22px !important;
+    font-size: 0.94rem !important;
+    line-height: 1.66 !important;
+  }
+
+  .detailContent {
+    padding: 72px 20px !important;
+    gap: 38px !important;
+  }
+
+  .detailContentIntro h2 {
+    font-size: clamp(2.35rem, 10.5vw, 3.35rem) !important;
+  }
+
+  .detailBlock {
+    padding: 34px 0 38px !important;
+  }
+
+  .detailBlock h3 {
+    font-size: clamp(1.9rem, 8vw, 2.55rem) !important;
+  }
+
+  .detailBlock p {
+    margin-top: 16px !important;
+    font-size: 0.96rem !important;
+    line-height: 1.7 !important;
+  }
+
+  .detailQuote {
+    padding: 72px 20px !important;
+  }
+
+  .detailQuote p {
+    font-size: clamp(2rem, 9.5vw, 3rem) !important;
+    line-height: 1.1 !important;
+  }
+
+  .detailInvitation {
+    padding: 76px 20px !important;
+  }
+
+  .detailInvitation h2 {
+    font-size: clamp(2.35rem, 10.5vw, 3.45rem) !important;
+  }
+
+  .detailInvitation > p:not(.detailKicker) {
+    margin-top: 22px !important;
+  }
+
+  .detailCta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .detailFooter {
+    padding:
+      26px
+      20px
+      calc(26px + env(safe-area-inset-bottom)) !important;
+    align-items: center;
+  }
+}
+
+@media (max-width: 520px) {
+  .siteHeroTitle {
+    font-size: clamp(2.5rem, 11.4vw, 3.45rem) !important;
+  }
+
+  .mobileHeroHeader .previewBrand {
+    max-width: 44vw;
+    font-size: 0.8rem !important;
+  }
+
+  .mobileHeroHeader .languageSwitcher {
+    right: 55px !important;
+  }
+
+  .sectionCopy h2,
+  .offersIntro h2,
+  .testimonialsHeading h2,
+  .invitationCopy h2 {
+    font-size: clamp(2.45rem, 11vw, 3.25rem) !important;
+  }
+
+  #herkenning .recognitionImageWrap,
+  #mogelijkheden .possibilityImageWrap {
+    aspect-ratio: 0.84;
+  }
+
+  #begeleiding .offerImageWrap,
+  #over-mij .aboutImageWrap,
+  #uitnodiging .invitationImageWrap {
+    aspect-ratio: 0.82;
+  }
+
+  .footerNav {
+    grid-template-columns: 1fr !important;
+  }
+
+  .detailHero {
+    min-height: 610px !important;
+  }
+}
