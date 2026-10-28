@@ -267,6 +267,59 @@ export default function Home() {
         </header>
       )}
 
+      {isUnlocked && (
+        <header className={`mobileSiteHeader ${menuOpen ? "menuOpen" : ""}`}>
+          <a
+            className="previewBrand"
+            href="/"
+            onClick={() => {
+              setActiveItem(null);
+              setMenuOpen(false);
+            }}
+          >
+            CHERELLE ELISA
+          </a>
+
+          <LanguageSwitcher />
+
+          <button
+            className="mobileMenuButton"
+            type="button"
+            aria-label={menuOpen ? "Menu sluiten" : "Menu openen"}
+            aria-expanded={menuOpen}
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span />
+            <span />
+          </button>
+
+          <nav className="previewNav" aria-label="Hoofdnavigatie">
+            {menuItems.map((item) => {
+              const href =
+                item.id === "home" ? "/" :
+                item.id === "herkenning" ? "/herkenning" :
+                item.id === "mogelijkheden" ? "/thuiskomen" :
+                item.id === "begeleiding" ? "/begeleiding" :
+                item.id === "werkwijze" ? "/werkwijze" :
+                item.id === "over-mij" ? "/over-mij" :
+                item.id === "ervaringen" ? "/#ervaringen" :
+                "/#uitnodiging";
+
+              return (
+                <a
+                  key={item.id}
+                  className="previewNavItem"
+                  href={href}
+                  onClick={() => setMenuOpen(false)}
+                >
+                  {menuLabels[language][item.id]}
+                </a>
+              );
+            })}
+          </nav>
+        </header>
+      )}
+
       <section id="top" className={`hero ${isUnlocked ? "heroUnlocked" : "heroLocked"}`}>
         <Image
           className={isUnlocked ? "heroBackdrop heroBackdropDesktopNew" : "heroBackdrop"}
@@ -293,56 +346,6 @@ export default function Home() {
 
         {isUnlocked ? (
           <>
-            <header className={`previewHeader mobileHeroHeader ${menuOpen ? "menuOpen" : ""} ${headerScrolled ? "isScrolled" : ""}`}>
-              <a
-                className="previewBrand"
-                href="/"
-                onClick={() => {
-                  setActiveItem(null);
-                  setMenuOpen(false);
-                }}
-              >
-                CHERELLE ELISA
-              </a>
-
-              <button
-                className="mobileMenuButton"
-                type="button"
-                aria-label={menuOpen ? "Menu sluiten" : "Menu openen"}
-                aria-expanded={menuOpen}
-                onClick={() => setMenuOpen((open) => !open)}
-              >
-                <span />
-                <span />
-              </button>
-
-              <nav className="previewNav" aria-label="Hoofdnavigatie">
-                {menuItems.map((item) => {
-                  const href =
-                    item.id === "home" ? "/" :
-                    item.id === "herkenning" ? "/herkenning" :
-                    item.id === "mogelijkheden" ? "/thuiskomen" :
-                    item.id === "begeleiding" ? "/begeleiding" :
-                    item.id === "werkwijze" ? "/werkwijze" :
-                    item.id === "over-mij" ? "/over-mij" :
-                    item.id === "ervaringen" ? "/#ervaringen" :
-                    "/#uitnodiging";
-
-                  return (
-                    <a
-                      key={item.id}
-                      className="previewNavItem"
-                      href={href}
-                      onClick={() => setMenuOpen(false)}
-                    >
-                      {menuLabels[language][item.id]}
-                    </a>
-                  );
-                })}
-              </nav>
-              <LanguageSwitcher />
-            </header>
-
             <section className="siteHeroContent" aria-labelledby="site-hero-title">
               <h1
                 id="site-hero-title"
