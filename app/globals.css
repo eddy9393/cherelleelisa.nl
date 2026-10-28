@@ -5622,3 +5622,138 @@ body,
     min-height: 610px !important;
   }
 }
+
+
+/* 2026-10-28 mobile header overlay + horizontal swipe carousels */
+@media (max-width: 900px) {
+  /* Keep the mobile header visibly overlapping the page at all times */
+  .mobileHeroHeader {
+    display: flex !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    z-index: 10000 !important;
+    isolation: isolate;
+    pointer-events: auto;
+  }
+
+  .mobileHeroHeader:not(.isScrolled):not(.menuOpen) {
+    background: transparent !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+  }
+
+  .mobileHeroHeader.isScrolled,
+  .mobileHeroHeader.menuOpen {
+    background: rgba(247, 241, 234, 0.9) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(115%) !important;
+    backdrop-filter: blur(16px) saturate(115%) !important;
+    box-shadow: 0 7px 26px rgba(47, 36, 29, 0.06) !important;
+  }
+
+  .mobileHeroHeader .previewBrand,
+  .mobileHeroHeader .languageSwitcher,
+  .mobileHeroHeader .mobileMenuButton {
+    position: relative;
+    z-index: 10002 !important;
+  }
+
+  .mobileHeroHeader .previewNav {
+    z-index: 10001 !important;
+  }
+
+  /* Begeleiding: swipeable 1 / 2 / 3 */
+  #begeleiding .offerList {
+    display: grid !important;
+    grid-auto-flow: column;
+    grid-auto-columns: min(82vw, 350px);
+    grid-template-columns: none !important;
+    gap: 16px !important;
+    width: calc(100% + 20px);
+    margin-right: -20px;
+    padding: 2px 20px 12px 0;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 0;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  #begeleiding .offerList::-webkit-scrollbar {
+    display: none;
+  }
+
+  #begeleiding .offerRow {
+    width: 100%;
+    min-width: 0;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    gap: 18px !important;
+  }
+
+  #begeleiding .offerText {
+    min-height: 310px;
+  }
+
+  #begeleiding .offerText .sectionLink {
+    margin-top: auto !important;
+  }
+
+  #begeleiding .offerImageWrap {
+    aspect-ratio: 0.84 !important;
+  }
+
+  /* Ervaringen: horizontally swipeable cards */
+  #ervaringen .testimonialsGrid {
+    display: grid !important;
+    grid-auto-flow: column;
+    grid-auto-columns: min(80vw, 340px);
+    grid-template-columns: none !important;
+    gap: 14px !important;
+    width: calc(100% + 20px);
+    margin-right: -20px;
+    padding: 2px 20px 10px 0;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 0;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    border: 0 !important;
+    scrollbar-width: none;
+  }
+
+  #ervaringen .testimonialsGrid::-webkit-scrollbar {
+    display: none;
+  }
+
+  #ervaringen .testimonialSlot,
+  #ervaringen .testimonialSlot + .testimonialSlot {
+    min-height: 250px !important;
+    padding: 24px !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    border: 1px solid rgba(47, 36, 29, 0.12) !important;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.42);
+  }
+
+  #ervaringen .testimonialSlot p {
+    margin-top: 42px !important;
+  }
+}
+
+@media (max-width: 520px) {
+  #begeleiding .offerList {
+    grid-auto-columns: 84vw;
+  }
+
+  #ervaringen .testimonialsGrid {
+    grid-auto-columns: 82vw;
+  }
+}
