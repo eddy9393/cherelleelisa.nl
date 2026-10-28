@@ -406,7 +406,7 @@ export default function Home() {
                   : "For the woman who carries everything and lost herself along the way."}
               </p>
 
-              <a className="feminineWayButton" href="/herkenning">
+              <a className="feminineWayButton" href="#herkenning">
                 <span>{language === "nl" ? "Herkenbaar?" : "Recognize this?"}</span>
                 <span aria-hidden="true">→</span>
               </a>
