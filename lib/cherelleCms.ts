@@ -299,16 +299,7 @@ export async function loadPublicCms() {
 export async function signupCms(email: string, password: string) {
   if (!isCmsConfigured) throw new Error("Supabase is nog niet gekoppeld.");
 
-  const redirectTo =
-    typeof window !== "undefined"
-      ? `${window.location.origin}/admin`
-      : undefined;
-
-  const endpoint = redirectTo
-    ? `${supabaseUrl}/auth/v1/signup?redirect_to=${encodeURIComponent(redirectTo)}`
-    : `${supabaseUrl}/auth/v1/signup`;
-
-  const response = await fetch(endpoint, {
+  const response = await fetch(`${supabaseUrl}/auth/v1/signup`, {
     method: "POST",
     headers: {
       apikey: supabaseKey,
