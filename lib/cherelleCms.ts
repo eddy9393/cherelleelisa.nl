@@ -296,6 +296,31 @@ export async function loadPublicCms() {
   }
 }
 
+export async function signupCms(email: string, password: string) {
+  if (!isCmsConfigured) throw new Error("Supabase is nog niet gekoppeld.");
+
+  const redirectTo =
+    typeof window !== "undefined"
+      ? `${window.location.origin}/admin`
+      : undefined;
+
+  const endpoint = redirectTo
+    ? `${supabaseUrl}/auth/v1/signup?redirect_to=${encodeURIComponent(redirectTo)}`
+    : `${supabaseUrl}/auth/v1/signup`;
+
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      apikey: supabaseKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!response.ok) throw new Error(await responseError(response));
+  return await response.json();
+}
+
 export async function loginCms(email: string, password: string): Promise<CmsSession> {
   if (!isCmsConfigured) throw new Error("Supabase is nog niet gekoppeld.");
 
