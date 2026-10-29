@@ -558,6 +558,12 @@ export default function Home() {
               <h2>{language === "nl" ? "Een vorm die past bij waar jij nu bent." : "A form of support that meets you where you are."}</h2>
             </div>
 
+            <div className="mobileSwipeHint" aria-hidden="true">
+              <span>←</span>
+              <span>{language === "nl" ? "Veeg voor meer" : "Swipe for more"}</span>
+              <span>→</span>
+            </div>
+
             <div className="offerList">
               <article className="offerRow" data-reveal>
                 <div className="offerText">
