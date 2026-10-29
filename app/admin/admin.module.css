@@ -1,0 +1,730 @@
+@font-face {
+  font-family: "Bride";
+  src: url("/bride-font/Bride Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Natalia Signature";
+  src: url("/Natalia Signature.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+.page,
+.dashboard {
+  --ink: #2f241d;
+  --text: #5a4a40;
+  --accent: #a86f5d;
+  --accent-deep: #855747;
+  --ivory: #f7f1ea;
+  --soft: #f5efe9;
+  --line: #e2d8cf;
+  --white: #fff;
+  min-height: 100svh;
+  color: var(--ink);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.page {
+  display: grid;
+  place-items: center;
+  padding: 28px;
+  background:
+    radial-gradient(circle at 20% 15%, rgba(168, 111, 93, 0.09), transparent 28%),
+    radial-gradient(circle at 85% 80%, rgba(185, 164, 145, 0.16), transparent 32%),
+    var(--ivory);
+}
+
+.loginPanel,
+.setupPanel {
+  width: min(100%, 560px);
+  padding: clamp(34px, 6vw, 58px);
+  border: 1px solid rgba(74, 58, 50, 0.12);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 30px 80px rgba(74, 58, 50, 0.09);
+  backdrop-filter: blur(18px);
+}
+
+.script {
+  margin: 0 0 10px;
+  font-family: "Natalia Signature", cursive;
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--accent);
+}
+
+.loginPanel h1,
+.setupPanel h1,
+.topbar h1,
+.editorCard h2,
+.welcomeCard h2,
+.mediaBody h2 {
+  margin: 0;
+  font-family: "Bride", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+}
+
+.loginPanel h1,
+.setupPanel h1 {
+  font-size: clamp(2.8rem, 8vw, 4.7rem);
+  line-height: 0.96;
+}
+
+.muted,
+.setupPanel > p,
+.statCard p,
+.welcomeCard > p,
+.sectionActions p {
+  color: rgba(74, 58, 50, 0.68);
+  line-height: 1.7;
+}
+
+.form,
+.fields,
+.stack {
+  display: grid;
+  gap: 22px;
+}
+
+.form {
+  margin-top: 30px;
+}
+
+.form label,
+.mediaBody label,
+.reviewFormGrid label {
+  display: grid;
+  gap: 8px;
+  color: var(--text);
+  font-size: 0.82rem;
+}
+
+.form input,
+.fieldBlock input,
+.fieldBlock textarea,
+.mediaBody input,
+.reviewFormGrid input,
+.reviewFormGrid textarea {
+  width: 100%;
+  border: 1px solid rgba(74, 58, 50, 0.18);
+  border-radius: 12px;
+  padding: 12px 13px;
+  background: rgba(255, 255, 255, 0.88);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.92rem;
+  line-height: 1.5;
+  outline: none;
+}
+
+.fieldBlock textarea,
+.reviewFormGrid textarea {
+  resize: vertical;
+}
+
+.form input:focus,
+.fieldBlock input:focus,
+.fieldBlock textarea:focus,
+.mediaBody input:focus,
+.reviewFormGrid input:focus,
+.reviewFormGrid textarea:focus {
+  border-color: rgba(168, 111, 93, 0.72);
+  box-shadow: 0 0 0 3px rgba(168, 111, 93, 0.08);
+}
+
+.primaryButton,
+.secondaryButton,
+.textButton,
+.reviewActions button {
+  border: 1px solid rgba(168, 111, 93, 0.48);
+  border-radius: 999px;
+  padding: 11px 18px 12px;
+  background: rgba(255, 252, 248, 0.88);
+  color: var(--ink);
+  font-family: "Bride", Georgia, serif;
+  font-size: 0.9rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms ease, border-color 160ms ease, background 160ms ease;
+}
+
+.primaryButton {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: white;
+}
+
+.primaryButton:hover,
+.secondaryButton:hover,
+.reviewActions button:hover {
+  transform: translateY(-1px);
+}
+
+.primaryButton:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.secondaryButton {
+  display: inline-flex;
+  margin-top: 26px;
+}
+
+.textButton {
+  background: transparent;
+  border-color: transparent;
+}
+
+.error,
+.noticeError {
+  color: #8b3d38;
+}
+
+.error {
+  margin: 0;
+  font-size: 0.84rem;
+}
+
+.setupSteps {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 14px 16px;
+  margin-top: 28px;
+  padding-top: 26px;
+  border-top: 1px solid var(--line);
+}
+
+.setupSteps span {
+  font-family: "Natalia Signature", cursive;
+  font-size: 1.5rem;
+  color: var(--accent);
+}
+
+.setupSteps p {
+  margin: 0;
+  line-height: 1.6;
+  color: var(--text);
+}
+
+.setupPanel code {
+  padding: 2px 6px;
+  border-radius: 6px;
+  background: var(--soft);
+  font-size: 0.82em;
+}
+
+.loading {
+  font-family: "Bride", Georgia, serif;
+  font-size: 1.6rem;
+}
+
+.dashboard {
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+  background: #fbf8f4;
+}
+
+.sidebar {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  padding: 34px 28px 28px;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(74, 58, 50, 0.09);
+  background: var(--ivory);
+}
+
+.adminLabel {
+  margin: 0;
+  font-family: "Bride", Georgia, serif;
+  font-size: 0.82rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(74, 58, 50, 0.5);
+}
+
+.nav {
+  margin-top: 56px;
+  display: grid;
+  gap: 4px;
+}
+
+.nav button,
+.sidebarBottom button,
+.sidebarBottom a {
+  width: 100%;
+  padding: 11px 0;
+  border: 0;
+  background: transparent;
+  color: rgba(47, 36, 29, 0.64);
+  font-family: "Bride", Georgia, serif;
+  font-size: 1.05rem;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nav button {
+  position: relative;
+  padding-left: 18px;
+}
+
+.nav button::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 50%;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent);
+  opacity: 0;
+  transform: translateY(-50%);
+}
+
+.nav .navActive {
+  color: var(--ink);
+}
+
+.nav .navActive::before {
+  opacity: 1;
+}
+
+.sidebarBottom {
+  margin-top: auto;
+  display: grid;
+  gap: 2px;
+}
+
+.sidebarBottom button,
+.sidebarBottom a {
+  font-size: 0.86rem;
+}
+
+.main {
+  min-width: 0;
+  padding: clamp(30px, 4vw, 64px);
+}
+
+.topbar {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 38px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.66rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: rgba(74, 58, 50, 0.48);
+}
+
+.topbar h1 {
+  font-size: clamp(2.7rem, 5vw, 4.8rem);
+  line-height: 0.98;
+}
+
+.account {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 0.76rem;
+  color: rgba(74, 58, 50, 0.54);
+}
+
+.notice,
+.noticeError {
+  margin-bottom: 28px;
+  padding: 14px 17px;
+  border: 1px solid rgba(168, 111, 93, 0.2);
+  border-radius: 12px;
+  background: rgba(247, 241, 234, 0.7);
+  font-size: 0.84rem;
+}
+
+.noticeError {
+  border-color: rgba(139, 61, 56, 0.22);
+  background: rgba(139, 61, 56, 0.055);
+}
+
+.overview {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.statCard,
+.editorCard,
+.reviewCard,
+.mediaCard,
+.welcomeCard,
+.emptyState {
+  border: 1px solid rgba(74, 58, 50, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.82);
+}
+
+.statCard {
+  padding: 24px;
+}
+
+.statCard > span {
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(74, 58, 50, 0.46);
+}
+
+.statCard strong {
+  display: block;
+  margin-top: 16px;
+  font-family: "Bride", Georgia, serif;
+  font-size: 3.4rem;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.statCard p {
+  margin: 14px 0 0;
+  font-size: 0.8rem;
+}
+
+.welcomeCard {
+  grid-column: 1 / -1;
+  margin-top: 8px;
+  padding: clamp(32px, 5vw, 64px);
+  background:
+    linear-gradient(105deg, rgba(247, 241, 234, 0.86), rgba(255, 255, 255, 0.92)),
+    white;
+}
+
+.welcomeCard h2 {
+  max-width: 760px;
+  font-size: clamp(2.4rem, 4vw, 4.2rem);
+  line-height: 1;
+}
+
+.welcomeCard > p:last-child {
+  max-width: 680px;
+  margin-bottom: 0;
+}
+
+.editorCard {
+  padding: clamp(24px, 3vw, 38px);
+}
+
+.cardHeading,
+.sectionActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 22px;
+}
+
+.cardHeading {
+  margin-bottom: 30px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.cardHeading h2,
+.mediaBody h2 {
+  font-size: 2.15rem;
+  line-height: 1;
+}
+
+.fieldBlock {
+  display: grid;
+  gap: 10px;
+}
+
+.fieldBlock > label {
+  font-family: "Bride", Georgia, serif;
+  font-size: 1.06rem;
+}
+
+.languageFields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+.languageFields > div {
+  display: grid;
+  gap: 7px;
+}
+
+.languageFields span,
+.reviewFormGrid label > span,
+.mediaBody label > span {
+  font-size: 0.64rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(74, 58, 50, 0.48);
+}
+
+.sectionActions {
+  padding: 18px 0;
+}
+
+.sectionActions p {
+  margin: 0;
+}
+
+.reviewList {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.reviewCard {
+  padding: 24px;
+}
+
+.reviewMeta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.64rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(74, 58, 50, 0.44);
+}
+
+.reviewCard blockquote {
+  min-height: 125px;
+  margin: 24px 0 22px;
+  font-family: "Bride", Georgia, serif;
+  font-size: 1.55rem;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.reviewCard strong {
+  font-family: "Bride", Georgia, serif;
+  font-weight: 400;
+}
+
+.reviewCard > p {
+  margin: 5px 0 0;
+  color: rgba(74, 58, 50, 0.6);
+  font-size: 0.78rem;
+}
+
+.reviewActions {
+  display: flex;
+  gap: 8px;
+  margin-top: 22px;
+}
+
+.reviewActions button {
+  padding: 8px 12px;
+  font-size: 0.78rem;
+}
+
+.reviewActions button:last-child {
+  color: #8b3d38;
+}
+
+.reviewFormGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+  margin-bottom: 22px;
+}
+
+.fullField,
+.checkboxLabel {
+  grid-column: 1 / -1;
+}
+
+.checkboxLabel {
+  display: flex !important;
+  grid-template-columns: none !important;
+  align-items: center;
+  gap: 10px !important;
+}
+
+.checkboxLabel input {
+  width: 18px;
+  height: 18px;
+}
+
+.emptyState {
+  padding: 34px;
+  color: rgba(74, 58, 50, 0.62);
+}
+
+.mediaGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.mediaCard {
+  overflow: hidden;
+}
+
+.mediaPreview {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--soft);
+}
+
+.mediaPreview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.mediaBody {
+  padding: 22px;
+  display: grid;
+  gap: 14px;
+}
+
+.fileLabel {
+  position: relative;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px dashed rgba(168, 111, 93, 0.45);
+  border-radius: 12px;
+  background: var(--ivory);
+  cursor: pointer;
+}
+
+.fileLabel input {
+  position: absolute;
+  width: 1px !important;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (max-width: 1080px) {
+  .overview,
+  .reviewList,
+  .mediaGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .statCard:last-of-type {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 760px) {
+  .dashboard {
+    display: block;
+  }
+
+  .sidebar {
+    position: sticky;
+    z-index: 20;
+    height: auto;
+    padding: 16px 18px;
+    border-right: 0;
+    border-bottom: 1px solid rgba(74, 58, 50, 0.09);
+  }
+
+  .sidebar > div:first-child {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .sidebar .script {
+    margin: 0;
+    font-size: 1.45rem;
+  }
+
+  .nav {
+    margin-top: 14px;
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
+  }
+
+  .nav button {
+    width: auto;
+    flex: 0 0 auto;
+    padding: 8px 13px;
+    border: 1px solid rgba(74, 58, 50, 0.1);
+    border-radius: 999px;
+    font-size: 0.88rem;
+  }
+
+  .nav button::before {
+    display: none;
+  }
+
+  .nav .navActive {
+    border-color: rgba(168, 111, 93, 0.5);
+    background: white;
+  }
+
+  .sidebarBottom {
+    display: none;
+  }
+
+  .main {
+    padding: 28px 18px 56px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+    margin-bottom: 28px;
+  }
+
+  .topbar h1 {
+    font-size: 2.7rem;
+  }
+
+  .overview,
+  .reviewList,
+  .mediaGrid,
+  .languageFields,
+  .reviewFormGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .statCard:last-of-type,
+  .fullField,
+  .checkboxLabel {
+    grid-column: auto;
+  }
+
+  .cardHeading,
+  .sectionActions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .cardHeading .primaryButton,
+  .sectionActions .primaryButton {
+    width: 100%;
+  }
+
+  .reviewCard blockquote {
+    min-height: 0;
+  }
+}
