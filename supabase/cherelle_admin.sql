@@ -115,10 +115,18 @@ using (
 );
 
 drop policy if exists "Published Cherelle reviews are public" on public.cherelle_reviews;
+drop policy if exists "Authenticated users can read Cherelle reviews" on public.cherelle_reviews;
+
 create policy "Published Cherelle reviews are public"
 on public.cherelle_reviews
 for select
-to anon, authenticated
+to anon
+using (is_published);
+
+create policy "Authenticated users can read Cherelle reviews"
+on public.cherelle_reviews
+for select
+to authenticated
 using (
   is_published
   or exists (
