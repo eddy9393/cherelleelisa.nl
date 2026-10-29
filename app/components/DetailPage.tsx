@@ -131,6 +131,7 @@ const pages = {
 
 export default function DetailPage({ page }: { page: DetailKey }) {
   const [language, setLanguage] = useState<Language>("nl");
+  const [menuOpen, setMenuOpen] = useState(false);
   const content = pages[page];
 
   useEffect(() => {
@@ -145,11 +146,11 @@ export default function DetailPage({ page }: { page: DetailKey }) {
 
   return (
     <main className="detailPage">
-      <header className="detailHeader">
-        <a className="detailBrand" href="/">CHERELLE ELISA</a>
+      <header className={`detailHeader ${menuOpen ? "menuOpen" : ""}`}>
+        <a className="detailBrand" href="/" onClick={() => setMenuOpen(false)}>CHERELLE ELISA</a>
         <nav className="detailNav" aria-label={language === "nl" ? "Hoofdnavigatie" : "Main navigation"}>
           {navItems.map((item) => (
-            <a key={item.href} href={item.href}>{item[language]}</a>
+            <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item[language]}</a>
           ))}
         </nav>
         <div className="detailLanguage" aria-label={language === "nl" ? "Taal kiezen" : "Choose language"}>
@@ -157,6 +158,16 @@ export default function DetailPage({ page }: { page: DetailKey }) {
           <span>/</span>
           <button type="button" className={language === "en" ? "isActive" : ""} onClick={() => setLanguage("en")}>EN</button>
         </div>
+        <button
+          className="detailMenuButton"
+          type="button"
+          aria-label={menuOpen ? (language === "nl" ? "Menu sluiten" : "Close menu") : (language === "nl" ? "Menu openen" : "Open menu")}
+          aria-expanded={menuOpen}
+          onClick={() => setMenuOpen((open) => !open)}
+        >
+          <span />
+          <span />
+        </button>
       </header>
 
       <section className="detailHero">
