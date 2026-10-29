@@ -1,7 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { FormEvent, useEffect, useState } from "react";
+import { Fragment, FormEvent, useEffect, useState } from "react";
+import {
+  CmsContentMap,
+  CmsMedia,
+  CmsReview,
+  DEFAULT_HOMEPAGE_CONTENT,
+  contentValue,
+  loadPublicCms,
+} from "../lib/cherelleCms";
 
 const instagramUrl = "https://www.instagram.com/cherelle_elisa_/";
 const contactEmail = "info@cherelleelisa.nl";
@@ -99,6 +107,9 @@ export default function Home() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [language, setLanguage] = useState<Language>("nl");
   const [headerScrolled, setHeaderScrolled] = useState(false);
+  const [cmsContent, setCmsContent] = useState<CmsContentMap>({ ...DEFAULT_HOMEPAGE_CONTENT });
+  const [cmsReviews, setCmsReviews] = useState<CmsReview[]>([]);
+  const [cmsMedia, setCmsMedia] = useState<Record<string, CmsMedia>>({});
 
   useEffect(() => {
     setIsUnlocked(window.localStorage.getItem(accessStorageKey) === "unlocked");
@@ -112,6 +123,19 @@ export default function Home() {
     window.localStorage.setItem(languageStorageKey, language);
     document.documentElement.lang = language;
   }, [language]);
+
+  useEffect(() => {
+    let active = true;
+    void loadPublicCms().then((data) => {
+      if (!active) return;
+      setCmsContent(data.content);
+      setCmsReviews(data.reviews);
+      setCmsMedia(data.media);
+    });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   useEffect(() => {
     const updateHeader = () => setHeaderScrolled(window.scrollY > 24);
@@ -143,6 +167,14 @@ export default function Home() {
 
     return () => observer.disconnect();
   }, [isUnlocked]);
+
+  const copy = (key: string) => contentValue(cmsContent, key, language);
+  const mediaSrc = (slot: string, fallback: string) => cmsMedia[slot]?.public_url || fallback;
+  const mediaAlt = (slot: string, fallback: string) => {
+    const item = cmsMedia[slot];
+    if (!item) return fallback;
+    return (language === "nl" ? item.alt_nl : item.alt_en) || fallback;
+  };
 
   function handleAccess(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -323,7 +355,7 @@ export default function Home() {
       <section id="top" className={`hero ${isUnlocked ? "heroUnlocked" : "heroLocked"}`}>
         <Image
           className={isUnlocked ? "heroBackdrop heroBackdropDesktopNew" : "heroBackdrop"}
-          src="/HeroCherelle.webp"
+          src={mediaSrc("hero", "/HeroCherelle.webp")}
           alt=""
           aria-hidden="true"
           fill
@@ -334,7 +366,7 @@ export default function Home() {
         {isUnlocked && (
           <Image
             className="heroBackdrop heroBackdropMobileOld"
-            src="/HeroCherelle.webp"
+            src={mediaSrc("hero", "/HeroCherelle.webp")}
             alt=""
             aria-hidden="true"
             fill
@@ -400,14 +432,10 @@ export default function Home() {
                 </span>
               </h1>
 
-              <p className="siteHeroSubtitle">
-                {language === "nl"
-                  ? "Voor de vrouw die alles draagt en zichzelf onderweg is kwijtgeraakt."
-                  : "For the woman who carries everything and lost herself along the way."}
-              </p>
+              <p className="siteHeroSubtitle">{copy("hero_subtitle")}</p>
 
               <a className="feminineWayButton" href="#herkenning">
-                <span>{language === "nl" ? "Herkenbaar?" : "Recognize this?"}</span>
+                <span>{copy("hero_cta")}</span>
                 <span aria-hidden="true">→</span>
               </a>
             </section>
@@ -473,36 +501,24 @@ export default function Home() {
       {isUnlocked && (
         <>
           <section className="cherelleQuoteBar" aria-label={language === "nl" ? "Quote van Cherelle" : "Quote by Cherelle"}>
-            <p>
-              {language === "nl"
-                ? "Van hoofd naar hart. Van doen naar zijn. Van controle naar overgave."
-                : "From head to heart. From doing to being. From control to surrender."}
-            </p>
+            <p>{copy("quote_bar")}</p>
             <span>— Cherelle Elisa</span>
           </section>
 
           <section id="herkenning" className="contentSection recognitionSection">
             <div className="sectionCopy recognitionCopy" data-reveal>
-              <p className="sectionKicker">{language === "nl" ? "Herkenning" : "Recognition"}</p>
-              <h2>{language === "nl" ? "Herken je dit?" : "Does this feel familiar?"}</h2>
-              <p>
-                {language === "nl"
-                  ? "Je staat altijd klaar, voor je werk, je gezin en iedereen om je heen. ’s Avonds lig je in bed en je hoofd blijft maar doorgaan. Je bent moe, al zo lang dat je bijna vergeten bent hoe het anders voelde. Van buiten ziet je leven er goed uit, en toch vraag je je soms af waarom jij dat geluk niet voelt."
-                  : "You are always there for your work, your family and everyone around you. At night you lie in bed while your mind keeps going. You are tired, for so long that you have almost forgotten what it felt like to feel different. From the outside your life looks good, yet sometimes you wonder why you do not feel that happiness."}
-              </p>
-              <p className="sectionEmphasis">
-                {language === "nl"
-                  ? "Er is niets mis met je. Je hebt alleen heel lang gezocht op een plek waar het niet te vinden is."
-                  : "There is nothing wrong with you. You have simply been searching for a long time in a place where it cannot be found."}
-              </p>
+              <p className="sectionKicker">{copy("recognition_kicker")}</p>
+              <h2>{copy("recognition_title")}</h2>
+              <p>{copy("recognition_body")}</p>
+              <p className="sectionEmphasis">{copy("recognition_emphasis")}</p>
               <a className="sectionLink sectionPageLink" href="/herkenning">
-                {language === "nl" ? "Lees verder over herkenning" : "Read more about recognition"} <span aria-hidden="true">→</span>
+                {copy("recognition_cta")} <span aria-hidden="true">→</span>
               </a>
             </div>
             <div className="recognitionImageWrap" data-reveal>
               <Image
-                src="/Herkenning.jpg"
-                alt="Cherelle in een rustig moment"
+                src={mediaSrc("recognition", "/Herkenning.jpg")}
+                alt={mediaAlt("recognition", "Cherelle in een rustig moment")}
                 fill
                 sizes="(max-width: 900px) 100vw, 48vw"
                 quality={82}
@@ -514,8 +530,8 @@ export default function Home() {
           <section id="mogelijkheden" className="possibilitySection">
             <div className="possibilityImageWrap" data-reveal>
               <Image
-                src="/Thuiskomen.jpg"
-                alt="Cherelle tijdens een moment van rust en verbinding"
+                src={mediaSrc("homecoming", "/Thuiskomen.jpg")}
+                alt={mediaAlt("homecoming", "Cherelle tijdens een moment van rust en verbinding")}
                 fill
                 sizes="(max-width: 900px) 100vw, 48vw"
                 quality={82}
@@ -524,38 +540,27 @@ export default function Home() {
             </div>
 
             <div className="sectionCopy possibilityCopy" data-reveal>
-              <p className="sectionKicker">{language === "nl" ? "Wat er mogelijk is" : "What becomes possible"}</p>
-              <h2>{language === "nl" ? "Thuiskomen in je lichaam" : "Coming home to your body"}</h2>
-              <p>
-                {language === "nl"
-                  ? "Stel je voor dat je weer voelt wat je nodig hebt, en daar ook naar durft te handelen. Dat je nee kunt zeggen zonder schuldgevoel en hulp kunt aannemen zonder dat het ongemakkelijk voelt. Dat je rust neemt omdat je moe bent, en dat er weer ruimte is voor plezier, sensualiteit en vrijheid."
-                  : "Imagine feeling what you need again, and daring to act on it. Saying no without guilt and accepting help without discomfort. Resting because you are tired, while making space again for pleasure, sensuality and freedom."}
-              </p>
+              <p className="sectionKicker">{copy("homecoming_kicker")}</p>
+              <h2>{copy("homecoming_title")}</h2>
+              <p>{copy("homecoming_body")}</p>
               <p className="sectionManifesto">
-                {language === "nl" ? (
-                  <>
-                    Van hoofd naar hart.<br />
-                    Van doen naar zijn.<br />
-                    Van controle naar overgave.
-                  </>
-                ) : (
-                  <>
-                    From head to heart.<br />
-                    From doing to being.<br />
-                    From control to surrender.
-                  </>
-                )}
+                {copy("homecoming_manifesto").split("\n").map((line, index, lines) => (
+                  <Fragment key={`${line}-${index}`}>
+                    {line}
+                    {index < lines.length - 1 && <br />}
+                  </Fragment>
+                ))}
               </p>
               <a className="sectionLink sectionPageLink" href="/thuiskomen">
-                {language === "nl" ? "Ontdek wat thuiskomen betekent" : "Discover what coming home means"} <span aria-hidden="true">→</span>
+                {copy("homecoming_cta")} <span aria-hidden="true">→</span>
               </a>
             </div>
           </section>
 
           <section id="begeleiding" className="offersSection">
             <div className="offersIntro" data-reveal>
-              <p className="sectionKicker">{language === "nl" ? "Zo kan ik je begeleiden" : "How I can support you"}</p>
-              <h2>{language === "nl" ? "Een vorm die past bij waar jij nu bent." : "A form of support that meets you where you are."}</h2>
+              <p className="sectionKicker">{copy("guidance_kicker")}</p>
+              <h2>{copy("guidance_title")}</h2>
             </div>
 
             <div className="mobileSwipeHint" aria-hidden="true">
@@ -568,19 +573,15 @@ export default function Home() {
               <article className="offerRow" data-reveal>
                 <div className="offerText">
                   <span className="offerNumber">01</span>
-                  <h3>The Feminine Way</h3>
-                  <p>
-                    {language === "nl"
-                      ? "Een persoonlijk traject van zes maanden waarin je stap voor stap terugkomt in je lichaam en weer leert leven vanuit je vrouwelijke energie. Volledig afgestemd op jou en in jouw tempo. Veel vrouwen merken dat ze na dit traject rustiger zijn, beter voelen wat ze nodig hebben en weer kunnen ontvangen."
-                      : "A personal six-month journey in which you gradually return to your body and learn to live from your feminine energy again. Fully tailored to you and at your pace. Many women notice they feel calmer, sense what they need more clearly and are able to receive again."}
-                  </p>
+                  <h3>{copy("guidance_1_title")}</h3>
+                  <p>{copy("guidance_1_body")}</p>
                   <a className="sectionLink" href="/begeleiding#the-feminine-way">
-                    {language === "nl" ? "Lees meer" : "Read more"} <span aria-hidden="true">→</span>
+                    {copy("guidance_1_cta")} <span aria-hidden="true">→</span>
                   </a>
                 </div>
                 <div className="offerImageWrap">
                   <Image
-                    src="/feminine.jpg"
+                    src={mediaSrc("guidance_feminine", "/feminine.jpg")}
                     alt="The Feminine Way"
                     fill
                     sizes="(max-width: 900px) 100vw, 31vw"
@@ -596,19 +597,15 @@ export default function Home() {
               <article className="offerRow" data-reveal>
                 <div className="offerText">
                   <span className="offerNumber">02</span>
-                  <h3>1-op-1 sessie</h3>
-                  <p>
-                    {language === "nl"
-                      ? "Een sessie van ongeveer anderhalf uur waarin we samen werken met wat er op dat moment in jou leeft. Ook mogelijk samen met je partner, vriendin of moeder."
-                      : "A session of around ninety minutes in which we work together with whatever is alive in you at that moment. Also possible together with your partner, a friend or your mother."}
-                  </p>
+                  <h3>{copy("guidance_2_title")}</h3>
+                  <p>{copy("guidance_2_body")}</p>
                   <a className="sectionLink" href="/begeleiding#een-op-een">
-                    {language === "nl" ? "Bekijk sessies" : "View sessions"} <span aria-hidden="true">→</span>
+                    {copy("guidance_2_cta")} <span aria-hidden="true">→</span>
                   </a>
                 </div>
                 <div className="offerImageWrap">
                   <Image
-                    src="/1-op-1.jpg"
+                    src={mediaSrc("guidance_1to1", "/1-op-1.jpg")}
                     alt="1-op-1 sessie met Cherelle"
                     fill
                     sizes="(max-width: 900px) 100vw, 31vw"
@@ -624,19 +621,15 @@ export default function Home() {
               <article className="offerRow" data-reveal>
                 <div className="offerText">
                   <span className="offerNumber">03</span>
-                  <h3>Ceremonies</h3>
-                  <p>
-                    {language === "nl"
-                      ? "Samen met andere vrouwen ruimte maken om te voelen, los te laten en te verbinden."
-                      : "Creating space with other women to feel, let go and connect."}
-                  </p>
+                  <h3>{copy("guidance_3_title")}</h3>
+                  <p>{copy("guidance_3_body")}</p>
                   <a className="sectionLink" href="/begeleiding#ceremonies">
-                    {language === "nl" ? "Bekijk ceremonies" : "View ceremonies"} <span aria-hidden="true">→</span>
+                    {copy("guidance_3_cta")} <span aria-hidden="true">→</span>
                   </a>
                 </div>
                 <div className="offerImageWrap">
                   <Image
-                    src="/ceremonies.jpg"
+                    src={mediaSrc("guidance_ceremonies", "/ceremonies.jpg")}
                     alt="Ceremonie voor vrouwen"
                     fill
                     sizes="(max-width: 900px) 100vw, 31vw"
@@ -655,8 +648,8 @@ export default function Home() {
             <div className="methodEditorialVisual" data-reveal>
               <div className="methodEditorialImageWrap">
                 <Image
-                  src="/Werkwijze.png"
-                  alt={language === "nl" ? "Cherelle in een warme, natuurlijke omgeving" : "Cherelle in a warm, natural setting"}
+                  src={mediaSrc("approach", "/Werkwijze.png")}
+                  alt={mediaAlt("approach", language === "nl" ? "Cherelle in een warme, natuurlijke omgeving" : "Cherelle in a warm, natural setting")}
                   width={1365}
                   height={2048}
                   sizes="(max-width: 900px) 100vw, 46vw"
@@ -668,29 +661,17 @@ export default function Home() {
             </div>
 
             <div className="methodEditorialCopy" data-reveal>
-              <p className="sectionKicker">{language === "nl" ? "Mijn manier van werken" : "My approach"}</p>
+              <p className="sectionKicker">{copy("approach_kicker")}</p>
 
               <div className="methodEditorialText">
-                <p className="methodLead methodLeadPrimary">
-                  {language === "nl"
-                    ? "We werken altijd in jouw tempo. Soms raken we diepe lagen aan, zoals oude patronen of wat je van thuis hebt meegekregen. Daar ga ik zorgvuldig mee om, zodat het veilig voelt en je niets hoeft te forceren."
-                    : "We always work at your pace. Sometimes we touch deeper layers, such as old patterns or things you learned at home. I approach those carefully, so it feels safe and nothing needs to be forced."}
-                </p>
+                <p className="methodLead methodLeadPrimary">{copy("approach_body")}</p>
 
-                <p className="methodLead methodLeadSecondary">
-                  {language === "nl"
-                    ? "Jij bepaalt waar je naartoe wilt, ik loop met je mee en hou je vast als het spannend wordt."
-                    : "You decide where you want to go. I walk beside you and support you when it feels vulnerable."}
-                </p>
+                <p className="methodLead methodLeadSecondary">{copy("approach_emphasis")}</p>
 
-                <p className="methodNote">
-                  {language === "nl"
-                    ? "Mijn begeleiding is geen vervanging van therapie of medische zorg. Twijfel je of dit bij je past? Dan bespreken we dat gewoon samen."
-                    : "My guidance is not a replacement for therapy or medical care. Unsure whether this is right for you? We can simply discuss that together."}
-                </p>
+                <p className="methodNote">{copy("approach_note")}</p>
 
                 <a className="sectionLink methodPageLink" href="/werkwijze">
-                  {language === "nl" ? "Lees meer over mijn werkwijze" : "Read more about my approach"} <span aria-hidden="true">→</span>
+                  {copy("approach_cta")} <span aria-hidden="true">→</span>
                 </a>
               </div>
             </div>
@@ -698,29 +679,43 @@ export default function Home() {
 
           <section id="ervaringen" className="testimonialsSection">
             <div className="testimonialsHeading" data-reveal>
-              <p className="sectionKicker">{language === "nl" ? "Ervaringen" : "Experiences"}</p>
-              <h2>{language === "nl" ? "Wat vrouwen zeggen" : "What women say"}</h2>
+              <p className="sectionKicker">{copy("reviews_kicker")}</p>
+              <h2>{copy("reviews_title")}</h2>
             </div>
 
             <div className="testimonialsGrid" aria-label="Ruimte voor ervaringen">
-              {[1, 2, 3].map((item) => (
-                <article className="testimonialSlot" key={item} data-reveal>
-                  <span>{language === "nl" ? `Ervaring 0${item}` : `Experience 0${item}`}</span>
-                  <p>
-                    {language === "nl"
-                      ? "Ruimte voor haar ervaring, in haar eigen woorden."
-                      : "Space for her experience, in her own words."}
-                  </p>
-                </article>
-              ))}
+              {(cmsReviews.length > 0 ? cmsReviews : [1, 2, 3]).map((item, index) => {
+                if (typeof item === "number") {
+                  return (
+                    <article className="testimonialSlot" key={item} data-reveal>
+                      <span>{language === "nl" ? `Ervaring 0${item}` : `Experience 0${item}`}</span>
+                      <p>
+                        {language === "nl"
+                          ? "Ruimte voor haar ervaring, in haar eigen woorden."
+                          : "Space for her experience, in her own words."}
+                      </p>
+                    </article>
+                  );
+                }
+
+                const role = language === "nl" ? item.role_nl : item.role_en;
+                const quote = language === "nl" ? item.quote_nl : item.quote_en;
+                return (
+                  <article className="testimonialSlot" key={item.id} data-reveal>
+                    <span>{role || item.name || `0${index + 1}`}</span>
+                    <p>“{quote || item.quote_nl}”</p>
+                    <small className="testimonialName">{item.name}</small>
+                  </article>
+                );
+              })}
             </div>
           </section>
 
           <section id="over-mij" className="contentSection sectionSplit aboutSection">
             <div className="aboutImageWrap" data-reveal>
               <Image
-                src="/Overmij.webp"
-                alt="Cherelle ontspannen op een lichte loungebank"
+                src={mediaSrc("about", "/Overmij.webp")}
+                alt={mediaAlt("about", "Cherelle ontspannen op een lichte loungebank")}
                 fill
                 sizes="(max-width: 1000px) 100vw, 48vw"
                 quality={82}
@@ -729,20 +724,12 @@ export default function Home() {
               <span className="aboutImageAccent">Cherelle</span>
             </div>
             <div className="sectionCopy" data-reveal>
-              <p className="sectionKicker">{language === "nl" ? "Over mij" : "About me"}</p>
-              <h2>{language === "nl" ? "Ik ben Cherelle" : "I’m Cherelle"}</h2>
-              <p>
-                {language === "nl"
-                  ? "Ik ken dit van binnenuit. Jarenlang deed ik alles goed: harder werken, meer leren, er altijd voor anderen zijn. En toch bleef het van binnen leeg. Op een reis naar Egypte voelde ik voor het eerst hoe het is om gewoon te zijn, vrij en in het moment."
-                  : "I know this from the inside. For years I did everything right: working harder, learning more and always being there for others. Yet inside it still felt empty. During a journey to Egypt I felt for the first time what it is like to simply be, free and present."}
-              </p>
-              <p>
-                {language === "nl"
-                  ? "Sindsdien begeleid ik vrouwen terug naar zichzelf. Inmiddels zijn dat er zo’n 500, en organiseerde ik ongeveer 15 ceremonies."
-                  : "Since then I have guided women back to themselves. By now that is around 500 women, and I have organised about 15 ceremonies."}
-              </p>
+              <p className="sectionKicker">{copy("about_kicker")}</p>
+              <h2>{copy("about_title")}</h2>
+              <p>{copy("about_body_1")}</p>
+              <p>{copy("about_body_2")}</p>
               <a className="sectionLink sectionLinkLarge" href="/over-mij">
-                {language === "nl" ? "Lees mijn verhaal" : "Read my story"} <span aria-hidden="true">→</span>
+                {copy("about_cta")} <span aria-hidden="true">→</span>
               </a>
             </div>
           </section>
@@ -750,8 +737,8 @@ export default function Home() {
           <section id="uitnodiging" className="invitationSection">
             <div className="invitationImageWrap" data-reveal>
               <Image
-                src="/Uitnodiging.webp"
-                alt={language === "nl" ? "Cherelle in een warm en uitnodigend moment" : "Cherelle in a warm and inviting moment"}
+                src={mediaSrc("invitation", "/Uitnodiging.webp")}
+                alt={mediaAlt("invitation", language === "nl" ? "Cherelle in een warm en uitnodigend moment" : "Cherelle in a warm and inviting moment")}
                 fill
                 sizes="(max-width: 1000px) 100vw, 48vw"
                 quality={82}
@@ -760,13 +747,9 @@ export default function Home() {
             </div>
 
             <div className="invitationCopy" data-reveal>
-              <p className="sectionKicker">{language === "nl" ? "Uitnodiging" : "Invitation"}</p>
-              <h2>{language === "nl" ? "Voel je dat het tijd is?" : "Do you feel it is time?"}</h2>
-              <p>
-                {language === "nl"
-                  ? "Plan een vrijblijvend kennismakingsgesprek. We kijken samen waar je nu staat en wat bij je past. Je mag ook gewoon een berichtje sturen."
-                  : "Plan a no-obligation introductory conversation. Together we will look at where you are now and what suits you. You are also welcome to simply send a message."}
-              </p>
+              <p className="sectionKicker">{copy("invitation_kicker")}</p>
+              <h2>{copy("invitation_title")}</h2>
+              <p>{copy("invitation_body")}</p>
 
               <form className="contactForm" onSubmit={handleContactSubmit}>
                 <div className="contactFormRow">
