@@ -13,6 +13,7 @@ import {
   isCmsConfigured,
   loadAdminCms,
   loginCms,
+  signupCms,
   MEDIA_SLOTS,
   saveContentGroup,
   saveReview,
@@ -92,7 +93,7 @@ export default function CherelleAdminPage() {
   const [reviews, setReviews] = useState<CmsReview[]>([]);
   const [media, setMedia] = useState<Record<string, CmsMedia>>({});
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState("info@cherelleelisa.nl");
   const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -167,6 +168,39 @@ export default function CherelleAdminPage() {
       await reload(nextSession);
     } catch (loginError) {
       setError(loginError instanceof Error ? loginError.message : "Inloggen is mislukt.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  async function handleActivation() {
+    const normalizedEmail = email.trim().toLowerCase();
+
+    if (normalizedEmail !== "info@cherelleelisa.nl") {
+      setError("Alleen info@cherelleelisa.nl kan als beheerder worden geactiveerd.");
+      return;
+    }
+
+    if (password.length < 8) {
+      setError("Gebruik minimaal 8 tekens voor het wachtwoord.");
+      return;
+    }
+
+    setBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await signupCms(normalizedEmail, password);
+      setMessage(
+        "Account is aangevraagd. Controleer info@cherelleelisa.nl en bevestig de Supabase-mail. Daarna kun je hier direct inloggen."
+      );
+    } catch (activationError) {
+      setError(
+        activationError instanceof Error
+          ? activationError.message
+          : "Account activeren is mislukt."
+      );
     } finally {
       setBusy(false);
     }
@@ -343,9 +377,18 @@ export default function CherelleAdminPage() {
                 required
               />
             </label>
+            {message && <div className={styles.notice}>{message}</div>}
             {error && <p className={styles.error}>{error}</p>}
             <button className={styles.primaryButton} type="submit" disabled={busy}>
               {busy ? "Inloggen…" : "Inloggen"}
+            </button>
+            <button
+              className={styles.secondaryButton}
+              type="button"
+              disabled={busy}
+              onClick={() => void handleActivation()}
+            >
+              Eerste keer? Account activeren
             </button>
           </form>
         </section>
