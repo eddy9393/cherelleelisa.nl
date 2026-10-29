@@ -193,7 +193,7 @@ export default function CherelleAdminPage() {
     try {
       await signupCms(normalizedEmail, password);
       setMessage(
-        "Account is aangevraagd. Controleer info@cherelleelisa.nl en bevestig de Supabase-mail. Daarna kun je hier direct inloggen."
+        "Account is aangemaakt. Controleer info@cherelleelisa.nl en bevestig de Supabase-mail. Keer daarna terug naar /admin en log in."
       );
     } catch (activationError) {
       setError(
