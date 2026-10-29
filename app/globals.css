@@ -6172,3 +6172,98 @@ body,
     min-width: 27px !important;
   }
 }
+
+
+/* 2026-10-29 mobile full-bleed Begeleiding carousel */
+.mobileSwipeHint {
+  display: none;
+}
+
+@media (max-width: 900px) {
+  #begeleiding.offersSection {
+    overflow: hidden;
+  }
+
+  #begeleiding .mobileSwipeHint {
+    width: 100%;
+    margin: -24px 0 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(74, 58, 50, 0.5);
+  }
+
+  #begeleiding .mobileSwipeHint span:first-child,
+  #begeleiding .mobileSwipeHint span:last-child {
+    font-size: 0.9rem;
+    color: rgba(168, 111, 93, 0.72);
+  }
+
+  #begeleiding .offerList {
+    display: grid !important;
+    grid-auto-flow: column;
+    grid-auto-columns: 100vw !important;
+    grid-template-columns: none !important;
+    gap: 0 !important;
+    width: 100vw !important;
+    margin-left: -20px !important;
+    margin-right: -20px !important;
+    padding: 0 !important;
+    overflow-x: auto;
+    overflow-y: visible;
+    scroll-snap-type: x mandatory;
+    scroll-padding-left: 0;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  #begeleiding .offerList::-webkit-scrollbar {
+    display: none;
+  }
+
+  #begeleiding .offerRow {
+    width: 100vw !important;
+    min-width: 100vw !important;
+    max-width: 100vw !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    gap: 22px !important;
+    scroll-snap-align: start;
+    scroll-snap-stop: always;
+    overflow: hidden;
+  }
+
+  #begeleiding .offerText {
+    width: 100%;
+    min-height: 300px;
+    padding: 0 20px !important;
+    box-sizing: border-box;
+  }
+
+  #begeleiding .offerImageWrap {
+    width: 100vw !important;
+    max-width: none !important;
+    min-height: 0 !important;
+    aspect-ratio: 4 / 5 !important;
+    margin: 0 !important;
+    border-radius: 0 !important;
+  }
+
+  #begeleiding .offerImage {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    border-radius: 0 !important;
+  }
+}
+
+@media (max-width: 520px) {
+  #begeleiding .offerList {
+    grid-auto-columns: 100vw !important;
+  }
+}
