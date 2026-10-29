@@ -6267,3 +6267,15 @@ body,
     grid-auto-columns: 100vw !important;
   }
 }
+
+
+/* CMS-backed testimonial author */
+.testimonialName {
+  display: block;
+  margin-top: 18px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.76rem;
+  line-height: 1.4;
+  letter-spacing: 0.04em;
+  color: rgba(74, 58, 50, 0.58);
+}
