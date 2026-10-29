@@ -166,7 +166,7 @@ export const CONTENT_GROUPS = [
   {
     id: "hero",
     title: "Hero",
-    fields: ["hero_sentence_1", "hero_sentence_2", "hero_subtitle", "hero_cta"],
+    fields: ["hero_subtitle", "hero_cta", "quote_bar"],
   },
   {
     id: "recognition",
