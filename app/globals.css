@@ -6279,3 +6279,14 @@ body,
   letter-spacing: 0.04em;
   color: rgba(74, 58, 50, 0.58);
 }
+
+
+/* 2026-11-10 final Herkenning cleanup */
+#herkenning .recognitionCopy::after,
+#herkenning.recognitionSection::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  opacity: 0 !important;
+}
