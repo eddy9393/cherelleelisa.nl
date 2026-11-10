@@ -629,7 +629,7 @@ export default function Home() {
                 </div>
                 <div className="offerImageWrap">
                   <Image
-                    src={mediaSrc("guidance_ceremonies", "/ceremonies.jpg")}
+                    src={mediaSrc("guidance_ceremonies", "/ceremonies.webp")}
                     alt="Ceremonie voor vrouwen"
                     fill
                     sizes="(max-width: 900px) 100vw, 31vw"
