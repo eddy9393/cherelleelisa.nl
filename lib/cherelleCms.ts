@@ -140,7 +140,7 @@ export const DEFAULT_HOMEPAGE_CONTENT: CmsContentMap = {
   reviews_title: { nl: "Wat vrouwen zeggen", en: "What women say" },
 
   about_kicker: { nl: "Over mij", en: "About me" },
-  about_title: { nl: "Ik ben Cherelle", en: "I’m Cherelle" },
+  about_title: { nl: "Ik ben Cherelle Elisa", en: "I’m Cherelle Elisa" },
   about_body_1: {
     nl: "Ik ken dit van binnenuit. Jarenlang deed ik alles goed: harder werken, meer leren, er altijd voor anderen zijn. En toch bleef het van binnen leeg. Op een reis naar Egypte voelde ik voor het eerst hoe het is om gewoon te zijn, vrij en in het moment.",
     en: "I know this from the inside. For years I did everything right: working harder, learning more and always being there for others. Yet inside it still felt empty. During a journey to Egypt I felt for the first time what it is like to simply be, free and present.",
