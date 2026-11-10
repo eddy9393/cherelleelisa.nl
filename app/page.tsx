@@ -721,7 +721,7 @@ export default function Home() {
                 quality={82}
                 className="aboutImage"
               />
-              <span className="aboutImageAccent">Cherelle</span>
+              <span className="aboutImageAccent">Cherelle Elisa</span>
             </div>
             <div className="sectionCopy" data-reveal>
               <p className="sectionKicker">{copy("about_kicker")}</p>
