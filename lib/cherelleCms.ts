@@ -216,7 +216,7 @@ export const MEDIA_SLOTS = [
   { slot: "homecoming", label: "Thuiskomen", fallback: "/Thuiskomen.jpg" },
   { slot: "guidance_feminine", label: "The Feminine Way", fallback: "/feminine.jpg" },
   { slot: "guidance_1to1", label: "1-op-1 sessie", fallback: "/1-op-1.jpg" },
-  { slot: "guidance_ceremonies", label: "Ceremonies", fallback: "/ceremonies.jpg" },
+  { slot: "guidance_ceremonies", label: "Ceremonies", fallback: "/ceremonies.webp" },
   { slot: "approach", label: "Werkwijze", fallback: "/Werkwijze.png" },
   { slot: "about", label: "Over mij", fallback: "/Overmij.webp" },
   { slot: "invitation", label: "Uitnodiging", fallback: "/Uitnodiging.webp" },
