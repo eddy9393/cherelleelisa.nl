@@ -6577,3 +6577,32 @@ body,
   background: #ffffff !important;
   color: var(--ce-hero-ivory) !important;
 }
+
+
+/* 2026-11-11 organic homepage image shapes, matching section transitions */
+#begeleiding .offerImageWrap,
+#werkwijze .methodEditorialImageWrap,
+#over-mij .aboutImageWrap,
+#uitnodiging .invitationImageWrap {
+  overflow: hidden !important;
+  border-radius: 18% 5% 16% 7% / 7% 16% 6% 14% !important;
+  clip-path: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+#begeleiding .offerImage,
+#werkwijze .methodEditorialImage,
+#over-mij .aboutImage,
+#uitnodiging .invitationImage {
+  border-radius: 0 !important;
+}
+
+@media (max-width: 900px) {
+  #begeleiding .offerImageWrap,
+  #werkwijze .methodEditorialImageWrap,
+  #over-mij .aboutImageWrap,
+  #uitnodiging .invitationImageWrap {
+    border-radius: 14% 4% 13% 5% / 5% 12% 5% 10% !important;
+  }
+}
