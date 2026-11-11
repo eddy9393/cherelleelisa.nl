@@ -662,7 +662,6 @@ export default function Home() {
                   quality={88}
                   className="methodEditorialImage"
                 />
-                <div className="methodEditorialImageFade" aria-hidden="true" />
               </div>
             </div>
 
