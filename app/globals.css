@@ -6468,3 +6468,10 @@ body,
     margin-top: 4px;
   }
 }
+
+
+/* 2026-11-11 organic divider between Begeleiding and Werkwijze */
+.creativeSectionDividerMethod {
+  color: #f4eee8;
+  background: #f8f4f0;
+}
