@@ -6433,3 +6433,9 @@ body,
     display: none !important;
   }
 }
+
+
+/* 2026-11-11 extra breathing room between Thuiskomen and Begeleiding */
+#begeleiding.offersSection {
+  margin-top: clamp(18px, 2vw, 28px) !important;
+}
