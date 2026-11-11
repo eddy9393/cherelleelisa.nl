@@ -6435,7 +6435,36 @@ body,
 }
 
 
-/* 2026-11-11 extra breathing room between Thuiskomen and Begeleiding */
+
+
+/* 2026-11-11 organic divider between Thuiskomen and Begeleiding */
+.creativeSectionDivider {
+  position: relative;
+  z-index: 20;
+  width: 100%;
+  height: clamp(70px, 8vw, 120px);
+  margin-top: clamp(8px, 1vw, 16px);
+  margin-bottom: -2px;
+  color: #f8f4f0;
+  background: var(--ce-white);
+  line-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.creativeSectionDivider svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 #begeleiding.offersSection {
-  margin-top: clamp(18px, 2vw, 28px) !important;
+  margin-top: 0 !important;
+}
+
+@media (max-width: 900px) {
+  .creativeSectionDivider {
+    height: clamp(52px, 15vw, 88px);
+    margin-top: 4px;
+  }
 }
