@@ -6492,3 +6492,20 @@ body,
 #werkwijze.methodSectionEditorial {
   margin-top: 0 !important;
 }
+
+
+/* 2026-11-11 direct color-to-color transition: Ervaringen -> Over mij */
+.creativeSectionDividerAbout {
+  margin-top: 0 !important;
+  margin-bottom: -2px !important;
+  background: #f7f2eb !important;
+  color: #f1e7dc !important;
+}
+
+#ervaringen.testimonialsSection {
+  margin-bottom: 0 !important;
+}
+
+#over-mij.aboutSection {
+  margin-top: 0 !important;
+}
