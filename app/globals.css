@@ -6475,3 +6475,20 @@ body,
   color: #f4eee8;
   background: #f8f4f0;
 }
+
+
+/* 2026-11-11 direct color-to-color transition: Begeleiding -> Werkwijze */
+.creativeSectionDividerMethod {
+  margin-top: 0 !important;
+  margin-bottom: -2px !important;
+  background: #f8f4f0 !important;
+  color: #f4eee8 !important;
+}
+
+#begeleiding.offersSection {
+  margin-bottom: 0 !important;
+}
+
+#werkwijze.methodSectionEditorial {
+  margin-top: 0 !important;
+}
