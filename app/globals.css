@@ -6553,3 +6553,15 @@ body,
 #uitnodiging.invitationSection {
   margin-top: 0 !important;
 }
+
+
+/* 2026-11-11 exact active section colors for homepage transitions */
+.creativeSectionDividerExperiences {
+  background: #f4eee8 !important;
+  color: #f7f1ea !important;
+}
+
+.creativeSectionDividerInvitation {
+  background: #ffffff !important;
+  color: #f7f1ea !important;
+}
