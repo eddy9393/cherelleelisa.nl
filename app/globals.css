@@ -6509,3 +6509,14 @@ body,
 #over-mij.aboutSection {
   margin-top: 0 !important;
 }
+
+
+/* 2026-11-11 correction: Ervaringen -> white Over mij */
+.creativeSectionDividerAbout {
+  background: #f7f2eb !important;
+  color: #ffffff !important;
+}
+
+#over-mij.aboutSection {
+  background: #ffffff !important;
+}
