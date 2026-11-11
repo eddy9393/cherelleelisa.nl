@@ -6565,3 +6565,15 @@ body,
   background: #ffffff !important;
   color: #f7f1ea !important;
 }
+
+
+/* 2026-11-11 preserve original Uitnodiging background */
+#uitnodiging.invitationSection,
+#uitnodiging .invitationCopy {
+  background: var(--ce-hero-ivory) !important;
+}
+
+.creativeSectionDividerInvitation {
+  background: #ffffff !important;
+  color: var(--ce-hero-ivory) !important;
+}
