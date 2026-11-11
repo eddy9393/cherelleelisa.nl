@@ -237,7 +237,6 @@ export default function Home() {
       phone: String(form.get("phone") ?? ""),
       interest: String(form.get("interest") ?? ""),
       message: String(form.get("message") ?? ""),
-      company: String(form.get("company") ?? ""),
       language,
     };
 
@@ -759,10 +758,6 @@ export default function Home() {
               <p>{copy("invitation_body")}</p>
 
               <form className="contactForm" onSubmit={handleContactSubmit}>
-                <label className="contactHoneypot" aria-hidden="true">
-                  <span>Company</span>
-                  <input type="text" name="company" tabIndex={-1} autoComplete="off" />
-                </label>
                 <div className="contactFormRow">
                   <label>
                     <span>{language === "nl" ? "Naam" : "Name"}</span>
