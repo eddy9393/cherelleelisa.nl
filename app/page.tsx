@@ -110,6 +110,7 @@ export default function Home() {
   const [cmsContent, setCmsContent] = useState<CmsContentMap>({ ...DEFAULT_HOMEPAGE_CONTENT });
   const [cmsReviews, setCmsReviews] = useState<CmsReview[]>([]);
   const [cmsMedia, setCmsMedia] = useState<Record<string, CmsMedia>>({});
+  const [contactStatus, setContactStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
   useEffect(() => {
     setIsUnlocked(window.localStorage.getItem(accessStorageKey) === "unlocked");
@@ -222,38 +223,44 @@ export default function Home() {
     );
   }
 
-  function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleContactSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
-    const form = new FormData(event.currentTarget);
-    const name = String(form.get("name") ?? "");
-    const email = String(form.get("email") ?? "");
-    const phone = String(form.get("phone") ?? "");
-    const interest = String(form.get("interest") ?? "");
-    const message = String(form.get("message") ?? "");
+    if (contactStatus === "sending") return;
 
-    const subject = encodeURIComponent(
-      language === "nl"
-        ? `Kennismaking via cherelleelisa.nl — ${interest || "algemene vraag"}`
-        : `Introduction via cherelleelisa.nl — ${interest || "general question"}`
-    );
-    const body = encodeURIComponent(
-      [
-        language === "nl" ? `Naam: ${name}` : `Name: ${name}`,
-        `E-mail: ${email}`,
-        phone ? (language === "nl" ? `Telefoon: ${phone}` : `Phone: ${phone}`) : "",
-        language === "nl" ? `Interesse: ${interest}` : `Interest: ${interest}`,
-        "",
-        language === "nl"
-          ? "Waar ik nu sta / waar ik naar verlang:"
-          : "Where I am now / what I long for:",
-        message,
-      ]
-        .filter(Boolean)
-        .join("\n")
-    );
+    const formElement = event.currentTarget;
+    const form = new FormData(formElement);
 
-    window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
+    const payload = {
+      name: String(form.get("name") ?? ""),
+      email: String(form.get("email") ?? ""),
+      phone: String(form.get("phone") ?? ""),
+      interest: String(form.get("interest") ?? ""),
+      message: String(form.get("message") ?? ""),
+      company: String(form.get("company") ?? ""),
+      language,
+    };
+
+    setContactStatus("sending");
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      const result = await response.json().catch(() => null);
+
+      if (!response.ok || !result?.ok) {
+        throw new Error(result?.error || "Send failed");
+      }
+
+      formElement.reset();
+      setContactStatus("success");
+    } catch {
+      setContactStatus("error");
+    }
   }
 
   return (
@@ -752,6 +759,10 @@ export default function Home() {
               <p>{copy("invitation_body")}</p>
 
               <form className="contactForm" onSubmit={handleContactSubmit}>
+                <label className="contactHoneypot" aria-hidden="true">
+                  <span>Company</span>
+                  <input type="text" name="company" tabIndex={-1} autoComplete="off" />
+                </label>
                 <div className="contactFormRow">
                   <label>
                     <span>{language === "nl" ? "Naam" : "Name"}</span>
@@ -794,10 +805,32 @@ export default function Home() {
                 </label>
 
                 <div className="contactFormFooter">
-                  <button className="contactSubmit" type="submit">
-                    {language === "nl" ? "Stuur mijn bericht" : "Send my message"}{" "}
+                  <button
+                    className="contactSubmit"
+                    type="submit"
+                    disabled={contactStatus === "sending"}
+                  >
+                    {contactStatus === "sending"
+                      ? (language === "nl" ? "Versturen…" : "Sending…")
+                      : (language === "nl" ? "Stuur mijn bericht" : "Send my message")}{" "}
                     <span aria-hidden="true">→</span>
                   </button>
+
+                  {contactStatus === "success" && (
+                    <p className="contactFeedback contactFeedbackSuccess" role="status">
+                      {language === "nl"
+                        ? "Dankjewel. Je bericht is verstuurd."
+                        : "Thank you. Your message has been sent."}
+                    </p>
+                  )}
+
+                  {contactStatus === "error" && (
+                    <p className="contactFeedback contactFeedbackError" role="alert">
+                      {language === "nl"
+                        ? "Versturen is niet gelukt. Probeer het opnieuw of mail naar info@cherelleelisa.nl."
+                        : "Sending failed. Please try again or email info@cherelleelisa.nl."}
+                    </p>
+                  )}
                 </div>
               </form>
             </div>
