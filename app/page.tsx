@@ -563,6 +563,19 @@ export default function Home() {
             </div>
           </section>
 
+          <div className="creativeSectionDivider" aria-hidden="true">
+            <svg
+              viewBox="0 0 1440 180"
+              preserveAspectRatio="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M0,42 C170,108 325,18 520,58 C710,98 865,162 1080,118 C1245,84 1345,42 1440,70 L1440,180 L0,180 Z"
+                fill="currentColor"
+              />
+            </svg>
+          </div>
+
           <section id="begeleiding" className="offersSection">
             <div className="offersIntro" data-reveal>
               <p className="sectionKicker">{copy("guidance_kicker")}</p>
