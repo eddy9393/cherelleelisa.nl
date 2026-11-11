@@ -34,11 +34,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, error: "Ongeldige aanvraag." }, { status: 400 });
   }
 
-  // Honeypot for basic bot protection.
-  if (clean(body.company, 120)) {
-    return NextResponse.json({ ok: true });
-  }
-
   const name = clean(body.name, 120);
   const email = clean(body.email, 180).toLowerCase();
   const phone = clean(body.phone, 80);
