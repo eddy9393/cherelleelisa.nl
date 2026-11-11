@@ -6837,3 +6837,86 @@ body,
     transform: scale(0.78);
   }
 }
+
+
+/* 2026-11-12 smooth organic homepage image shapes */
+#begeleiding .offerImageWrap,
+#werkwijze .methodEditorialImageWrap,
+#over-mij .aboutImageWrap,
+#uitnodiging .invitationImageWrap {
+  clip-path: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  overflow: hidden !important;
+}
+
+/* Remove the previous cut-out / bite effects completely */
+#begeleiding .offerImageWrap::before,
+#begeleiding .offerImageWrap::after,
+#werkwijze .methodEditorialImageWrap::before,
+#werkwijze .methodEditorialImageWrap::after,
+#over-mij .aboutImageWrap::before,
+#over-mij .aboutImageWrap::after,
+#uitnodiging .invitationImageWrap::before,
+#uitnodiging .invitationImageWrap::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* Each image gets its own smooth, flowing blob silhouette */
+#begeleiding .offerRow:nth-child(1) .offerImageWrap {
+  border-radius: 44% 56% 34% 66% / 24% 30% 70% 76% !important;
+}
+
+#begeleiding .offerRow:nth-child(2) .offerImageWrap {
+  border-radius: 58% 42% 62% 38% / 32% 58% 42% 68% !important;
+}
+
+#begeleiding .offerRow:nth-child(3) .offerImageWrap {
+  border-radius: 36% 64% 48% 52% / 56% 28% 72% 44% !important;
+}
+
+#werkwijze .methodEditorialImageWrap {
+  border-radius: 52% 48% 38% 62% / 28% 42% 58% 72% !important;
+}
+
+#over-mij .aboutImageWrap {
+  border-radius: 40% 60% 55% 45% / 34% 50% 50% 66% !important;
+}
+
+#uitnodiging .invitationImageWrap {
+  border-radius: 60% 40% 46% 54% / 30% 62% 38% 70% !important;
+}
+
+#begeleiding .offerImage,
+#werkwijze .methodEditorialImage,
+#over-mij .aboutImage,
+#uitnodiging .invitationImage {
+  border-radius: 0 !important;
+}
+
+@media (max-width: 900px) {
+  #begeleiding .offerRow:nth-child(1) .offerImageWrap {
+    border-radius: 40% 60% 38% 62% / 28% 36% 64% 72% !important;
+  }
+
+  #begeleiding .offerRow:nth-child(2) .offerImageWrap {
+    border-radius: 56% 44% 58% 42% / 34% 54% 46% 66% !important;
+  }
+
+  #begeleiding .offerRow:nth-child(3) .offerImageWrap {
+    border-radius: 38% 62% 50% 50% / 52% 32% 68% 48% !important;
+  }
+
+  #werkwijze .methodEditorialImageWrap {
+    border-radius: 48% 52% 42% 58% / 32% 44% 56% 68% !important;
+  }
+
+  #over-mij .aboutImageWrap {
+    border-radius: 42% 58% 52% 48% / 38% 48% 52% 62% !important;
+  }
+
+  #uitnodiging .invitationImageWrap {
+    border-radius: 56% 44% 48% 52% / 34% 58% 42% 66% !important;
+  }
+}
