@@ -6520,3 +6520,36 @@ body,
 #over-mij.aboutSection {
   background: #ffffff !important;
 }
+
+
+/* 2026-11-11 direct color-to-color transition: Werkwijze -> Ervaringen */
+.creativeSectionDividerExperiences {
+  margin-top: 0 !important;
+  margin-bottom: -2px !important;
+  background: #f4eee8 !important;
+  color: #f7f2eb !important;
+}
+
+#werkwijze.methodSectionEditorial {
+  margin-bottom: 0 !important;
+}
+
+#ervaringen.testimonialsSection {
+  margin-top: 0 !important;
+}
+
+/* 2026-11-11 direct color-to-color transition: Over mij -> Uitnodiging */
+.creativeSectionDividerInvitation {
+  margin-top: 0 !important;
+  margin-bottom: -2px !important;
+  background: #ffffff !important;
+  color: #ddcec0 !important;
+}
+
+#over-mij.aboutSection {
+  margin-bottom: 0 !important;
+}
+
+#uitnodiging.invitationSection {
+  margin-top: 0 !important;
+}
