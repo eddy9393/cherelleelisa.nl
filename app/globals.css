@@ -7079,3 +7079,59 @@ body,
     font-size: clamp(1.7rem, 8vw, 2.4rem) !important;
   }
 }
+
+
+/* 2026-11-16 reset homepage photos to full images with subtle rounding */
+#begeleiding .offerImageWrap,
+#werkwijze .methodEditorialImageWrap,
+#over-mij .aboutImageWrap,
+#uitnodiging .invitationImageWrap {
+  clip-path: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+  overflow: hidden !important;
+  border-radius: 14px !important;
+}
+
+#begeleiding .offerImageWrap::before,
+#begeleiding .offerImageWrap::after,
+#werkwijze .methodEditorialImageWrap::before,
+#werkwijze .methodEditorialImageWrap::after,
+#over-mij .aboutImageWrap::before,
+#uitnodiging .invitationImageWrap::before,
+#uitnodiging .invitationImageWrap::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+}
+
+/* Keep the Over mij readability overlay, but without shaping/cutouts */
+#over-mij .aboutImageWrap::after {
+  content: "" !important;
+  display: block !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 2 !important;
+  pointer-events: none !important;
+  border-radius: inherit !important;
+  background: linear-gradient(180deg, transparent 62%, rgba(47, 36, 29, 0.18) 100%) !important;
+}
+
+#begeleiding .offerImage,
+#werkwijze .methodEditorialImage,
+#over-mij .aboutImage,
+#uitnodiging .invitationImage {
+  border-radius: 0 !important;
+  clip-path: none !important;
+  mask-image: none !important;
+  -webkit-mask-image: none !important;
+}
+
+@media (max-width: 900px) {
+  #begeleiding .offerImageWrap,
+  #werkwijze .methodEditorialImageWrap,
+  #over-mij .aboutImageWrap,
+  #uitnodiging .invitationImageWrap {
+    border-radius: 10px !important;
+  }
+}
