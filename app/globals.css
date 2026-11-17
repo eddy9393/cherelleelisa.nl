@@ -6763,3 +6763,18 @@ body,
       0 3px 18px rgba(247, 241, 234, 0.62);
   }
 }
+
+
+/* 2026-11-17 mobile hero accent matches desktop */
+@media (max-width: 900px) {
+  .mobileHeroAccentWord {
+    display: inline-block;
+    font-family: var(--font-accent), cursive;
+    font-size: 1.18em;
+    line-height: 0.85;
+    font-weight: 400;
+    letter-spacing: 0;
+    color: var(--hero-accent-soft);
+    transform: translateY(0.04em) rotate(-2deg);
+  }
+}
