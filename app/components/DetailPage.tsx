@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import AccountLink from "./AccountLink";
 import { useEffect, useState } from "react";
 
 type Language = "nl" | "en";
@@ -153,10 +154,13 @@ export default function DetailPage({ page }: { page: DetailKey }) {
             <a key={item.href} href={item.href} onClick={() => setMenuOpen(false)}>{item[language]}</a>
           ))}
         </nav>
-        <div className="detailLanguage" aria-label={language === "nl" ? "Taal kiezen" : "Choose language"}>
+        <div className="detailUtilities">
+          <div className="detailLanguage" aria-label={language === "nl" ? "Taal kiezen" : "Choose language"}>
           <button type="button" className={language === "nl" ? "isActive" : ""} onClick={() => setLanguage("nl")}>NL</button>
           <span>/</span>
           <button type="button" className={language === "en" ? "isActive" : ""} onClick={() => setLanguage("en")}>EN</button>
+          </div>
+          <AccountLink />
         </div>
         <button
           className="detailMenuButton"
