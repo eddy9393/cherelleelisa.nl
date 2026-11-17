@@ -7208,3 +7208,238 @@ body,
     height: 32px;
   }
 }
+
+
+/* 2026-11-17 account and client portal */
+.accountPortalPage,
+.clientPortalPage {
+  min-height: 100svh;
+  color: #2f241d;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(201, 167, 161, 0.2), transparent 30%),
+    radial-gradient(circle at 82% 84%, rgba(168, 143, 123, 0.14), transparent 34%),
+    #f7f1ea;
+}
+
+.accountPortalPage {
+  position: relative;
+  display: grid;
+  place-items: center;
+  padding: 88px 20px 42px;
+}
+
+.accountPortalBack {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  color: rgba(47, 36, 29, 0.68);
+  text-decoration: none;
+  font-size: 0.78rem;
+}
+
+.accountPortalCard {
+  width: min(100%, 520px);
+  padding: clamp(34px, 6vw, 58px);
+  border: 1px solid rgba(74, 58, 50, 0.12);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.78);
+  box-shadow: 0 30px 80px rgba(74, 58, 50, 0.08);
+  -webkit-backdrop-filter: blur(18px);
+  backdrop-filter: blur(18px);
+}
+
+.accountPortalScript {
+  margin: 0 0 10px;
+  font-family: var(--font-accent), cursive;
+  font-size: 2rem;
+  line-height: 1;
+  color: #a86f5d;
+}
+
+.accountPortalKicker {
+  margin: 0 0 10px;
+  font-size: 0.64rem;
+  letter-spacing: 0.17em;
+  text-transform: uppercase;
+  color: rgba(74, 58, 50, 0.48);
+}
+
+.accountPortalCard h1,
+.clientPortalHero h1,
+.clientPortalEmpty h2 {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+}
+
+.accountPortalCard h1 {
+  font-size: clamp(3rem, 8vw, 5rem);
+  line-height: 0.96;
+}
+
+.accountPortalIntro {
+  max-width: 410px;
+  margin: 20px 0 0;
+  line-height: 1.65;
+  color: rgba(74, 58, 50, 0.68);
+}
+
+.accountPortalForm {
+  margin-top: 32px;
+  display: grid;
+  gap: 18px;
+}
+
+.accountPortalForm label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: rgba(74, 58, 50, 0.7);
+}
+
+.accountPortalForm input {
+  width: 100%;
+  padding: 13px 14px;
+  border: 1px solid rgba(74, 58, 50, 0.18);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.86);
+  color: #2f241d;
+  font: inherit;
+  outline: none;
+}
+
+.accountPortalForm input:focus {
+  border-color: rgba(168, 111, 93, 0.7);
+  box-shadow: 0 0 0 3px rgba(168, 111, 93, 0.08);
+}
+
+.accountPortalForm button {
+  margin-top: 5px;
+  min-height: 46px;
+  border: 1px solid #a86f5d;
+  border-radius: 18px 18px 18px 5px;
+  background: #a86f5d;
+  color: #fff;
+  font-family: var(--font-display), serif;
+  font-size: 0.96rem;
+  cursor: pointer;
+}
+
+.accountPortalForm button:disabled {
+  opacity: 0.58;
+  cursor: wait;
+}
+
+.accountPortalError {
+  margin: 0;
+  color: #8b3d38;
+  font-size: 0.8rem;
+}
+
+.accountPortalLoading {
+  font-family: var(--font-display), serif;
+  font-size: 1.5rem;
+}
+
+.clientPortalHeader {
+  min-height: 76px;
+  padding: 0 clamp(20px, 5vw, 72px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  border-bottom: 1px solid rgba(74,58,50,0.08);
+  background: rgba(247,241,234,0.84);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.clientPortalHeader a {
+  font-family: var(--font-display), serif;
+  letter-spacing: 0.18em;
+  color: #2f241d;
+  text-decoration: none;
+}
+
+.clientPortalHeader button {
+  border: 0;
+  background: transparent;
+  color: rgba(47,36,29,0.66);
+  cursor: pointer;
+}
+
+.clientPortalHero {
+  padding: clamp(90px, 11vw, 160px) clamp(20px, 9vw, 150px) clamp(70px, 8vw, 120px);
+}
+
+.clientPortalHero h1 {
+  max-width: 900px;
+  font-size: clamp(3.5rem, 7vw, 8rem);
+  line-height: 0.92;
+}
+
+.clientPortalHero > p:last-child {
+  margin-top: 22px;
+  color: rgba(74,58,50,0.6);
+}
+
+.clientPortalContent {
+  padding: 0 clamp(20px, 9vw, 150px) clamp(90px, 10vw, 150px);
+}
+
+.clientPortalEmpty {
+  max-width: 920px;
+  padding: clamp(32px, 5vw, 64px);
+  border: 1px solid rgba(74,58,50,0.1);
+  background: rgba(255,255,255,0.64);
+}
+
+.clientPortalEmpty > span {
+  font-size: 0.66rem;
+  letter-spacing: 0.18em;
+  color: rgba(168,111,93,0.8);
+}
+
+.clientPortalEmpty h2 {
+  margin-top: 26px;
+  font-size: clamp(2.4rem, 4vw, 4.8rem);
+  line-height: 1;
+}
+
+.clientPortalEmpty p {
+  max-width: 620px;
+  margin: 24px 0 0;
+  line-height: 1.7;
+  color: rgba(74,58,50,0.68);
+}
+
+@media (max-width: 600px) {
+  .accountPortalBack {
+    top: 20px;
+    left: 20px;
+  }
+
+  .accountPortalCard {
+    padding: 34px 24px;
+    border-radius: 18px;
+  }
+
+  .clientPortalHeader {
+    min-height: 64px;
+    padding: 0 18px;
+  }
+
+  .clientPortalHeader a {
+    font-size: 0.82rem;
+    letter-spacing: 0.14em;
+  }
+
+  .clientPortalHero {
+    padding: 78px 20px 56px;
+  }
+
+  .clientPortalContent {
+    padding: 0 20px 76px;
+  }
+}
