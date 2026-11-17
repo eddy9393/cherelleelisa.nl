@@ -1055,7 +1055,9 @@ function MediaCard({
   initialAltNl,
   initialAltEn,
   busy,
+  canDelete = false,
   onUpload,
+  onDelete,
 }: {
   slot: string;
   label: string;
@@ -1063,7 +1065,9 @@ function MediaCard({
   initialAltNl: string;
   initialAltEn: string;
   busy: boolean;
+  canDelete?: boolean;
   onUpload: (slot: string, file: File, altNl: string, altEn: string) => Promise<void>;
+  onDelete?: (slot: string) => Promise<void>;
 }) {
   const [file, setFile] = useState<File | null>(null);
   const [altNl, setAltNl] = useState(initialAltNl);
@@ -1099,14 +1103,26 @@ function MediaCard({
           <span>Alt-tekst EN</span>
           <input value={altEn} onChange={(event) => setAltEn(event.target.value)} />
         </label>
-        <button
-          className={styles.primaryButton}
-          type="button"
-          disabled={!file || busy}
-          onClick={() => file && void onUpload(slot, file, altNl, altEn)}
-        >
-          {busy ? "Uploaden…" : "Foto vervangen"}
-        </button>
+        <div className={styles.mediaActions}>
+          <button
+            className={styles.primaryButton}
+            type="button"
+            disabled={!file || busy}
+            onClick={() => file && void onUpload(slot, file, altNl, altEn)}
+          >
+            {busy ? "Uploaden…" : "Foto vervangen"}
+          </button>
+          {canDelete && onDelete && (
+            <button
+              className={styles.dangerButton}
+              type="button"
+              disabled={busy}
+              onClick={() => void onDelete(slot)}
+            >
+              Eigen foto verwijderen
+            </button>
+          )}
+        </div>
       </div>
     </article>
   );
