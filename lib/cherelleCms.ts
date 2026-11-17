@@ -384,13 +384,11 @@ export async function loginAccount(email: string, password: string): Promise<{ s
     { headers: headers(session.access_token), cache: "no-store" }
   );
 
-  const isAdmin =
-    adminResponse.ok &&
-    Array.isArray(await adminResponse.json()) &&
-    (await fetch(
-      `${supabaseUrl}/rest/v1/cherelle_admins?select=user_id&user_id=eq.${encodeURIComponent(session.user.id)}`,
-      { headers: headers(session.access_token), cache: "no-store" }
-    ).then((result) => result.ok ? result.json() : [])).length > 0;
+  let isAdmin = false;
+  if (adminResponse.ok) {
+    const rows = await adminResponse.json();
+    isAdmin = Array.isArray(rows) && rows.length > 0;
+  }
 
   window.localStorage.setItem(accountSessionKey, JSON.stringify(session));
   if (isAdmin) {
