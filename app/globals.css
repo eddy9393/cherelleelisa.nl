@@ -6718,3 +6718,48 @@ body,
     border-radius: 0 !important;
   }
 }
+
+
+/* 2026-11-17 mobile hero title readability */
+@media (max-width: 900px) {
+  .heroUnlocked .heroVeil {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(247, 241, 234, 0.03) 0%,
+        rgba(247, 241, 234, 0.04) 30%,
+        rgba(247, 241, 234, 0.34) 49%,
+        rgba(247, 241, 234, 0.76) 67%,
+        rgba(247, 241, 234, 0.97) 100%
+      ) !important;
+  }
+
+  .mobileHeroTitle {
+    position: relative;
+    isolation: isolate;
+    max-width: min(94%, 560px);
+  }
+
+  .mobileHeroTitle::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    inset: -0.16em -0.28em -0.22em -0.2em;
+    border-radius: 28px;
+    background:
+      linear-gradient(
+        90deg,
+        rgba(247, 241, 234, 0.48) 0%,
+        rgba(247, 241, 234, 0.28) 68%,
+        rgba(247, 241, 234, 0) 100%
+      );
+    filter: blur(10px);
+    pointer-events: none;
+  }
+
+  .siteHeroTitle {
+    text-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.58),
+      0 3px 18px rgba(247, 241, 234, 0.62);
+  }
+}
