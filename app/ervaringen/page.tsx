@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AccountLink from "../components/AccountLink";
 import { CmsReview, loadPublicCms } from "../../lib/cherelleCms";
 
 type Language = "nl" | "en";
@@ -59,13 +60,15 @@ export default function ExperiencesPage() {
 
         <div className="detailUtilities">
           <div className="detailLanguage" aria-label={language === "nl" ? "Taal kiezen" : "Choose language"}>
-          <button type="button" className={language === "nl" ? "isActive" : ""} onClick={() => setLanguage("nl")}>
-            NL
-          </button>
-          <span>/</span>
-          <button type="button" className={language === "en" ? "isActive" : ""} onClick={() => setLanguage("en")}>
-            EN
-          </button>
+            <button type="button" className={language === "nl" ? "isActive" : ""} onClick={() => setLanguage("nl")}>
+              NL
+            </button>
+            <span>/</span>
+            <button type="button" className={language === "en" ? "isActive" : ""} onClick={() => setLanguage("en")}>
+              EN
+            </button>
+          </div>
+          <AccountLink />
         </div>
 
         <button
