@@ -6685,3 +6685,36 @@ body,
     height: clamp(48px, 13vw, 76px);
   }
 }
+
+
+/* 2026-11-17 invitation cleanup: no waves, full-height image, darker background */
+.creativeSectionDividerInvitation,
+#uitnodiging .invitationImageTopWave {
+  display: none !important;
+}
+
+#uitnodiging.invitationSection {
+  margin-top: 0 !important;
+  overflow: hidden !important;
+  align-items: stretch !important;
+  background: #ddcec0 !important;
+}
+
+#uitnodiging .invitationCopy {
+  background: #ddcec0 !important;
+}
+
+#uitnodiging .invitationImageWrap {
+  margin-top: 0 !important;
+  height: 100% !important;
+  min-height: 100% !important;
+  align-self: stretch !important;
+  border-radius: 0 !important;
+}
+
+@media (max-width: 900px) {
+  #uitnodiging .invitationImageWrap {
+    margin-top: 0 !important;
+    border-radius: 0 !important;
+  }
+}
