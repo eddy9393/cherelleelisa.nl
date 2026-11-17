@@ -357,14 +357,19 @@ export async function loginCms(email: string, password: string): Promise<CmsSess
 export async function loginAccount(email: string, password: string): Promise<{ session: CmsSession; isAdmin: boolean }> {
   if (!isCmsConfigured) throw new Error("Supabase is nog niet gekoppeld.");
 
-  const response = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
-    method: "POST",
-    headers: {
-      apikey: supabaseKey,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({ email, password }),
-  });
+  let response: Response;
+  try {
+    response = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
+      method: "POST",
+      headers: {
+        apikey: supabaseKey,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password }),
+    });
+  } catch {
+    throw new Error("De persoonlijke omgeving is tijdelijk niet bereikbaar. Probeer het opnieuw.");
+  }
 
   if (!response.ok) throw new Error("E-mailadres of wachtwoord is onjuist.");
   const data = await response.json();
