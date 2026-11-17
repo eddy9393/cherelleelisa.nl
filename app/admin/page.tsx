@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import {
+  clearAccountSession,
   clearCmsSession,
   CmsContentMap,
   CmsMedia,
@@ -17,13 +18,14 @@ import {
   MEDIA_SLOTS,
   saveContentGroup,
   saveReview,
+  deleteMedia,
   deleteReview,
   uploadMedia,
   verifyCmsSession,
 } from "../../lib/cherelleCms";
 import styles from "./admin.module.css";
 
-type AdminTab = "overzicht" | "teksten" | "ervaringen" | "beelden";
+type AdminTab = "website" | "overzicht" | "teksten" | "ervaringen" | "beelden";
 
 const FIELD_LABELS: Record<string, string> = {
   hero_sentence_1: "Hero – regel 1",
@@ -88,7 +90,7 @@ function emptyReview(sortOrder: number): Omit<CmsReview, "id"> {
 export default function CherelleAdminPage() {
   const [ready, setReady] = useState(false);
   const [session, setSession] = useState<CmsSession | null>(null);
-  const [tab, setTab] = useState<AdminTab>("overzicht");
+  const [tab, setTab] = useState<AdminTab>("website");
   const [content, setContent] = useState<CmsContentMap>({ ...DEFAULT_HOMEPAGE_CONTENT });
   const [reviews, setReviews] = useState<CmsReview[]>([]);
   const [media, setMedia] = useState<Record<string, CmsMedia>>({});
@@ -100,6 +102,8 @@ export default function CherelleAdminPage() {
   const [error, setError] = useState("");
 
   const [editingReview, setEditingReview] = useState<(Omit<CmsReview, "id"> & { id?: string }) | null>(null);
+  const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
+  const [editingMediaSlot, setEditingMediaSlot] = useState<string | null>(null);
   const [uploadingSlot, setUploadingSlot] = useState<string | null>(null);
 
   const publishedReviews = useMemo(
@@ -208,6 +212,7 @@ export default function CherelleAdminPage() {
 
   function logout() {
     clearCmsSession();
+    clearAccountSession();
     setSession(null);
     setEmail("");
     setPassword("");
@@ -242,11 +247,27 @@ export default function CherelleAdminPage() {
 
   function openNewReview() {
     const nextSort = reviews.length ? Math.max(...reviews.map((review) => review.sort_order)) + 1 : 0;
+    setEditingGroupId(null);
+    setEditingMediaSlot(null);
     setEditingReview(emptyReview(nextSort));
   }
 
   function openExistingReview(review: CmsReview) {
+    setEditingGroupId(null);
+    setEditingMediaSlot(null);
     setEditingReview({ ...review });
+  }
+
+  function openGroupEditor(groupId: string) {
+    setEditingReview(null);
+    setEditingMediaSlot(null);
+    setEditingGroupId(groupId);
+  }
+
+  function openMediaEditor(slot: string) {
+    setEditingReview(null);
+    setEditingGroupId(null);
+    setEditingMediaSlot(slot);
   }
 
   async function handleReviewSave(event: FormEvent<HTMLFormElement>) {
@@ -315,6 +336,28 @@ export default function CherelleAdminPage() {
       setMessage("Foto is vervangen.");
     } catch (uploadError) {
       setError(uploadError instanceof Error ? uploadError.message : "Uploaden is mislukt.");
+    } finally {
+      setUploadingSlot(null);
+    }
+  }
+
+  async function handleMediaDelete(slot: string) {
+    if (!session || !media[slot]) return;
+    if (!window.confirm("Eigen geüploade foto verwijderen en de oorspronkelijke websitefoto terugzetten?")) return;
+
+    setUploadingSlot(slot);
+    setError("");
+    setMessage("");
+    try {
+      await deleteMedia(session, media[slot]);
+      setMedia((current) => {
+        const next = { ...current };
+        delete next[slot];
+        return next;
+      });
+      setMessage("Eigen foto is verwijderd. De oorspronkelijke websitefoto wordt weer gebruikt.");
+    } catch (deleteError) {
+      setError(deleteError instanceof Error ? deleteError.message : "Foto verwijderen is mislukt.");
     } finally {
       setUploadingSlot(null);
     }
