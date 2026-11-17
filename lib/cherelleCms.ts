@@ -415,28 +415,36 @@ export function clearAccountSession() {
 export async function verifyAccountSession(session: CmsSession) {
   if (!isCmsConfigured) return false;
 
-  const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
-    headers: {
-      apikey: supabaseKey,
-      Authorization: `Bearer ${session.access_token}`,
-    },
-    cache: "no-store",
-  });
+  try {
+    const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${session.access_token}`,
+      },
+      cache: "no-store",
+    });
 
-  return response.ok;
+    return response.ok;
+  } catch {
+    return false;
+  }
 }
 
 export async function accountIsAdmin(session: CmsSession) {
   if (!isCmsConfigured) return false;
 
-  const response = await fetch(
-    `${supabaseUrl}/rest/v1/cherelle_admins?select=user_id&user_id=eq.${encodeURIComponent(session.user.id)}`,
-    { headers: headers(session.access_token), cache: "no-store" }
-  );
+  try {
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/cherelle_admins?select=user_id&user_id=eq.${encodeURIComponent(session.user.id)}`,
+      { headers: headers(session.access_token), cache: "no-store" }
+    );
 
-  if (!response.ok) return false;
-  const rows = await response.json();
-  return Array.isArray(rows) && rows.length > 0;
+    if (!response.ok) return false;
+    const rows = await response.json();
+    return Array.isArray(rows) && rows.length > 0;
+  } catch {
+    return false;
+  }
 }
 
 export function getSavedCmsSession(): CmsSession | null {
@@ -455,13 +463,18 @@ export function clearCmsSession() {
 
 export async function verifyCmsSession(session: CmsSession) {
   if (!isCmsConfigured) return false;
-  const response = await fetch(
-    `${supabaseUrl}/rest/v1/cherelle_admins?select=user_id&user_id=eq.${encodeURIComponent(session.user.id)}`,
-    { headers: headers(session.access_token) }
-  );
-  if (!response.ok) return false;
-  const data = await response.json();
-  return Array.isArray(data) && data.length > 0;
+
+  try {
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/cherelle_admins?select=user_id&user_id=eq.${encodeURIComponent(session.user.id)}`,
+      { headers: headers(session.access_token), cache: "no-store" }
+    );
+    if (!response.ok) return false;
+    const data = await response.json();
+    return Array.isArray(data) && data.length > 0;
+  } catch {
+    return false;
+  }
 }
 
 export async function loadAdminCms(session: CmsSession) {
