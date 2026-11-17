@@ -439,6 +439,10 @@ export default function CherelleAdminPage() {
     );
   }
 
+  const activeGroup = CONTENT_GROUPS.find((group) => group.id === editingGroupId) ?? null;
+  const activeMediaConfig = MEDIA_SLOTS.find((item) => item.slot === editingMediaSlot) ?? null;
+  const mediaPreview = (slot: string, fallback: string) => media[slot]?.public_url || fallback;
+
   return (
     <main className={styles.dashboard}>
       <aside className={styles.sidebar}>
@@ -449,6 +453,7 @@ export default function CherelleAdminPage() {
 
         <nav className={styles.nav} aria-label="Beheer navigatie">
           {([
+            ["website", "Website bewerken"],
             ["overzicht", "Overzicht"],
             ["teksten", "Teksten"],
             ["ervaringen", "Ervaringen"],
@@ -476,6 +481,7 @@ export default function CherelleAdminPage() {
           <div>
             <p className={styles.eyebrow}>Beheeromgeving</p>
             <h1>
+              {tab === "website" && "Website bewerken"}
               {tab === "overzicht" && "Overzicht"}
               {tab === "teksten" && "Teksten wijzigen"}
               {tab === "ervaringen" && "Ervaringen beheren"}
