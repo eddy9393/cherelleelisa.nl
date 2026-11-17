@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import AccountLink from "./components/AccountLink";
 import { Fragment, FormEvent, useEffect, useState } from "react";
 import {
   CmsContentMap,
@@ -301,7 +302,10 @@ export default function Home() {
               );
             })}
           </nav>
-          <LanguageSwitcher />
+          <div className="headerUtilityGroup">
+            <LanguageSwitcher />
+            <AccountLink />
+          </div>
         </header>
       )}
 
@@ -318,7 +322,10 @@ export default function Home() {
             CHERELLE ELISA
           </a>
 
-          <LanguageSwitcher />
+          <div className="headerUtilityGroup">
+            <LanguageSwitcher />
+            <AccountLink />
+          </div>
 
           <button
             className="mobileMenuButton"
