@@ -793,12 +793,12 @@ export default function Home() {
 
           <div className="creativeSectionDivider creativeSectionDividerInvitation" aria-hidden="true">
             <svg
-              viewBox="0 0 1440 180"
+              viewBox="0 0 1440 210"
               preserveAspectRatio="none"
               xmlns="http://www.w3.org/2000/svg"
             >
               <path
-                d="M0,42 C170,108 325,18 520,58 C710,98 865,162 1080,118 C1245,84 1345,42 1440,70 L1440,180 L0,180 Z"
+                d="M0,72 C180,132 350,42 560,78 C770,114 900,176 1110,146 C1260,124 1365,82 1440,96 L1440,210 L0,210 Z"
                 fill="currentColor"
               />
             </svg>
@@ -806,6 +806,17 @@ export default function Home() {
 
           <section id="uitnodiging" className="invitationSection">
             <div className="invitationImageWrap" data-reveal>
+              <svg
+                className="invitationImageTopWave"
+                viewBox="0 0 1000 180"
+                preserveAspectRatio="none"
+                aria-hidden="true"
+              >
+                <path
+                  d="M0,0 H1000 V66 C840,96 725,58 590,84 C445,112 290,150 0,92 Z"
+                  fill="currentColor"
+                />
+              </svg>
               <Image
                 src={mediaSrc("invitation", "/Uitnodiging.webp")}
                 alt={mediaAlt("invitation", language === "nl" ? "Cherelle in een warm en uitnodigend moment" : "Cherelle in a warm and inviting moment")}
