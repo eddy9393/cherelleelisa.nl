@@ -286,7 +286,7 @@ export default function Home() {
                 item.id === "begeleiding" ? "/begeleiding" :
                 item.id === "werkwijze" ? "/werkwijze" :
                 item.id === "over-mij" ? "/over-mij" :
-                item.id === "ervaringen" ? "/#ervaringen" :
+                item.id === "ervaringen" ? "/ervaringen" :
                 "/#uitnodiging";
 
               return (
@@ -340,7 +340,7 @@ export default function Home() {
                 item.id === "begeleiding" ? "/begeleiding" :
                 item.id === "werkwijze" ? "/werkwijze" :
                 item.id === "over-mij" ? "/over-mij" :
-                item.id === "ervaringen" ? "/#ervaringen" :
+                item.id === "ervaringen" ? "/ervaringen" :
                 "/#uitnodiging";
 
               return (
@@ -763,6 +763,12 @@ export default function Home() {
                 );
               })}
             </div>
+
+            <div className="testimonialsPageLinkWrap" data-reveal>
+              <a className="sectionLink sectionLinkLarge testimonialsPageLink" href="/ervaringen">
+                {language === "nl" ? "Lees alle ervaringen" : "Read all experiences"} <span aria-hidden="true">→</span>
+              </a>
+            </div>
           </section>
 
           <div className="creativeSectionDivider creativeSectionDividerAbout" aria-hidden="true">
@@ -907,7 +913,7 @@ export default function Home() {
                   item.id === "begeleiding" ? "/begeleiding" :
                   item.id === "werkwijze" ? "/werkwijze" :
                   item.id === "over-mij" ? "/over-mij" :
-                  item.id === "ervaringen" ? "/#ervaringen" :
+                  item.id === "ervaringen" ? "/ervaringen" :
                   "/#uitnodiging";
 
                 return (
