@@ -497,6 +497,333 @@ export default function CherelleAdminPage() {
           </div>
         )}
 
+        {tab === "website" && (
+          <div className={styles.websiteEditorLayout}>
+            <div className={styles.websitePreviewShell}>
+              <div className={styles.previewBrowserBar}>
+                <div>
+                  <span />
+                  <span />
+                  <span />
+                </div>
+                <strong>cherelleelisa.nl</strong>
+                <a href="/" target="_blank" rel="noreferrer">Open website ↗</a>
+              </div>
+
+              <div className={styles.sitePreview}>
+                <section className={`${styles.previewSection} ${styles.previewHero}`}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={mediaPreview("hero", "/HeroCherelle.webp")} alt="" className={styles.previewHeroImage} />
+                  <div className={styles.previewHeroVeil} />
+                  <div className={styles.previewHeroCopy}>
+                    <p>{content.hero_sentence_1?.nl}</p>
+                    <h2>{content.hero_sentence_2?.nl}</h2>
+                    <span>{content.hero_subtitle?.nl}</span>
+                  </div>
+                  <div className={styles.previewControls}>
+                    <button type="button" onClick={() => openGroupEditor("hero")}>Tekst wijzigen</button>
+                    <button type="button" onClick={() => openMediaEditor("hero")}>Foto wijzigen</button>
+                  </div>
+                </section>
+
+                <div className={styles.previewQuote}>{content.quote_bar?.nl}</div>
+
+                <section className={`${styles.previewSection} ${styles.previewSplit}`}>
+                  <div className={styles.previewText}>
+                    <p className={styles.previewKicker}>{content.recognition_kicker?.nl}</p>
+                    <h2>{content.recognition_title?.nl}</h2>
+                    <p>{content.recognition_body?.nl}</p>
+                    <strong>{content.recognition_emphasis?.nl}</strong>
+                  </div>
+                  <div className={styles.previewImage}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={mediaPreview("recognition", "/Herkenning.jpg")} alt="" />
+                  </div>
+                  <div className={styles.previewControls}>
+                    <button type="button" onClick={() => openGroupEditor("recognition")}>Tekst wijzigen</button>
+                    <button type="button" onClick={() => openMediaEditor("recognition")}>Foto wijzigen</button>
+                  </div>
+                </section>
+
+                <section className={`${styles.previewSection} ${styles.previewSplit} ${styles.previewWarm}`}>
+                  <div className={styles.previewImage}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={mediaPreview("homecoming", "/Thuiskomen.jpg")} alt="" />
+                  </div>
+                  <div className={styles.previewText}>
+                    <p className={styles.previewKicker}>{content.homecoming_kicker?.nl}</p>
+                    <h2>{content.homecoming_title?.nl}</h2>
+                    <p>{content.homecoming_body?.nl}</p>
+                  </div>
+                  <div className={styles.previewControls}>
+                    <button type="button" onClick={() => openGroupEditor("homecoming")}>Tekst wijzigen</button>
+                    <button type="button" onClick={() => openMediaEditor("homecoming")}>Foto wijzigen</button>
+                  </div>
+                </section>
+
+                <section className={`${styles.previewSection} ${styles.previewGuidance}`}>
+                  <div className={styles.previewText}>
+                    <p className={styles.previewKicker}>{content.guidance_kicker?.nl}</p>
+                    <h2>{content.guidance_title?.nl}</h2>
+                  </div>
+                  <div className={styles.previewServiceGrid}>
+                    {[
+                      ["guidance_feminine", "/feminine.jpg", content.guidance_1_title?.nl, content.guidance_1_body?.nl],
+                      ["guidance_1to1", "/1-op-1.jpg", content.guidance_2_title?.nl, content.guidance_2_body?.nl],
+                      ["guidance_ceremonies", "/ceremonies.webp", content.guidance_3_title?.nl, content.guidance_3_body?.nl],
+                    ].map(([slot, fallback, title, body]) => (
+                      <article key={String(slot)}>
+                        <div className={styles.previewServiceImage}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={mediaPreview(String(slot), String(fallback))} alt="" />
+                          <button type="button" onClick={() => openMediaEditor(String(slot))}>Foto wijzigen</button>
+                        </div>
+                        <h3>{title}</h3>
+                        <p>{body}</p>
+                      </article>
+                    ))}
+                  </div>
+                  <div className={styles.previewControls}>
+                    <button type="button" onClick={() => openGroupEditor("guidance")}>Teksten wijzigen</button>
+                  </div>
+                </section>
+
+                <section className={`${styles.previewSection} ${styles.previewSplit} ${styles.previewMethod}`}>
+                  <div className={styles.previewImage}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={mediaPreview("approach", "/Werkwijze.png")} alt="" />
+                  </div>
+                  <div className={styles.previewText}>
+                    <p className={styles.previewKicker}>{content.approach_kicker?.nl}</p>
+                    <p>{content.approach_body?.nl}</p>
+                    <h2>{content.approach_emphasis?.nl}</h2>
+                    <small>{content.approach_note?.nl}</small>
+                  </div>
+                  <div className={styles.previewControls}>
+                    <button type="button" onClick={() => openGroupEditor("approach")}>Tekst wijzigen</button>
+                    <button type="button" onClick={() => openMediaEditor("approach")}>Foto wijzigen</button>
+                  </div>
+                </section>
+
+                <section className={`${styles.previewSection} ${styles.previewReviews}`}>
+                  <div className={styles.previewReviewsHead}>
+                    <div>
+                      <p className={styles.previewKicker}>{content.reviews_kicker?.nl}</p>
+                      <h2>{content.reviews_title?.nl}</h2>
+                    </div>
+                    <button type="button" className={styles.previewAddButton} onClick={openNewReview}>+ Ervaring toevoegen</button>
+                  </div>
+                  <div className={styles.previewReviewGrid}>
+                    {reviews.length === 0 ? (
+                      <p className={styles.previewEmpty}>Nog geen ervaringen toegevoegd.</p>
+                    ) : (
+                      reviews.map((review) => (
+                        <article key={review.id}>
+                          <blockquote>“{review.quote_nl}”</blockquote>
+                          <strong>{review.name}</strong>
+                          <div>
+                            <button type="button" onClick={() => openExistingReview(review)}>Wijzigen</button>
+                            <button type="button" onClick={() => void handleReviewDelete(review)}>Verwijderen</button>
+                          </div>
+                        </article>
+                      ))
+                    )}
+                  </div>
+                  <div className={styles.previewControls}>
+                    <button type="button" onClick={() => openGroupEditor("reviews")}>Koptekst wijzigen</button>
+                  </div>
+                </section>
+
+                <section className={`${styles.previewSection} ${styles.previewSplit}`}>
+                  <div className={styles.previewImage}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={mediaPreview("about", "/Overmij.webp")} alt="" />
+                  </div>
+                  <div className={styles.previewText}>
+                    <p className={styles.previewKicker}>{content.about_kicker?.nl}</p>
+                    <h2>{content.about_title?.nl}</h2>
+                    <p>{content.about_body_1?.nl}</p>
+                    <p>{content.about_body_2?.nl}</p>
+                  </div>
+                  <div className={styles.previewControls}>
+                    <button type="button" onClick={() => openGroupEditor("about")}>Tekst wijzigen</button>
+                    <button type="button" onClick={() => openMediaEditor("about")}>Foto wijzigen</button>
+                  </div>
+                </section>
+
+                <section className={`${styles.previewSection} ${styles.previewSplit} ${styles.previewInvitation}`}>
+                  <div className={styles.previewImage}>
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={mediaPreview("invitation", "/Uitnodiging.webp")} alt="" />
+                  </div>
+                  <div className={styles.previewText}>
+                    <p className={styles.previewKicker}>{content.invitation_kicker?.nl}</p>
+                    <h2>{content.invitation_title?.nl}</h2>
+                    <p>{content.invitation_body?.nl}</p>
+                    <span className={styles.previewFakeButton}>Plan een kennismaking</span>
+                  </div>
+                  <div className={styles.previewControls}>
+                    <button type="button" onClick={() => openGroupEditor("invitation")}>Tekst wijzigen</button>
+                    <button type="button" onClick={() => openMediaEditor("invitation")}>Foto wijzigen</button>
+                  </div>
+                </section>
+              </div>
+            </div>
+
+            <aside className={styles.liveEditorPanel}>
+              {!activeGroup && !activeMediaConfig && !editingReview && (
+                <div className={styles.editorWelcome}>
+                  <p className={styles.script}>Website bewerken</p>
+                  <h2>Klik op een onderdeel in de voorbeeldwebsite.</h2>
+                  <p>
+                    De bewerking verschijnt hier. Na opslaan wordt de wijziging direct door de website gebruikt.
+                  </p>
+                </div>
+              )}
+
+              {activeGroup && (
+                <section className={styles.liveEditorCard}>
+                  <div className={styles.cardHeading}>
+                    <div>
+                      <p className={styles.eyebrow}>Teksten</p>
+                      <h2>{activeGroup.title}</h2>
+                    </div>
+                    <button className={styles.textButton} type="button" onClick={() => setEditingGroupId(null)}>Sluiten</button>
+                  </div>
+                  <div className={styles.fields}>
+                    {activeGroup.fields.map((key) => (
+                      <div key={key} className={styles.fieldBlock}>
+                        <label>{FIELD_LABELS[key] ?? key}</label>
+                        <div className={styles.languageFields}>
+                          <div>
+                            <span>NL</span>
+                            {isLongField(key) ? (
+                              <textarea
+                                rows={key.includes("body") ? 5 : 3}
+                                value={content[key]?.nl ?? ""}
+                                onChange={(event) => updateContent(key, "nl", event.target.value)}
+                              />
+                            ) : (
+                              <input
+                                value={content[key]?.nl ?? ""}
+                                onChange={(event) => updateContent(key, "nl", event.target.value)}
+                              />
+                            )}
+                          </div>
+                          <div>
+                            <span>EN</span>
+                            {isLongField(key) ? (
+                              <textarea
+                                rows={key.includes("body") ? 5 : 3}
+                                value={content[key]?.en ?? ""}
+                                onChange={(event) => updateContent(key, "en", event.target.value)}
+                              />
+                            ) : (
+                              <input
+                                value={content[key]?.en ?? ""}
+                                onChange={(event) => updateContent(key, "en", event.target.value)}
+                              />
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    className={styles.primaryButton}
+                    type="button"
+                    disabled={busy}
+                    onClick={() => void saveGroup(activeGroup.title, activeGroup.fields)}
+                  >
+                    {busy ? "Opslaan…" : "Wijzigingen opslaan"}
+                  </button>
+                </section>
+              )}
+
+              {activeMediaConfig && (
+                <div className={styles.liveEditorCard}>
+                  <div className={styles.cardHeading}>
+                    <div>
+                      <p className={styles.eyebrow}>Foto</p>
+                      <h2>{activeMediaConfig.label}</h2>
+                    </div>
+                    <button className={styles.textButton} type="button" onClick={() => setEditingMediaSlot(null)}>Sluiten</button>
+                  </div>
+                  <MediaCard
+                    slot={activeMediaConfig.slot}
+                    label={activeMediaConfig.label}
+                    preview={media[activeMediaConfig.slot]?.public_url || activeMediaConfig.fallback}
+                    initialAltNl={media[activeMediaConfig.slot]?.alt_nl || ""}
+                    initialAltEn={media[activeMediaConfig.slot]?.alt_en || ""}
+                    busy={uploadingSlot === activeMediaConfig.slot}
+                    canDelete={Boolean(media[activeMediaConfig.slot])}
+                    onUpload={handleMediaUpload}
+                    onDelete={handleMediaDelete}
+                  />
+                </div>
+              )}
+
+              {editingReview && (
+                <form className={styles.liveEditorCard} onSubmit={handleReviewSave}>
+                  <div className={styles.cardHeading}>
+                    <div>
+                      <p className={styles.eyebrow}>{editingReview.id ? "Ervaring wijzigen" : "Nieuwe ervaring"}</p>
+                      <h2>Ervaring</h2>
+                    </div>
+                    <button className={styles.textButton} type="button" onClick={() => setEditingReview(null)}>Sluiten</button>
+                  </div>
+                  <div className={styles.reviewFormGrid}>
+                    <label>
+                      <span>Naam</span>
+                      <input
+                        value={editingReview.name}
+                        onChange={(event) => setEditingReview({ ...editingReview, name: event.target.value })}
+                        required
+                      />
+                    </label>
+                    <label>
+                      <span>Volgorde</span>
+                      <input
+                        type="number"
+                        value={editingReview.sort_order}
+                        onChange={(event) => setEditingReview({ ...editingReview, sort_order: Number(event.target.value) })}
+                      />
+                    </label>
+                    <label className={styles.fullField}>
+                      <span>Ervaring NL</span>
+                      <textarea
+                        rows={6}
+                        value={editingReview.quote_nl}
+                        onChange={(event) => setEditingReview({ ...editingReview, quote_nl: event.target.value })}
+                        required
+                      />
+                    </label>
+                    <label className={styles.fullField}>
+                      <span>Ervaring EN</span>
+                      <textarea
+                        rows={6}
+                        value={editingReview.quote_en}
+                        onChange={(event) => setEditingReview({ ...editingReview, quote_en: event.target.value })}
+                      />
+                    </label>
+                    <label className={styles.checkboxLabel}>
+                      <input
+                        type="checkbox"
+                        checked={editingReview.is_published}
+                        onChange={(event) => setEditingReview({ ...editingReview, is_published: event.target.checked })}
+                      />
+                      <span>Zichtbaar op de website</span>
+                    </label>
+                  </div>
+                  <button className={styles.primaryButton} type="submit" disabled={busy}>
+                    {busy ? "Opslaan…" : "Ervaring opslaan"}
+                  </button>
+                </form>
+              )}
+            </aside>
+          </div>
+        )}
+
         {tab === "overzicht" && (
           <div className={styles.overview}>
             <div className={styles.statCard}>
