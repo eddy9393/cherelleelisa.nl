@@ -431,9 +431,19 @@ export default function Home() {
                     {language === "nl" ? "Je bent al zo lang sterk geweest." : "You have been strong for so long."}
                   </span>
                   <span className="mobileHeroSentence mobileHeroSentenceSecond">
-                    {language === "nl"
-                      ? "Maar ben je ook Zacht geweest voor jezelf?"
-                      : "But have you also been gentle with yourself?"}
+                    {language === "nl" ? (
+                      <>
+                        Maar ben je ook{" "}
+                        <span className="heroAccentWord mobileHeroAccentWord">Zacht</span>{" "}
+                        geweest voor jezelf?
+                      </>
+                    ) : (
+                      <>
+                        But have you also been{" "}
+                        <span className="heroAccentWord mobileHeroAccentWord">Gentle</span>{" "}
+                        with yourself?
+                      </>
+                    )}
                   </span>
                 </span>
               </h1>
