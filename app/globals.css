@@ -6636,7 +6636,10 @@ body,
 @media (max-width: 900px) {
   #begeleiding .offerImageWrap,
   #werkwijze .methodEditorialImageWrap,
-  #over-mij .aboutImageWrap,
+  #over-mij .aboutImageWrap {
+    border-radius: 0 !important;
+  }
+
   #uitnodiging .invitationImageWrap {
     border-radius: 10px !important;
   }
