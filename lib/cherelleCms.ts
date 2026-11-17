@@ -570,6 +570,36 @@ export async function deleteReview(session: CmsSession, id: string) {
   if (!response.ok) throw new Error(await responseError(response));
 }
 
+export async function deleteMedia(session: CmsSession, item: CmsMedia) {
+  const storageResponse = await fetch(
+    `${supabaseUrl}/storage/v1/object/cherelle-media/${item.storage_path}`,
+    {
+      method: "DELETE",
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    }
+  );
+
+  if (!storageResponse.ok && storageResponse.status !== 404) {
+    throw new Error(await responseError(storageResponse));
+  }
+
+  const metadataResponse = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_media?slot=eq.${encodeURIComponent(item.slot)}`,
+    {
+      method: "DELETE",
+      headers: {
+        ...headers(session.access_token),
+        Prefer: "return=minimal",
+      },
+    }
+  );
+
+  if (!metadataResponse.ok) throw new Error(await responseError(metadataResponse));
+}
+
 export async function uploadMedia(
   session: CmsSession,
   slot: string,
