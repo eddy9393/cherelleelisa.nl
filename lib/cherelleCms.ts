@@ -39,6 +39,7 @@ export type CmsSession = {
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "") ?? "";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "";
 const sessionKey = "cherelle-cms-session";
+const accountSessionKey = "cherelle-account-session";
 
 export const isCmsConfigured = Boolean(supabaseUrl && supabaseKey);
 
@@ -350,6 +351,94 @@ export async function loginCms(email: string, password: string): Promise<CmsSess
 
   window.localStorage.setItem(sessionKey, JSON.stringify(session));
   return session;
+}
+
+
+export async function loginAccount(email: string, password: string): Promise<{ session: CmsSession; isAdmin: boolean }> {
+  if (!isCmsConfigured) throw new Error("Supabase is nog niet gekoppeld.");
+
+  const response = await fetch(`${supabaseUrl}/auth/v1/token?grant_type=password`, {
+    method: "POST",
+    headers: {
+      apikey: supabaseKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email, password }),
+  });
+
+  if (!response.ok) throw new Error("E-mailadres of wachtwoord is onjuist.");
+  const data = await response.json();
+
+  const session: CmsSession = {
+    access_token: data.access_token,
+    refresh_token: data.refresh_token,
+    expires_at: Date.now() + Number(data.expires_in ?? 3600) * 1000,
+    user: {
+      id: data.user.id,
+      email: data.user.email,
+    },
+  };
+
+  const adminResponse = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_admins?select=user_id&user_id=eq.${encodeURIComponent(session.user.id)}`,
+    { headers: headers(session.access_token), cache: "no-store" }
+  );
+
+  const isAdmin =
+    adminResponse.ok &&
+    Array.isArray(await adminResponse.json()) &&
+    (await fetch(
+      `${supabaseUrl}/rest/v1/cherelle_admins?select=user_id&user_id=eq.${encodeURIComponent(session.user.id)}`,
+      { headers: headers(session.access_token), cache: "no-store" }
+    ).then((result) => result.ok ? result.json() : [])).length > 0;
+
+  window.localStorage.setItem(accountSessionKey, JSON.stringify(session));
+  if (isAdmin) {
+    window.localStorage.setItem(sessionKey, JSON.stringify(session));
+  }
+
+  return { session, isAdmin };
+}
+
+export function getSavedAccountSession(): CmsSession | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(accountSessionKey);
+    return raw ? JSON.parse(raw) as CmsSession : null;
+  } catch {
+    return null;
+  }
+}
+
+export function clearAccountSession() {
+  if (typeof window !== "undefined") window.localStorage.removeItem(accountSessionKey);
+}
+
+export async function verifyAccountSession(session: CmsSession) {
+  if (!isCmsConfigured) return false;
+
+  const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${session.access_token}`,
+    },
+    cache: "no-store",
+  });
+
+  return response.ok;
+}
+
+export async function accountIsAdmin(session: CmsSession) {
+  if (!isCmsConfigured) return false;
+
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_admins?select=user_id&user_id=eq.${encodeURIComponent(session.user.id)}`,
+    { headers: headers(session.access_token), cache: "no-store" }
+  );
+
+  if (!response.ok) return false;
+  const rows = await response.json();
+  return Array.isArray(rows) && rows.length > 0;
 }
 
 export function getSavedCmsSession(): CmsSession | null {
