@@ -15,7 +15,7 @@ const navItems = [
   { href: "/begeleiding", nl: "Begeleiding", en: "Guidance" },
   { href: "/werkwijze", nl: "Werkwijze", en: "Approach" },
   { href: "/over-mij", nl: "Over mij", en: "About me" },
-  { href: "/#ervaringen", nl: "Ervaringen", en: "Experiences" },
+  { href: "/ervaringen", nl: "Ervaringen", en: "Experiences" },
   { href: "/#uitnodiging", nl: "Uitnodiging", en: "Invitation" },
 ];
 
