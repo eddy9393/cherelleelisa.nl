@@ -57,7 +57,8 @@ export default function ExperiencesPage() {
           ))}
         </nav>
 
-        <div className="detailLanguage" aria-label={language === "nl" ? "Taal kiezen" : "Choose language"}>
+        <div className="detailUtilities">
+          <div className="detailLanguage" aria-label={language === "nl" ? "Taal kiezen" : "Choose language"}>
           <button type="button" className={language === "nl" ? "isActive" : ""} onClick={() => setLanguage("nl")}>
             NL
           </button>
