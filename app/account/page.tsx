@@ -21,20 +21,26 @@ export default function AccountPage() {
     let active = true;
 
     async function initialize() {
-      const adminSession = getSavedCmsSession();
-      if (adminSession && await verifyCmsSession(adminSession)) {
-        if (active) window.location.replace("/admin");
-        return;
-      }
+      try {
+        const adminSession = getSavedCmsSession();
+        if (adminSession && await verifyCmsSession(adminSession)) {
+          if (active) window.location.replace("/admin");
+          return;
+        }
 
-      const saved = getSavedAccountSession();
-      if (saved && await verifyAccountSession(saved)) {
-        const isAdmin = await accountIsAdmin(saved);
-        if (active) window.location.replace(isAdmin ? "/admin" : "/mijn-account");
-        return;
+        const saved = getSavedAccountSession();
+        if (saved && await verifyAccountSession(saved)) {
+          const isAdmin = await accountIsAdmin(saved);
+          if (active) window.location.replace(isAdmin ? "/admin" : "/mijn-account");
+          return;
+        }
+      } catch {
+        if (active) {
+          setError("De persoonlijke omgeving kon niet worden bereikt. Je kunt hieronder opnieuw proberen in te loggen.");
+        }
+      } finally {
+        if (active) setReady(true);
       }
-
-      if (active) setReady(true);
     }
 
     void initialize();
