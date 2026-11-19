@@ -1219,3 +1219,446 @@
     flex-direction: column;
   }
 }
+
+
+/* 2026-11-19 client management */
+.clientsAdmin {
+  display: grid;
+  gap: 22px;
+}
+
+.clientInviteCard {
+  padding: clamp(26px, 3vw, 42px);
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(420px, 1.1fr);
+  gap: clamp(28px, 5vw, 70px);
+  align-items: end;
+  border: 1px solid rgba(74, 58, 50, 0.1);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(201, 167, 161, 0.12), transparent 34%),
+    rgba(255,255,255,0.84);
+}
+
+.clientInviteCard h2,
+.clientPanelHead h2,
+.clientDetailHead h2,
+.clientDetailEmpty h2,
+.clientNoIntake h3,
+.clientIntakeViewHead h3 {
+  margin: 0;
+  font-family: "Bride", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.clientInviteCard h2 {
+  max-width: 620px;
+  font-size: clamp(2.25rem, 3.8vw, 4rem);
+  line-height: 1;
+}
+
+.clientInviteCard > div > p:last-child {
+  max-width: 650px;
+  margin: 18px 0 0;
+  font-size: 0.86rem;
+  line-height: 1.7;
+  color: rgba(74,58,50,0.66);
+}
+
+.clientInviteForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 12px;
+  align-items: end;
+}
+
+.clientInviteForm label {
+  display: grid;
+  gap: 7px;
+}
+
+.clientInviteForm label > span {
+  font-size: 0.64rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(74,58,50,0.48);
+}
+
+.clientInviteForm input {
+  min-height: 44px;
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid rgba(74,58,50,0.16);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.9);
+  color: var(--ink);
+  font: inherit;
+  outline: none;
+}
+
+.clientInviteForm input:focus {
+  border-color: rgba(168,111,93,0.7);
+  box-shadow: 0 0 0 3px rgba(168,111,93,0.08);
+}
+
+.clientInviteForm .primaryButton {
+  min-height: 44px;
+  white-space: nowrap;
+}
+
+.clientAdminGrid {
+  display: grid;
+  grid-template-columns: minmax(340px, 0.72fr) minmax(0, 1.28fr);
+  gap: 22px;
+  align-items: start;
+}
+
+.clientListPanel,
+.clientDetailPanel {
+  min-width: 0;
+  border: 1px solid rgba(74,58,50,0.1);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.82);
+  overflow: hidden;
+}
+
+.clientPanelHead {
+  padding: 24px 24px 18px;
+  border-bottom: 1px solid rgba(74,58,50,0.08);
+}
+
+.clientPanelHead h2 {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.clientList {
+  display: grid;
+}
+
+.clientListItem {
+  position: relative;
+  border-bottom: 1px solid rgba(74,58,50,0.08);
+}
+
+.clientListItem:last-child {
+  border-bottom: 0;
+}
+
+.clientListMain {
+  width: 100%;
+  min-width: 0;
+  padding: 17px 20px;
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  gap: 13px;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.clientListItemActive .clientListMain {
+  background: rgba(247,241,234,0.88);
+}
+
+.clientAvatar {
+  width: 42px;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #eadbd0;
+  font-family: "Bride", Georgia, serif;
+  font-size: 1.2rem;
+  color: var(--accent-deep);
+}
+
+.clientListMain > span:nth-child(2) {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+
+.clientListMain strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "Bride", Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+
+.clientListMain small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(74,58,50,0.56);
+  font-size: 0.72rem;
+}
+
+.clientStatus {
+  padding: 5px 8px;
+  border-radius: 999px;
+  font-size: 0.61rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.clientStatusActive {
+  color: #59634f;
+  background: rgba(106,120,87,0.12);
+}
+
+.clientStatusInvited {
+  color: #875f4f;
+  background: rgba(168,111,93,0.11);
+}
+
+.clientResendButton {
+  margin: -6px 20px 14px 75px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent-deep);
+  font-size: 0.69rem;
+  cursor: pointer;
+}
+
+.clientResendButton:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
+
+.clientDetailPanel {
+  min-height: 480px;
+}
+
+.clientDetailEmpty {
+  min-height: 480px;
+  padding: clamp(32px, 5vw, 64px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.clientDetailEmpty h2 {
+  font-size: clamp(2.2rem, 3.8vw, 3.8rem);
+  line-height: 1;
+}
+
+.clientDetailEmpty > p:last-child {
+  max-width: 440px;
+  line-height: 1.65;
+  color: rgba(74,58,50,0.62);
+}
+
+.clientDetailHead {
+  padding: 26px 28px 22px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+  border-bottom: 1px solid rgba(74,58,50,0.08);
+}
+
+.clientDetailHead h2 {
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.clientDetailHead > div > p:last-child {
+  margin: 7px 0 0;
+  color: rgba(74,58,50,0.56);
+  font-size: 0.78rem;
+}
+
+.clientDetailMeta {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  border-bottom: 1px solid rgba(74,58,50,0.08);
+}
+
+.clientDetailMeta > div {
+  padding: 18px 22px;
+  display: grid;
+  gap: 6px;
+  border-right: 1px solid rgba(74,58,50,0.08);
+}
+
+.clientDetailMeta > div:last-child {
+  border-right: 0;
+}
+
+.clientDetailMeta span {
+  font-size: 0.6rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(74,58,50,0.45);
+}
+
+.clientDetailMeta strong {
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.clientIntakeLoading,
+.clientNoIntake {
+  padding: 34px 28px;
+}
+
+.clientIntakeLoading {
+  color: rgba(74,58,50,0.58);
+  font-size: 0.82rem;
+}
+
+.clientNoIntake h3 {
+  font-size: 2rem;
+}
+
+.clientNoIntake > p:last-child {
+  color: rgba(74,58,50,0.58);
+}
+
+.clientIntakeView {
+  padding: 0 28px 30px;
+}
+
+.clientIntakeViewHead {
+  padding: 28px 0 22px;
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.clientIntakeViewHead h3 {
+  font-size: 2rem;
+}
+
+.clientIntakeViewHead > span {
+  font-size: 0.7rem;
+  color: rgba(74,58,50,0.5);
+}
+
+.clientIntakeView section {
+  padding: 22px 0;
+  border-top: 1px solid rgba(74,58,50,0.09);
+}
+
+.clientIntakeView h4 {
+  margin: 0 0 14px;
+  font-family: "Bride", Georgia, serif;
+  font-size: 1.3rem;
+  font-weight: 400;
+}
+
+.adminIntakeRow {
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: minmax(140px, 0.42fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.adminIntakeRow > span {
+  font-size: 0.68rem;
+  line-height: 1.45;
+  color: rgba(74,58,50,0.5);
+}
+
+.adminIntakeRow > div {
+  min-width: 0;
+}
+
+.adminIntakeRow strong {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 500;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.adminIntakeMultiline {
+  white-space: pre-wrap;
+}
+
+.adminIntakeRow p {
+  margin: 5px 0 0;
+  font-size: 0.76rem;
+  line-height: 1.55;
+  color: rgba(74,58,50,0.68);
+  white-space: pre-wrap;
+}
+
+@media (max-width: 1180px) {
+  .clientInviteCard {
+    grid-template-columns: 1fr;
+  }
+
+  .clientAdminGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .clientInviteCard {
+    padding: 24px 18px;
+  }
+
+  .clientInviteForm {
+    grid-template-columns: 1fr;
+  }
+
+  .clientInviteForm .primaryButton {
+    width: 100%;
+  }
+
+  .clientListMain {
+    grid-template-columns: 38px minmax(0,1fr);
+  }
+
+  .clientAvatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .clientStatus {
+    grid-column: 2;
+    width: max-content;
+  }
+
+  .clientResendButton {
+    margin-left: 71px;
+  }
+
+  .clientDetailHead {
+    padding: 22px 18px 18px;
+  }
+
+  .clientDetailMeta {
+    grid-template-columns: 1fr;
+  }
+
+  .clientDetailMeta > div {
+    border-right: 0;
+    border-bottom: 1px solid rgba(74,58,50,0.08);
+  }
+
+  .clientDetailMeta > div:last-child {
+    border-bottom: 0;
+  }
+
+  .clientIntakeView {
+    padding: 0 18px 24px;
+  }
+
+  .adminIntakeRow {
+    grid-template-columns: 1fr;
+    gap: 5px;
+  }
+}
