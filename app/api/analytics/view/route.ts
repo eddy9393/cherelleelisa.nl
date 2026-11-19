@@ -6,12 +6,32 @@ function clean(value: unknown, max: number) {
   return String(value ?? "").trim().slice(0, max);
 }
 
+function looksAutomated(userAgent: string) {
+  return /bot|crawler|spider|headless|lighthouse|pagespeed|preview|prerender|facebookexternalhit|whatsapp|slackbot|discordbot/i.test(userAgent);
+}
+
 export async function POST(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
 
   if (!supabaseUrl || !supabaseKey) {
     return NextResponse.json({ ok: false }, { status: 503 });
+  }
+
+  const userAgent = request.headers.get("user-agent") ?? "";
+  const fetchSite = request.headers.get("sec-fetch-site");
+  const origin = request.headers.get("origin");
+
+  if (looksAutomated(userAgent)) {
+    return NextResponse.json({ ok: true, ignored: true });
+  }
+
+  if (fetchSite && fetchSite !== "same-origin") {
+    return NextResponse.json({ ok: true, ignored: true });
+  }
+
+  if (origin && origin !== request.nextUrl.origin) {
+    return NextResponse.json({ ok: true, ignored: true });
   }
 
   let body: Record<string, unknown>;
@@ -24,8 +44,9 @@ export async function POST(request: NextRequest) {
   const sessionId = clean(body.session_id, 100);
   const path = clean(body.path, 300);
   const referrer = clean(body.referrer, 500) || null;
+  const engaged = body.engaged === true;
 
-  if (sessionId.length < 8 || !path.startsWith("/")) {
+  if (!engaged || sessionId.length < 8 || !path.startsWith("/")) {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 
@@ -49,6 +70,7 @@ export async function POST(request: NextRequest) {
       session_id: sessionId,
       path,
       referrer,
+      verified: true,
     }),
   });
 
