@@ -43,12 +43,14 @@ export async function POST(request: NextRequest) {
   }
 
   const action = body.action === "resend" ? "resend" : "invite";
-  const name = clean(body.name, 160);
+  const firstName = clean(body.first_name, 80);
+  const lastName = clean(body.last_name, 100);
+  const phone = clean(body.phone, 60);
   const email = clean(body.email, 254).toLowerCase();
 
-  if (!email || (action === "invite" && !name)) {
+  if (!email || (action === "invite" && (!firstName || !lastName))) {
     return NextResponse.json(
-      { ok: false, error: "Naam en e-mailadres zijn verplicht." },
+      { ok: false, error: "Voornaam, achternaam en e-mailadres zijn verplicht." },
       { status: 400 }
     );
   }
@@ -60,7 +62,7 @@ export async function POST(request: NextRequest) {
       apikey: supabaseKey,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ action, name, email }),
+    body: JSON.stringify({ action, first_name: firstName, last_name: lastName, phone, email }),
     cache: "no-store",
   });
 
@@ -93,8 +95,9 @@ export async function POST(request: NextRequest) {
   inviteUrl.searchParams.set("token_hash", tokenHash);
   inviteUrl.searchParams.set("type", verificationType);
 
-  const displayName = clean(client.name || name, 160);
-  const safeName = escapeHtml(displayName || "lieve vrouw");
+  const displayName = clean(client.name || [firstName, lastName].filter(Boolean).join(" "), 160);
+  const greetingName = firstName || displayName.split(/\s+/)[0] || "vrouw";
+  const safeName = escapeHtml(greetingName);
   const safeInviteUrl = escapeHtml(inviteUrl.toString());
 
   const html = `<!DOCTYPE html>
@@ -150,7 +153,7 @@ export async function POST(request: NextRequest) {
   const text = [
     "Cherelle Elisa",
     "",
-    `Lieve ${displayName || "vrouw"},`,
+    `Lieve ${greetingName},`,
     "",
     "Wat bijzonder dat je ‘ja’ hebt gezegd tegen jezelf.",
     "Via jouw persoonlijke omgeving kun je je intake invullen en de voorbereiding en contra-indicaties teruglezen.",
