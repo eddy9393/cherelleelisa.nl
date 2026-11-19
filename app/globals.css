@@ -8589,3 +8589,302 @@ body,
     width: 100%;
   }
 }
+
+
+/* 2026-11-19 client messages and account settings */
+.clientPortalNav button {
+  grid-template-columns: 32px minmax(0, 1fr) auto;
+}
+
+.clientNavBadge {
+  min-width: 22px;
+  height: 22px;
+  padding: 0 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  background: #a86f5d;
+  color: #fff;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 0.62rem;
+  font-weight: 500;
+}
+
+.clientLatestMessage {
+  width: 100%;
+  padding: 24px 28px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px 20px;
+  align-items: center;
+  border: 1px solid rgba(168,111,93,0.18);
+  border-radius: 0 20px 20px 20px;
+  background:
+    radial-gradient(circle at 92% 18%, rgba(201,167,161,0.18), transparent 34%),
+    #f4ebe4;
+  color: #2f241d;
+  text-align: left;
+  cursor: pointer;
+}
+
+.clientLatestMessage > span {
+  grid-column: 1;
+  font-size: 0.62rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: rgba(74,58,50,0.48);
+}
+
+.clientLatestMessage strong {
+  grid-column: 1;
+  font-family: var(--font-display), serif;
+  font-size: 1.75rem;
+  font-weight: 400;
+}
+
+.clientLatestMessage p {
+  grid-column: 1;
+  margin: 2px 0 0;
+  max-width: 820px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: pre-wrap;
+  color: rgba(74,58,50,0.67);
+  line-height: 1.55;
+}
+
+.clientLatestMessage small {
+  grid-column: 2;
+  grid-row: 1 / span 3;
+  color: #855747;
+  font-family: var(--font-display), serif;
+  font-size: 0.92rem;
+}
+
+.clientMessagesPage,
+.clientSettingsPage {
+  padding: clamp(32px, 5vw, 70px);
+  border: 1px solid rgba(74,58,50,0.09);
+  border-radius: 0 26px 26px 26px;
+  background: #fff;
+  box-shadow: 0 22px 55px rgba(74,58,50,0.045);
+}
+
+.clientMessageList {
+  display: grid;
+  border-top: 1px solid rgba(74,58,50,0.1);
+}
+
+.clientMessageList article {
+  position: relative;
+  padding: 28px 0;
+  border-bottom: 1px solid rgba(74,58,50,0.08);
+}
+
+.clientMessageList article.isUnread {
+  padding-left: 20px;
+}
+
+.clientMessageList article.isUnread::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 34px;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #a86f5d;
+}
+
+.clientMessageMeta {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.clientMessageMeta span,
+.clientMessageMeta strong {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.clientMessageMeta span {
+  color: rgba(74,58,50,0.46);
+}
+
+.clientMessageMeta strong {
+  color: #a86f5d;
+  font-weight: 500;
+}
+
+.clientMessageList h3,
+.clientMessageEmpty h3,
+.clientSettingsCard h3 {
+  margin: 14px 0 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.8rem, 3vw, 2.8rem);
+  line-height: 1.02;
+  font-weight: 400;
+  color: #2f241d;
+}
+
+.clientMessageList article > p {
+  max-width: 900px;
+  margin: 16px 0 0;
+  white-space: pre-wrap;
+  font-size: 0.92rem;
+  line-height: 1.75;
+  color: rgba(74,58,50,0.7);
+}
+
+.clientMessageEmpty {
+  padding: 40px 0;
+}
+
+.clientMessageEmpty p {
+  margin: 12px 0 0;
+  color: rgba(74,58,50,0.62);
+}
+
+.clientSettingsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 16px;
+}
+
+.clientSettingsCard {
+  padding: 28px;
+  display: grid;
+  gap: 16px;
+  align-content: start;
+  border: 1px solid rgba(74,58,50,0.1);
+  border-radius: 18px 18px 18px 5px;
+  background: #fcfaf7;
+}
+
+.clientSettingsCard > div:first-child > span {
+  font-size: 0.62rem;
+  letter-spacing: 0.14em;
+  color: #a86f5d;
+}
+
+.clientSettingsCard h3 {
+  margin-top: 8px;
+  font-size: 2rem;
+}
+
+.clientSettingsCard label {
+  display: grid;
+  gap: 7px;
+}
+
+.clientSettingsCard label > span {
+  font-size: 0.69rem;
+  color: rgba(74,58,50,0.58);
+}
+
+.clientSettingsCard input {
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid rgba(74,58,50,0.16);
+  border-radius: 11px;
+  background: #fff;
+  color: #2f241d;
+  font: inherit;
+  outline: none;
+}
+
+.clientSettingsCard input:focus {
+  border-color: rgba(168,111,93,0.66);
+  box-shadow: 0 0 0 3px rgba(168,111,93,0.07);
+}
+
+.clientSettingsCard button {
+  min-height: 44px;
+  margin-top: 4px;
+  padding: 10px 16px;
+  border: 1px solid #a86f5d;
+  border-radius: 17px 17px 17px 5px;
+  background: #a86f5d;
+  color: #fff;
+  font-family: var(--font-display), serif;
+  font-size: 0.92rem;
+  cursor: pointer;
+}
+
+.clientSettingsCard button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.clientDangerCard {
+  grid-column: 1 / -1;
+  border-color: rgba(139,61,56,0.14);
+  background: rgba(139,61,56,0.035);
+}
+
+.clientDangerCard > p {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(74,58,50,0.67);
+  line-height: 1.65;
+}
+
+.clientDangerCard button {
+  width: max-content;
+  border-color: rgba(139,61,56,0.35);
+  background: transparent;
+  color: #8b3d38;
+}
+
+@media (max-width: 900px) {
+  .clientPortalNav button {
+    grid-template-columns: auto auto auto;
+  }
+
+  .clientLatestMessage {
+    grid-template-columns: 1fr;
+  }
+
+  .clientLatestMessage small {
+    grid-column: 1;
+    grid-row: auto;
+    margin-top: 6px;
+  }
+
+  .clientSettingsGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .clientDangerCard {
+    grid-column: auto;
+  }
+}
+
+@media (max-width: 600px) {
+  .clientMessagesPage,
+  .clientSettingsPage {
+    padding: 30px 20px;
+    border-radius: 0 20px 20px 20px;
+  }
+
+  .clientLatestMessage {
+    padding: 22px 20px;
+  }
+
+  .clientMessageList article.isUnread {
+    padding-left: 16px;
+  }
+
+  .clientSettingsCard {
+    padding: 22px 18px;
+  }
+
+  .clientDangerCard button {
+    width: 100%;
+  }
+}
