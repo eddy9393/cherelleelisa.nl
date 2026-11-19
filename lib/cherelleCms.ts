@@ -671,9 +671,13 @@ export async function loadAdminIntake(
 
 export async function inviteClient(
   session: CmsSession,
-  name: string,
-  email: string,
-  action: "invite" | "resend" = "invite"
+  input: {
+    firstName?: string;
+    lastName?: string;
+    phone?: string;
+    email: string;
+    action?: "invite" | "resend";
+  }
 ): Promise<CherelleClient> {
   const response = await fetch("/api/admin/clients", {
     method: "POST",
@@ -681,7 +685,13 @@ export async function inviteClient(
       Authorization: `Bearer ${session.access_token}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ action, name, email }),
+    body: JSON.stringify({
+      action: input.action ?? "invite",
+      first_name: input.firstName ?? "",
+      last_name: input.lastName ?? "",
+      phone: input.phone ?? "",
+      email: input.email,
+    }),
   });
 
   const data = await response.json().catch(() => ({}));
