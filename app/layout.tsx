@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
+import SiteAnalytics from "./components/SiteAnalytics";
 import { Manrope } from "next/font/google";
 import "./globals.css";
 
@@ -28,7 +30,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="nl" className={sans.variable}>
-      <body>{children}</body>
+      <body>{children}<Suspense fallback={null}><SiteAnalytics /></Suspense></body>
     </html>
   );
 }
