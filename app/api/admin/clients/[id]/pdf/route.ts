@@ -25,8 +25,17 @@ function experienceText(value: unknown) {
   return "-";
 }
 
+function pdfSafe(value: string) {
+  return value
+    .replace(/[\u2018\u2019]/g, "'")
+    .replace(/[\u201C\u201D]/g, '"')
+    .replace(/[\u2013\u2014]/g, "-")
+    .replace(/\u2026/g, "...")
+    .replace(/[^\x09\x0A\x0D\x20-\x7E\u00A0-\u00FF\u20AC]/g, "");
+}
+
 function text(value: unknown) {
-  const result = String(value ?? "").trim();
+  const result = pdfSafe(String(value ?? "").trim());
   return result || "-";
 }
 
@@ -180,7 +189,8 @@ export async function GET(
     const lineHeight = options.lineHeight ?? size * 1.45;
     const indent = options.indent ?? 0;
     const maxWidth = options.maxWidth ?? contentWidth - indent;
-    const lines = value.split("\n").flatMap((part) => wrapText(part || " ", font, size, maxWidth));
+    const safeValue = pdfSafe(value);
+    const lines = safeValue.split("\n").flatMap((part) => wrapText(part || " ", font, size, maxWidth));
 
     ensureHeight(lines.length * lineHeight + 4);
     for (const line of lines) {
