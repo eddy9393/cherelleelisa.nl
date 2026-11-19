@@ -320,7 +320,7 @@ export default function ClientAccountPage() {
             <div className="clientOverview">
               <div className="clientOverviewIntro">
                 <p className="accountPortalKicker">Sound of soul</p>
-                <h2>Lieve {client.name},</h2>
+                <h2>Lieve {client.name.trim().split(" ")[0]},</h2>
                 <p>
                   Wat bijzonder dat je ‘ja’ hebt gezegd tegen jezelf. Door deze keuze open je de deur naar meer bewustzijn,
                   energie en diepe transformatie. Deze intake helpt om jouw sessie veilig en afgestemd te laten verlopen.
