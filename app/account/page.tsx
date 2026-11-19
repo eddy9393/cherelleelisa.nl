@@ -73,7 +73,10 @@ export default function AccountPage() {
 
   return (
     <main className="accountPortalPage">
-      <a className="accountPortalBack" href="/">← Terug naar website</a>
+      <a className="accountPortalBack" href="/">
+        <span className="accountPortalBackIcon" aria-hidden="true">←</span>
+        <span>Terug naar website</span>
+      </a>
 
       <section className="accountPortalCard">
         <p className="accountPortalScript">Cherelle Elisa</p>
