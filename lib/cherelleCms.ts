@@ -36,6 +36,47 @@ export type CmsSession = {
   };
 };
 
+export type CherelleClientStatus = "invited" | "active" | "completed" | "archived";
+
+export type CherelleClient = {
+  id: string;
+  user_id: string;
+  name: string;
+  email: string;
+  status: CherelleClientStatus;
+  invited_at: string;
+  activated_at: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type CherelleIntake = {
+  client_id: string;
+  birth_date: string | null;
+  phone: string | null;
+  intention: string | null;
+  energy_experience_level: "none" | "basic" | "advanced" | null;
+  intense_energy_experience: boolean | null;
+  intense_energy_details: string | null;
+  physical_conditions: boolean | null;
+  physical_conditions_details: string | null;
+  medications: boolean | null;
+  medications_details: string | null;
+  meditation_breathwork_experience: boolean | null;
+  meditation_breathwork_details: string | null;
+  mental_health_or_trauma: boolean | null;
+  mental_health_or_trauma_details: string | null;
+  stimulants: boolean | null;
+  stimulants_details: string | null;
+  contraindications_acknowledged: boolean;
+  declaration_accepted: boolean;
+  signature_name: string | null;
+  signature_date: string | null;
+  submitted_at: string | null;
+  updated_at: string;
+};
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "") ?? "";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "";
 const sessionKey = "cherelle-cms-session";
@@ -415,6 +456,202 @@ export function getSavedAccountSession(): CmsSession | null {
 
 export function clearAccountSession() {
   if (typeof window !== "undefined") window.localStorage.removeItem(accountSessionKey);
+}
+
+export function saveAccountSession(session: CmsSession) {
+  if (typeof window !== "undefined") {
+    window.localStorage.setItem(accountSessionKey, JSON.stringify(session));
+  }
+}
+
+export async function verifyClientInviteToken(tokenHash: string, type: string): Promise<CmsSession> {
+  if (!isCmsConfigured) throw new Error("De persoonlijke omgeving is niet geconfigureerd.");
+
+  const allowedTypes = new Set(["invite", "magiclink"]);
+  if (!tokenHash || !allowedTypes.has(type)) {
+    throw new Error("Deze uitnodigingslink is ongeldig.");
+  }
+
+  const response = await fetch(`${supabaseUrl}/auth/v1/verify`, {
+    method: "POST",
+    headers: {
+      apikey: supabaseKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token_hash: tokenHash, type }),
+  });
+
+  if (!response.ok) {
+    throw new Error("Deze uitnodigingslink is ongeldig of verlopen. Vraag Cherelle om een nieuwe uitnodiging.");
+  }
+
+  const data = await response.json();
+  const source = data.session ?? data;
+  const user = data.user ?? source.user;
+
+  if (!source.access_token || !source.refresh_token || !user?.id) {
+    throw new Error("De uitnodiging kon niet worden bevestigd.");
+  }
+
+  const session: CmsSession = {
+    access_token: source.access_token,
+    refresh_token: source.refresh_token,
+    expires_at: Date.now() + Number(source.expires_in ?? 3600) * 1000,
+    user: {
+      id: user.id,
+      email: user.email,
+    },
+  };
+
+  saveAccountSession(session);
+  return session;
+}
+
+export async function setAccountPassword(session: CmsSession, password: string) {
+  if (password.length < 8) throw new Error("Gebruik minimaal 8 tekens voor je wachtwoord.");
+
+  const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
+    method: "PUT",
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${session.access_token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ password }),
+  });
+
+  if (!response.ok) throw new Error(await responseError(response));
+}
+
+export async function activateClientAccount(session: CmsSession) {
+  const now = new Date().toISOString();
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_clients?user_id=eq.${encodeURIComponent(session.user.id)}`,
+    {
+      method: "PATCH",
+      headers: {
+        ...headers(session.access_token),
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify({
+        status: "active",
+        activated_at: now,
+        updated_at: now,
+      }),
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+}
+
+export async function loadOwnClientPortal(session: CmsSession): Promise<{
+  client: CherelleClient;
+  intake: CherelleIntake | null;
+}> {
+  const clientResponse = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_clients?select=*&user_id=eq.${encodeURIComponent(session.user.id)}&limit=1`,
+    {
+      headers: headers(session.access_token),
+      cache: "no-store",
+    }
+  );
+
+  if (!clientResponse.ok) throw new Error(await responseError(clientResponse));
+  const clients = await clientResponse.json() as CherelleClient[];
+  const client = clients[0];
+  if (!client) throw new Error("Er is geen klantprofiel aan dit account gekoppeld.");
+
+  const intakeResponse = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_intakes?select=*&client_id=eq.${encodeURIComponent(client.id)}&limit=1`,
+    {
+      headers: headers(session.access_token),
+      cache: "no-store",
+    }
+  );
+
+  if (!intakeResponse.ok) throw new Error(await responseError(intakeResponse));
+  const intakes = await intakeResponse.json() as CherelleIntake[];
+
+  return { client, intake: intakes[0] ?? null };
+}
+
+export async function saveClientIntake(
+  session: CmsSession,
+  clientId: string,
+  intake: Omit<CherelleIntake, "client_id" | "updated_at">
+) {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_intakes?on_conflict=client_id`,
+    {
+      method: "POST",
+      headers: {
+        ...headers(session.access_token),
+        Prefer: "resolution=merge-duplicates,return=representation",
+      },
+      body: JSON.stringify({
+        client_id: clientId,
+        ...intake,
+        updated_at: new Date().toISOString(),
+      }),
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+  const rows = await response.json() as CherelleIntake[];
+  return rows[0];
+}
+
+export async function loadAdminClients(session: CmsSession): Promise<CherelleClient[]> {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_clients?select=*&order=created_at.desc`,
+    {
+      headers: headers(session.access_token),
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+  return await response.json() as CherelleClient[];
+}
+
+export async function loadAdminIntake(
+  session: CmsSession,
+  clientId: string
+): Promise<CherelleIntake | null> {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_intakes?select=*&client_id=eq.${encodeURIComponent(clientId)}&limit=1`,
+    {
+      headers: headers(session.access_token),
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+  const rows = await response.json() as CherelleIntake[];
+  return rows[0] ?? null;
+}
+
+export async function inviteClient(
+  session: CmsSession,
+  name: string,
+  email: string,
+  action: "invite" | "resend" = "invite"
+): Promise<CherelleClient> {
+  const response = await fetch("/api/admin/clients", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${session.access_token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ action, name, email }),
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) {
+    throw new Error(data?.error || "Uitnodiging kon niet worden verstuurd.");
+  }
+
+  return data.client as CherelleClient;
 }
 
 export async function verifyAccountSession(session: CmsSession) {
