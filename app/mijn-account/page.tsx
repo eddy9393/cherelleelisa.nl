@@ -4,16 +4,23 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import {
   accountIsAdmin,
   CherelleClient,
+  CherelleClientMessage,
   CherelleIntake,
   clearAccountSession,
   CmsSession,
+  deleteOwnClientAccount,
   getSavedAccountSession,
+  loadClientMessages,
   loadOwnClientPortal,
+  markClientMessagesRead,
   saveClientIntake,
+  setAccountPassword,
+  updateAccountEmail,
+  updateClientProfile,
   verifyAccountSession,
 } from "../../lib/cherelleCms";
 
-type PortalSection = "overzicht" | "intake" | "voorbereiding" | "contra";
+type PortalSection = "overzicht" | "berichten" | "intake" | "voorbereiding" | "contra" | "gegevens";
 
 type IntakeDraft = Omit<CherelleIntake, "client_id" | "updated_at">;
 
@@ -98,11 +105,19 @@ export default function ClientAccountPage() {
   const [session, setSession] = useState<CmsSession | null>(null);
   const [client, setClient] = useState<CherelleClient | null>(null);
   const [draft, setDraft] = useState<IntakeDraft>(emptyIntake);
+  const [messages, setMessages] = useState<CherelleClientMessage[]>([]);
   const [section, setSection] = useState<PortalSection>("overzicht");
   const [ready, setReady] = useState(false);
   const [saving, setSaving] = useState(false);
+  const [accountBusy, setAccountBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [profileName, setProfileName] = useState("");
+  const [profilePhone, setProfilePhone] = useState("");
+  const [profileEmail, setProfileEmail] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newPasswordAgain, setNewPasswordAgain] = useState("");
+  const [deleteConfirm, setDeleteConfirm] = useState("");
 
   const submitted = Boolean(draft.submitted_at);
 
@@ -146,9 +161,14 @@ export default function ClientAccountPage() {
 
       try {
         const data = await loadOwnClientPortal(saved);
+        const messageRows = await loadClientMessages(saved, data.client.id);
         if (!active) return;
         setSession(saved);
         setClient(data.client);
+        setMessages(messageRows);
+        setProfileName(data.client.name);
+        setProfilePhone(data.intake?.phone ?? "");
+        setProfileEmail(data.client.email);
         setDraft(
           data.intake
             ? { ...data.intake }
@@ -178,6 +198,117 @@ export default function ClientAccountPage() {
   function logout() {
     clearAccountSession();
     window.location.replace("/");
+  }
+
+  async function openPortalSection(next: PortalSection) {
+    setSection(next);
+    setError("");
+    setMessage("");
+
+    if (next === "berichten" && session && client && messages.some((item) => !item.read_at)) {
+      try {
+        await markClientMessagesRead(session, client.id);
+        const now = new Date().toISOString();
+        setMessages((current) => current.map((item) => ({ ...item, read_at: item.read_at || now })));
+      } catch {
+        // The messages remain readable even when the read marker cannot be stored.
+      }
+    }
+  }
+
+  async function handleProfileSave(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!session || !client) return;
+
+    const name = profileName.trim();
+    const email = profileEmail.trim().toLowerCase();
+    if (!name || !email) {
+      setError("Naam en e-mailadres zijn verplicht.");
+      return;
+    }
+
+    setAccountBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      let nextSession = session;
+      await updateClientProfile(session, client.id, name, profilePhone);
+
+      if (email !== client.email.toLowerCase()) {
+        nextSession = await updateAccountEmail(session, email);
+        setSession(nextSession);
+      }
+
+      const fresh = await loadOwnClientPortal(nextSession);
+      setClient(fresh.client);
+      setDraft(
+        fresh.intake
+          ? { ...fresh.intake }
+          : { ...emptyIntake, signature_date: new Date().toISOString().slice(0, 10) }
+      );
+      setProfileName(fresh.client.name);
+      setProfilePhone(fresh.intake?.phone ?? profilePhone);
+      setProfileEmail(fresh.client.email);
+      setMessage(
+        email !== client.email.toLowerCase()
+          ? "Je gegevens zijn opgeslagen. Voor een nieuw e-mailadres kan nog een bevestigingsmail nodig zijn."
+          : "Je gegevens zijn opgeslagen."
+      );
+    } catch (saveError) {
+      setError(saveError instanceof Error ? saveError.message : "Je gegevens konden niet worden opgeslagen.");
+    } finally {
+      setAccountBusy(false);
+    }
+  }
+
+  async function handlePasswordChange(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!session) return;
+
+    if (newPassword.length < 8) {
+      setError("Gebruik minimaal 8 tekens voor je nieuwe wachtwoord.");
+      return;
+    }
+    if (newPassword !== newPasswordAgain) {
+      setError("De wachtwoorden zijn niet hetzelfde.");
+      return;
+    }
+
+    setAccountBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await setAccountPassword(session, newPassword);
+      setNewPassword("");
+      setNewPasswordAgain("");
+      setMessage("Je wachtwoord is aangepast.");
+    } catch (passwordError) {
+      setError(passwordError instanceof Error ? passwordError.message : "Je wachtwoord kon niet worden aangepast.");
+    } finally {
+      setAccountBusy(false);
+    }
+  }
+
+  async function handleAccountDelete() {
+    if (!session || deleteConfirm !== "VERWIJDEREN") {
+      setError("Typ VERWIJDEREN om het account definitief te verwijderen.");
+      return;
+    }
+
+    setAccountBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await deleteOwnClientAccount(session);
+      clearAccountSession();
+      window.location.replace("/");
+    } catch (deleteError) {
+      setError(deleteError instanceof Error ? deleteError.message : "Je account kon niet worden verwijderd.");
+      setAccountBusy(false);
+    }
   }
 
   function update<K extends keyof IntakeDraft>(key: K, value: IntakeDraft[K]) {
@@ -296,24 +427,26 @@ export default function ClientAccountPage() {
         <nav className="clientPortalNav" aria-label="Persoonlijke omgeving">
           {([
             ["overzicht", "Overzicht"],
+            ["berichten", "Berichten"],
             ["intake", "Intake"],
             ["voorbereiding", "Voorbereiding"],
             ["contra", "Contra-indicaties"],
-          ] as Array<[PortalSection, string]>).map(([id, label], index) => (
-            <button
-              key={id}
-              type="button"
-              className={section === id ? "isActive" : ""}
-              onClick={() => {
-                setSection(id);
-                setError("");
-                setMessage("");
-              }}
-            >
-              <span>0{index + 1}</span>
-              {label}
-            </button>
-          ))}
+            ["gegevens", "Mijn gegevens"],
+          ] as Array<[PortalSection, string]>).map(([id, label], index) => {
+            const unread = id === "berichten" ? messages.filter((item) => !item.read_at).length : 0;
+            return (
+              <button
+                key={id}
+                type="button"
+                className={section === id ? "isActive" : ""}
+                onClick={() => void openPortalSection(id)}
+              >
+                <span>0{index + 1}</span>
+                <span>{label}</span>
+                {unread > 0 && <strong className="clientNavBadge">{unread}</strong>}
+              </button>
+            );
+          })}
         </nav>
 
         <section className="clientPortalPanel">
@@ -336,6 +469,15 @@ export default function ClientAccountPage() {
                 <p>Ik kijk ernaar uit om deze reis samen met jou te maken. ✨</p>
               </div>
 
+              {messages[0] && (
+                <button className="clientLatestMessage" type="button" onClick={() => void openPortalSection("berichten")}>
+                  <span>Bericht van Cherelle</span>
+                  <strong>{messages[0].subject}</strong>
+                  <p>{messages[0].body}</p>
+                  <small>Bekijk bericht →</small>
+                </button>
+              )}
+
               <div className="clientOverviewCards">
                 <button type="button" onClick={() => setSection("intake")}>
                   <span>01</span>
@@ -352,6 +494,36 @@ export default function ClientAccountPage() {
                   <strong>Contra-indicaties</strong>
                   <p>Lees deze informatie zorgvuldig door voor jouw sessie.</p>
                 </button>
+              </div>
+            </div>
+          )}
+
+          {section === "berichten" && (
+            <div className="clientMessagesPage">
+              <header className="clientSectionHeading">
+                <p className="accountPortalKicker">Berichten</p>
+                <h2>Een bericht van Cherelle.</h2>
+                <p>Persoonlijke berichten die Cherelle voor jou klaarzet, blijven hier terug te lezen.</p>
+              </header>
+
+              <div className="clientMessageList">
+                {messages.length === 0 ? (
+                  <div className="clientMessageEmpty">
+                    <h3>Nog geen berichten.</h3>
+                    <p>Wanneer Cherelle iets persoonlijk met je deelt, verschijnt het hier.</p>
+                  </div>
+                ) : (
+                  messages.map((item) => (
+                    <article key={item.id} className={!item.read_at ? "isUnread" : ""}>
+                      <div className="clientMessageMeta">
+                        <span>{formatDate(item.created_at)}</span>
+                        {!item.read_at && <strong>Nieuw</strong>}
+                      </div>
+                      <h3>{item.subject}</h3>
+                      <p>{item.body}</p>
+                    </article>
+                  ))
+                )}
               </div>
             </div>
           )}
@@ -613,6 +785,93 @@ export default function ClientAccountPage() {
               </div>
             </div>
           )}
+          {section === "gegevens" && (
+            <div className="clientSettingsPage">
+              <header className="clientSectionHeading">
+                <p className="accountPortalKicker">Mijn gegevens</p>
+                <h2>Jouw account en gegevens.</h2>
+                <p>Pas je contactgegevens of wachtwoord aan, of verwijder je account definitief.</p>
+              </header>
+
+              <div className="clientSettingsGrid">
+                <form className="clientSettingsCard" onSubmit={handleProfileSave}>
+                  <div>
+                    <span>01</span>
+                    <h3>Persoonlijke gegevens</h3>
+                  </div>
+                  <label>
+                    <span>Naam</span>
+                    <input value={profileName} onChange={(event) => setProfileName(event.target.value)} required />
+                  </label>
+                  <label>
+                    <span>Telefoonnummer</span>
+                    <input type="tel" value={profilePhone} onChange={(event) => setProfilePhone(event.target.value)} />
+                  </label>
+                  <label>
+                    <span>E-mailadres</span>
+                    <input type="email" value={profileEmail} onChange={(event) => setProfileEmail(event.target.value)} required />
+                  </label>
+                  <button type="submit" disabled={accountBusy}>
+                    {accountBusy ? "Opslaan…" : "Gegevens opslaan"}
+                  </button>
+                </form>
+
+                <form className="clientSettingsCard" onSubmit={handlePasswordChange}>
+                  <div>
+                    <span>02</span>
+                    <h3>Wachtwoord</h3>
+                  </div>
+                  <label>
+                    <span>Nieuw wachtwoord</span>
+                    <input
+                      type="password"
+                      autoComplete="new-password"
+                      value={newPassword}
+                      onChange={(event) => setNewPassword(event.target.value)}
+                      minLength={8}
+                      required
+                    />
+                  </label>
+                  <label>
+                    <span>Herhaal wachtwoord</span>
+                    <input
+                      type="password"
+                      autoComplete="new-password"
+                      value={newPasswordAgain}
+                      onChange={(event) => setNewPasswordAgain(event.target.value)}
+                      minLength={8}
+                      required
+                    />
+                  </label>
+                  <button type="submit" disabled={accountBusy}>
+                    {accountBusy ? "Aanpassen…" : "Wachtwoord aanpassen"}
+                  </button>
+                </form>
+
+                <section className="clientSettingsCard clientDangerCard">
+                  <div>
+                    <span>03</span>
+                    <h3>Account verwijderen</h3>
+                  </div>
+                  <p>
+                    Hiermee worden je account, intake en persoonlijke berichten definitief verwijderd. Dit kan niet ongedaan worden gemaakt.
+                  </p>
+                  <label>
+                    <span>Typ VERWIJDEREN ter bevestiging</span>
+                    <input value={deleteConfirm} onChange={(event) => setDeleteConfirm(event.target.value)} />
+                  </label>
+                  <button
+                    type="button"
+                    disabled={accountBusy || deleteConfirm !== "VERWIJDEREN"}
+                    onClick={() => void handleAccountDelete()}
+                  >
+                    Account definitief verwijderen
+                  </button>
+                </section>
+              </div>
+            </div>
+          )}
+
         </section>
       </div>
     </main>
