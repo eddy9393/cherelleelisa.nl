@@ -903,6 +903,21 @@ export async function deleteOwnClientAccount(session: CmsSession) {
   if (!response.ok) throw new Error(data?.error || "Account kon niet worden verwijderd.");
 }
 
+export async function clearNewsletterHistory(session: CmsSession) {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_newsletters?id=not.is.null`,
+    {
+      method: "DELETE",
+      headers: {
+        ...headers(session.access_token),
+        Prefer: "return=minimal",
+      },
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+}
+
 export async function loadNewsletterHistory(
   session: CmsSession
 ): Promise<CherelleNewsletterLog[]> {
