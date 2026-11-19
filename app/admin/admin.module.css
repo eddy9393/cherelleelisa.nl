@@ -2242,3 +2242,132 @@
     justify-self: stretch;
   }
 }
+
+
+/* 2026-11-19 newsletter image editor */
+.newsletterImages {
+  padding: 18px;
+  border: 1px solid rgba(74,58,50,0.09);
+  border-radius: 14px;
+  background: #faf6f1;
+}
+
+.newsletterImagesHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.newsletterImagesHead > div {
+  display: grid;
+  gap: 4px;
+}
+
+.newsletterImagesHead > div > span {
+  font-size: 0.63rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(74,58,50,0.52);
+}
+
+.newsletterImagesHead small {
+  font-size: 0.72rem;
+  line-height: 1.45;
+  color: rgba(74,58,50,0.5);
+}
+
+.newsletterImageUpload {
+  flex: 0 0 auto;
+  position: relative;
+  overflow: hidden;
+  padding: 9px 12px;
+  border: 1px solid rgba(168,111,93,0.28);
+  border-radius: 14px 14px 14px 5px;
+  background: #fff;
+  color: var(--accent-deep);
+  font-family: "Bride", Georgia, serif;
+  font-size: 0.82rem;
+  cursor: pointer;
+}
+
+.newsletterImageUpload input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.newsletterImageGrid {
+  margin-top: 16px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 10px;
+}
+
+.newsletterImageGrid article {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: 12px;
+  background: #eee4dc;
+}
+
+.newsletterImageGrid img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.newsletterImageGrid button {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  padding: 6px 8px;
+  border: 0;
+  border-radius: 10px;
+  background: rgba(47,36,29,0.82);
+  color: #fff;
+  font-size: 0.62rem;
+  cursor: pointer;
+}
+
+.newsletterImageGrid button:disabled,
+.newsletterImageUpload:has(input:disabled) {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.newsletterHistoryImages {
+  margin: 10px 0;
+  display: flex;
+  gap: 7px;
+  flex-wrap: wrap;
+}
+
+.newsletterHistoryImages img {
+  width: 54px;
+  height: 42px;
+  display: block;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(74,58,50,0.08);
+}
+
+@media (max-width: 760px) {
+  .newsletterImagesHead {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .newsletterImageUpload {
+    width: 100%;
+    text-align: center;
+  }
+
+  .newsletterImageGrid {
+    grid-template-columns: repeat(2, minmax(0,1fr));
+  }
+}
