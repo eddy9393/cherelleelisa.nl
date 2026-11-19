@@ -2213,3 +2213,32 @@
     padding-right: 18px;
   }
 }
+
+
+/* 2026-11-19 split client invite fields */
+.clientInviteForm {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.clientInviteForm label > span small {
+  font-size: 0.9em;
+  letter-spacing: 0;
+  text-transform: none;
+  color: rgba(74,58,50,0.42);
+}
+
+.clientInviteForm .primaryButton {
+  grid-column: 1 / -1;
+  justify-self: end;
+}
+
+@media (max-width: 760px) {
+  .clientInviteForm {
+    grid-template-columns: 1fr;
+  }
+
+  .clientInviteForm .primaryButton {
+    grid-column: auto;
+    justify-self: stretch;
+  }
+}
