@@ -8571,3 +8571,21 @@ body,
     border-radius: 0 20px 20px 20px;
   }
 }
+
+
+/* 2026-11-19 intake select width tweak */
+.clientQuestionAnswer {
+  grid-template-columns: minmax(180px, 0.46fr) minmax(0, 1fr);
+}
+
+.clientIntakeForm select {
+  min-width: 180px;
+  padding-right: 34px;
+}
+
+@media (max-width: 600px) {
+  .clientIntakeForm select {
+    min-width: 0;
+    width: 100%;
+  }
+}
