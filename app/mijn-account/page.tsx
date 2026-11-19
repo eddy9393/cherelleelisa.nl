@@ -149,7 +149,14 @@ export default function ClientAccountPage() {
         if (!active) return;
         setSession(saved);
         setClient(data.client);
-        setDraft(data.intake ? { ...data.intake } : emptyIntake);
+        setDraft(
+          data.intake
+            ? { ...data.intake }
+            : {
+                ...emptyIntake,
+                signature_date: new Date().toISOString().slice(0, 10),
+              }
+        );
       } catch (loadError) {
         if (!active) return;
         setError(
