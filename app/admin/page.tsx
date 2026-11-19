@@ -666,7 +666,7 @@ export default function CherelleAdminPage() {
         <section className={styles.loginPanel}>
           <p className={styles.script}>Cherelle Elisa</p>
           <h1>Welkom terug</h1>
-          <p className={styles.muted}>Log in om teksten, ervaringen en beelden te beheren.</p>
+          <p className={styles.muted}>Log in om de website, klanten en communicatie te beheren.</p>
           <form onSubmit={handleLogin} className={styles.form}>
             <label>
               <span>E-mailadres</span>
@@ -721,12 +721,11 @@ export default function CherelleAdminPage() {
 
         <nav className={styles.nav} aria-label="Beheer navigatie">
           {([
+            ["overzicht", "Overzicht"],
             ["website", "Website bewerken"],
             ["klanten", "Klanten"],
-            ["overzicht", "Overzicht"],
-            ["teksten", "Teksten"],
+            ["nieuwsbrief", "Nieuwsbrief"],
             ["ervaringen", "Ervaringen"],
-            ["beelden", "Beelden"],
           ] as Array<[AdminTab, string]>).map(([id, label]) => (
             <button
               key={id}
@@ -750,11 +749,12 @@ export default function CherelleAdminPage() {
           <div>
             <p className={styles.eyebrow}>Beheeromgeving</p>
             <h1>
+              {tab === "overzicht" && "Overzicht"}
               {tab === "website" && "Website bewerken"}
               {tab === "klanten" && "Klanten"}
-              {tab === "overzicht" && "Overzicht"}
-              {tab === "teksten" && "Teksten wijzigen"}
+              {tab === "nieuwsbrief" && "Nieuwsbrief"}
               {tab === "ervaringen" && "Ervaringen beheren"}
+              {tab === "teksten" && "Teksten wijzigen"}
               {tab === "beelden" && "Beelden beheren"}
             </h1>
           </div>
@@ -1321,30 +1321,63 @@ export default function CherelleAdminPage() {
         )}
 
         {tab === "overzicht" && (
-          <div className={styles.overview}>
-            <div className={styles.statCard}>
-              <span>Tekstsecties</span>
-              <strong>{CONTENT_GROUPS.length}</strong>
-              <p>Homepage-content in Nederlands en Engels.</p>
-            </div>
-            <div className={styles.statCard}>
-              <span>Ervaringen</span>
-              <strong>{publishedReviews}</strong>
-              <p>{reviews.length} totaal opgeslagen.</p>
-            </div>
-            <div className={styles.statCard}>
-              <span>Beelden</span>
-              <strong>{Object.keys(media).length}</strong>
-              <p>van {MEDIA_SLOTS.length} beelden vanuit de admin vervangen.</p>
+          <div className={styles.dashboardOverview}>
+            <div className={styles.overviewIntro}>
+              <p className={styles.script}>Een zachte plek om te beheren</p>
             </div>
 
-            <section className={styles.welcomeCard}>
-              <p className={styles.script}>Een zachte plek om te beheren</p>
-              <h2>De website aanpassen zonder in de techniek te hoeven.</h2>
-              <p>
-                Wijzig teksten per sectie, voeg ervaringen toe en vervang beelden.
-                De huidige website-inhoud blijft altijd als veilige fallback bestaan.
-              </p>
+            <div className={styles.overviewMetrics}>
+              <article>
+                <span>Klanten</span>
+                <strong>{dashboardMetrics.clients_total}</strong>
+                <p>{dashboardMetrics.clients_active} actieve accounts</p>
+              </article>
+              <article>
+                <span>Bezoekers vandaag</span>
+                <strong>{dashboardMetrics.visitors_today}</strong>
+                <p>{dashboardMetrics.page_views_today} paginaweergaven vandaag</p>
+              </article>
+              <article>
+                <span>Laatste 7 dagen</span>
+                <strong>{dashboardMetrics.visitors_7d}</strong>
+                <p>unieke bezoekers</p>
+              </article>
+              <article>
+                <span>Laatste 30 dagen</span>
+                <strong>{dashboardMetrics.visitors_30d}</strong>
+                <p>unieke bezoekers</p>
+              </article>
+            </div>
+
+            <section className={styles.activityPanel}>
+              <div className={styles.activityHead}>
+                <div>
+                  <p className={styles.eyebrow}>Klantactiviteit</p>
+                  <h2>Wat is er nieuw?</h2>
+                </div>
+                {dashboardMetrics.unread_activity > 0 && (
+                  <button type="button" className={styles.textButton} onClick={() => void handleMarkActivityRead()}>
+                    Alles gelezen
+                  </button>
+                )}
+              </div>
+
+              {adminEvents.length === 0 ? (
+                <div className={styles.activityEmpty}>Nog geen nieuwe klantactiviteit.</div>
+              ) : (
+                <div className={styles.activityList}>
+                  {adminEvents.map((event) => (
+                    <article key={event.id} className={!event.read_at ? styles.activityUnread : ""}>
+                      <span className={styles.activityDot} />
+                      <div>
+                        <strong>{event.title}</strong>
+                        <small>{formatAdminDate(event.created_at)}</small>
+                      </div>
+                      {!event.read_at && <span className={styles.activityNew}>Nieuw</span>}
+                    </article>
+                  ))}
+                </div>
+              )}
             </section>
           </div>
         )}
