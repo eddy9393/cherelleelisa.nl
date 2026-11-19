@@ -171,7 +171,10 @@ export default function ClientAccountPage() {
         setProfileEmail(data.client.email);
         setDraft(
           data.intake
-            ? { ...data.intake }
+            ? {
+                ...data.intake,
+                signature_date: data.intake.signature_date ?? new Date().toISOString().slice(0, 10),
+              }
             : {
                 ...emptyIntake,
                 signature_date: new Date().toISOString().slice(0, 10),
@@ -244,7 +247,10 @@ export default function ClientAccountPage() {
       setClient(fresh.client);
       setDraft(
         fresh.intake
-          ? { ...fresh.intake }
+          ? {
+              ...fresh.intake,
+              signature_date: fresh.intake.signature_date ?? new Date().toISOString().slice(0, 10),
+            }
           : { ...emptyIntake, signature_date: new Date().toISOString().slice(0, 10) }
       );
       setProfileName(fresh.client.name);
