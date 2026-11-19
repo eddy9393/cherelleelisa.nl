@@ -92,6 +92,27 @@ function emptyReview(sortOrder: number): Omit<CmsReview, "id"> {
   };
 }
 
+function formatAdminDate(value: string | null) {
+  if (!value) return "—";
+  return new Intl.DateTimeFormat("nl-NL", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(value));
+}
+
+function yesNoAdmin(value: boolean | null) {
+  if (value === null) return "—";
+  return value ? "Ja" : "Nee";
+}
+
+function energyLevelAdmin(value: CherelleIntake["energy_experience_level"]) {
+  if (value === "none") return "Geen ervaring";
+  if (value === "basic") return "Basiservaring";
+  if (value === "advanced") return "Gevorderd";
+  return "—";
+}
+
 export default function CherelleAdminPage() {
   const [ready, setReady] = useState(false);
   const [session, setSession] = useState<CmsSession | null>(null);
@@ -580,6 +601,232 @@ export default function CherelleAdminPage() {
         {(message || error) && (
           <div className={error ? styles.noticeError : styles.notice}>
             {error || message}
+          </div>
+        )}
+
+        {tab === "klanten" && (
+          <div className={styles.clientsAdmin}>
+            <section className={styles.clientInviteCard}>
+              <div>
+                <p className={styles.eyebrow}>Nieuwe klant</p>
+                <h2>Koppel een persoonlijke omgeving.</h2>
+                <p>
+                  Vul alleen de naam en het e-mailadres in. De klant ontvangt daarna automatisch een persoonlijke
+                  uitnodiging en maakt zelf bij de eerste keer een wachtwoord aan.
+                </p>
+              </div>
+
+              <form className={styles.clientInviteForm} onSubmit={handleClientInvite}>
+                <label>
+                  <span>Naam</span>
+                  <input
+                    value={clientName}
+                    onChange={(event) => setClientName(event.target.value)}
+                    placeholder="Voor- en achternaam"
+                    required
+                  />
+                </label>
+                <label>
+                  <span>E-mailadres</span>
+                  <input
+                    type="email"
+                    value={clientEmail}
+                    onChange={(event) => setClientEmail(event.target.value)}
+                    placeholder="naam@voorbeeld.nl"
+                    required
+                  />
+                </label>
+                <button className={styles.primaryButton} type="submit" disabled={clientBusy}>
+                  {clientBusy ? "Uitnodigen…" : "Klant uitnodigen"}
+                </button>
+              </form>
+            </section>
+
+            <div className={styles.clientAdminGrid}>
+              <section className={styles.clientListPanel}>
+                <div className={styles.clientPanelHead}>
+                  <div>
+                    <p className={styles.eyebrow}>Klanten</p>
+                    <h2>{clients.length} {clients.length === 1 ? "klant" : "klanten"}</h2>
+                  </div>
+                </div>
+
+                <div className={styles.clientList}>
+                  {clients.length === 0 && (
+                    <div className={styles.emptyState}>Nog geen klantaccounts gekoppeld.</div>
+                  )}
+
+                  {clients.map((client) => (
+                    <article
+                      key={client.id}
+                      className={`${styles.clientListItem} ${selectedClient?.id === client.id ? styles.clientListItemActive : ""}`}
+                    >
+                      <button type="button" className={styles.clientListMain} onClick={() => void openClientDetails(client)}>
+                        <span className={styles.clientAvatar}>{client.name.trim().slice(0, 1).toUpperCase()}</span>
+                        <span>
+                          <strong>{client.name}</strong>
+                          <small>{client.email}</small>
+                        </span>
+                        <span
+                          className={`${styles.clientStatus} ${
+                            client.status === "active" ? styles.clientStatusActive : styles.clientStatusInvited
+                          }`}
+                        >
+                          {client.status === "active"
+                            ? "Actief"
+                            : client.status === "completed"
+                              ? "Afgerond"
+                              : client.status === "archived"
+                                ? "Gearchiveerd"
+                                : "Uitgenodigd"}
+                        </span>
+                      </button>
+
+                      {!client.activated_at && (
+                        <button
+                          type="button"
+                          className={styles.clientResendButton}
+                          disabled={clientBusy}
+                          onClick={() => void handleClientResend(client)}
+                        >
+                          Opnieuw uitnodigen
+                        </button>
+                      )}
+                    </article>
+                  ))}
+                </div>
+              </section>
+
+              <aside className={styles.clientDetailPanel}>
+                {!selectedClient && (
+                  <div className={styles.clientDetailEmpty}>
+                    <p className={styles.script}>persoonlijk</p>
+                    <h2>Kies een klant.</h2>
+                    <p>De intake wordt pas geladen wanneer je bewust een klant opent.</p>
+                  </div>
+                )}
+
+                {selectedClient && (
+                  <>
+                    <div className={styles.clientDetailHead}>
+                      <div>
+                        <p className={styles.eyebrow}>Klantprofiel</p>
+                        <h2>{selectedClient.name}</h2>
+                        <p>{selectedClient.email}</p>
+                      </div>
+                      <button
+                        className={styles.textButton}
+                        type="button"
+                        onClick={() => {
+                          setSelectedClient(null);
+                          setSelectedIntake(null);
+                        }}
+                      >
+                        Sluiten
+                      </button>
+                    </div>
+
+                    <div className={styles.clientDetailMeta}>
+                      <div>
+                        <span>Status</span>
+                        <strong>{selectedClient.activated_at ? "Account actief" : "Uitnodiging verstuurd"}</strong>
+                      </div>
+                      <div>
+                        <span>Uitgenodigd</span>
+                        <strong>{formatAdminDate(selectedClient.invited_at)}</strong>
+                      </div>
+                      <div>
+                        <span>Geactiveerd</span>
+                        <strong>{formatAdminDate(selectedClient.activated_at)}</strong>
+                      </div>
+                    </div>
+
+                    {clientDetailLoading ? (
+                      <div className={styles.clientIntakeLoading}>Intake laden…</div>
+                    ) : !selectedIntake ? (
+                      <div className={styles.clientNoIntake}>
+                        <p className={styles.eyebrow}>Intake</p>
+                        <h3>Nog niet ingevuld.</h3>
+                        <p>De klant heeft nog geen antwoorden opgeslagen.</p>
+                      </div>
+                    ) : (
+                      <div className={styles.clientIntakeView}>
+                        <div className={styles.clientIntakeViewHead}>
+                          <div>
+                            <p className={styles.eyebrow}>Intake</p>
+                            <h3>{selectedIntake.submitted_at ? "Ingeleverd" : "Concept opgeslagen"}</h3>
+                          </div>
+                          <span>{formatAdminDate(selectedIntake.submitted_at || selectedIntake.updated_at)}</span>
+                        </div>
+
+                        <section>
+                          <h4>Persoonlijke gegevens</h4>
+                          <AdminIntakeRow label="Geboortedatum" value={selectedIntake.birth_date ? formatAdminDate(selectedIntake.birth_date) : "—"} />
+                          <AdminIntakeRow label="Telefoonnummer" value={selectedIntake.phone || "—"} />
+                        </section>
+
+                        <section>
+                          <h4>Intentie & ervaring</h4>
+                          <AdminIntakeRow label="Intentie" value={selectedIntake.intention || "—"} multiline />
+                          <AdminIntakeRow label="Ervaring energiewerk" value={energyLevelAdmin(selectedIntake.energy_experience_level)} />
+                          <AdminIntakeRow
+                            label="Intense energetische ervaringen"
+                            value={yesNoAdmin(selectedIntake.intense_energy_experience)}
+                            detail={selectedIntake.intense_energy_details}
+                          />
+                        </section>
+
+                        <section>
+                          <h4>Gezondheid & medische achtergrond</h4>
+                          <AdminIntakeRow
+                            label="Fysieke klachten / aandoeningen"
+                            value={yesNoAdmin(selectedIntake.physical_conditions)}
+                            detail={selectedIntake.physical_conditions_details}
+                          />
+                          <AdminIntakeRow
+                            label="Medicijnen / supplementen"
+                            value={yesNoAdmin(selectedIntake.medications)}
+                            detail={selectedIntake.medications_details}
+                          />
+                          <AdminIntakeRow
+                            label="Meditatie, yoga of ademwerk"
+                            value={yesNoAdmin(selectedIntake.meditation_breathwork_experience)}
+                            detail={selectedIntake.meditation_breathwork_details}
+                          />
+                          <AdminIntakeRow
+                            label="Psychische klachten / trauma"
+                            value={yesNoAdmin(selectedIntake.mental_health_or_trauma)}
+                            detail={selectedIntake.mental_health_or_trauma_details}
+                          />
+                          <AdminIntakeRow
+                            label="Stimulerende middelen"
+                            value={yesNoAdmin(selectedIntake.stimulants)}
+                            detail={selectedIntake.stimulants_details}
+                          />
+                        </section>
+
+                        <section>
+                          <h4>Bevestiging</h4>
+                          <AdminIntakeRow
+                            label="Contra-indicaties doorgenomen"
+                            value={selectedIntake.contraindications_acknowledged ? "Ja" : "Nee"}
+                          />
+                          <AdminIntakeRow
+                            label="Verklaring bevestigd"
+                            value={selectedIntake.declaration_accepted ? "Ja" : "Nee"}
+                          />
+                          <AdminIntakeRow label="Digitale handtekening" value={selectedIntake.signature_name || "—"} />
+                          <AdminIntakeRow
+                            label="Datum ondertekening"
+                            value={selectedIntake.signature_date ? formatAdminDate(selectedIntake.signature_date) : "—"}
+                          />
+                        </section>
+                      </div>
+                    )}
+                  </>
+                )}
+              </aside>
+            </div>
           </div>
         )}
 
@@ -1131,6 +1378,28 @@ export default function CherelleAdminPage() {
         )}
       </section>
     </main>
+  );
+}
+
+function AdminIntakeRow({
+  label,
+  value,
+  detail,
+  multiline = false,
+}: {
+  label: string;
+  value: string;
+  detail?: string | null;
+  multiline?: boolean;
+}) {
+  return (
+    <div className={styles.adminIntakeRow}>
+      <span>{label}</span>
+      <div>
+        <strong className={multiline ? styles.adminIntakeMultiline : ""}>{value}</strong>
+        {detail && <p>{detail}</p>}
+      </div>
+    </div>
   );
 }
 
