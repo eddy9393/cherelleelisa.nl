@@ -4,6 +4,8 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import {
   clearAccountSession,
   clearCmsSession,
+  CherelleClient,
+  CherelleIntake,
   CmsContentMap,
   CmsMedia,
   CmsReview,
@@ -11,8 +13,11 @@ import {
   CONTENT_GROUPS,
   DEFAULT_HOMEPAGE_CONTENT,
   getSavedCmsSession,
+  inviteClient,
   isCmsConfigured,
+  loadAdminClients,
   loadAdminCms,
+  loadAdminIntake,
   loginCms,
   signupCms,
   MEDIA_SLOTS,
@@ -25,7 +30,7 @@ import {
 } from "../../lib/cherelleCms";
 import styles from "./admin.module.css";
 
-type AdminTab = "website" | "overzicht" | "teksten" | "ervaringen" | "beelden";
+type AdminTab = "website" | "klanten" | "overzicht" | "teksten" | "ervaringen" | "beelden";
 
 const FIELD_LABELS: Record<string, string> = {
   hero_sentence_1: "Hero – regel 1",
@@ -94,6 +99,13 @@ export default function CherelleAdminPage() {
   const [content, setContent] = useState<CmsContentMap>({ ...DEFAULT_HOMEPAGE_CONTENT });
   const [reviews, setReviews] = useState<CmsReview[]>([]);
   const [media, setMedia] = useState<Record<string, CmsMedia>>({});
+  const [clients, setClients] = useState<CherelleClient[]>([]);
+  const [selectedClient, setSelectedClient] = useState<CherelleClient | null>(null);
+  const [selectedIntake, setSelectedIntake] = useState<CherelleIntake | null>(null);
+  const [clientName, setClientName] = useState("");
+  const [clientEmail, setClientEmail] = useState("");
+  const [clientBusy, setClientBusy] = useState(false);
+  const [clientDetailLoading, setClientDetailLoading] = useState(false);
 
   const [email, setEmail] = useState("info@cherelleelisa.nl");
   const [password, setPassword] = useState("");
@@ -134,12 +146,16 @@ export default function CherelleAdminPage() {
       }
 
       try {
-        const data = await loadAdminCms(saved);
+        const [data, clientRows] = await Promise.all([
+          loadAdminCms(saved),
+          loadAdminClients(saved),
+        ]);
         if (!active) return;
         setSession(saved);
         setContent(data.content);
         setReviews(data.reviews);
         setMedia(data.media);
+        setClients(clientRows);
       } catch {
         clearCmsSession();
       } finally {
@@ -155,10 +171,14 @@ export default function CherelleAdminPage() {
 
   async function reload(nextSession = session) {
     if (!nextSession) return;
-    const data = await loadAdminCms(nextSession);
+    const [data, clientRows] = await Promise.all([
+      loadAdminCms(nextSession),
+      loadAdminClients(nextSession),
+    ]);
     setContent(data.content);
     setReviews(data.reviews);
     setMedia(data.media);
+    setClients(clientRows);
   }
 
   async function handleLogin(event: FormEvent<HTMLFormElement>) {
@@ -242,6 +262,70 @@ export default function CherelleAdminPage() {
       setError(saveError instanceof Error ? saveError.message : "Opslaan is mislukt.");
     } finally {
       setBusy(false);
+    }
+  }
+
+  async function handleClientInvite(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!session) return;
+
+    const name = clientName.trim();
+    const emailAddress = clientEmail.trim().toLowerCase();
+    if (!name || !emailAddress) {
+      setError("Vul de naam en het e-mailadres van de klant in.");
+      return;
+    }
+
+    setClientBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await inviteClient(session, name, emailAddress, "invite");
+      const clientRows = await loadAdminClients(session);
+      setClients(clientRows);
+      setClientName("");
+      setClientEmail("");
+      setMessage(`Uitnodiging is verstuurd naar ${emailAddress}.`);
+    } catch (inviteError) {
+      setError(inviteError instanceof Error ? inviteError.message : "Klant kon niet worden uitgenodigd.");
+    } finally {
+      setClientBusy(false);
+    }
+  }
+
+  async function handleClientResend(client: CherelleClient) {
+    if (!session) return;
+    setClientBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await inviteClient(session, client.name, client.email, "resend");
+      const clientRows = await loadAdminClients(session);
+      setClients(clientRows);
+      setMessage(`Nieuwe uitnodiging is verstuurd naar ${client.email}.`);
+    } catch (inviteError) {
+      setError(inviteError instanceof Error ? inviteError.message : "Uitnodiging kon niet opnieuw worden verstuurd.");
+    } finally {
+      setClientBusy(false);
+    }
+  }
+
+  async function openClientDetails(client: CherelleClient) {
+    if (!session) return;
+    setSelectedClient(client);
+    setSelectedIntake(null);
+    setClientDetailLoading(true);
+    setError("");
+
+    try {
+      const intake = await loadAdminIntake(session, client.id);
+      setSelectedIntake(intake);
+    } catch (loadError) {
+      setError(loadError instanceof Error ? loadError.message : "Intake kon niet worden geladen.");
+    } finally {
+      setClientDetailLoading(false);
     }
   }
 
@@ -454,6 +538,7 @@ export default function CherelleAdminPage() {
         <nav className={styles.nav} aria-label="Beheer navigatie">
           {([
             ["website", "Website bewerken"],
+            ["klanten", "Klanten"],
             ["overzicht", "Overzicht"],
             ["teksten", "Teksten"],
             ["ervaringen", "Ervaringen"],
@@ -482,6 +567,7 @@ export default function CherelleAdminPage() {
             <p className={styles.eyebrow}>Beheeromgeving</p>
             <h1>
               {tab === "website" && "Website bewerken"}
+              {tab === "klanten" && "Klanten"}
               {tab === "overzicht" && "Overzicht"}
               {tab === "teksten" && "Teksten wijzigen"}
               {tab === "ervaringen" && "Ervaringen beheren"}
