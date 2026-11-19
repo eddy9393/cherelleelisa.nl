@@ -10,6 +10,7 @@ import {
   CherelleDashboardMetrics,
   CherelleIntake,
   CherelleNewsletterLog,
+  NewsletterImage,
   CmsContentMap,
   CmsMedia,
   CmsReview,
@@ -33,8 +34,10 @@ import {
   sendClientMessage,
   sendNewsletter,
   deleteMedia,
+  deleteNewsletterImage,
   deleteReview,
   uploadMedia,
+  uploadNewsletterImage,
   verifyCmsSession,
 } from "../../lib/cherelleCms";
 import styles from "./admin.module.css";
@@ -155,7 +158,9 @@ export default function CherelleAdminPage() {
   const [newsletterSubject, setNewsletterSubject] = useState("");
   const [newsletterBody, setNewsletterBody] = useState("");
   const [newsletterRecipients, setNewsletterRecipients] = useState<string[]>([]);
+  const [newsletterImages, setNewsletterImages] = useState<NewsletterImage[]>([]);
   const [newsletterBusy, setNewsletterBusy] = useState(false);
+  const [newsletterImageBusy, setNewsletterImageBusy] = useState(false);
 
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
@@ -461,6 +466,44 @@ export default function CherelleAdminPage() {
     setNewsletterRecipients(clients.map((client) => client.id));
   }
 
+  async function handleNewsletterImageUpload(files: FileList | null) {
+    if (!session || !files?.length) return;
+
+    setNewsletterImageBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const uploaded: NewsletterImage[] = [];
+      for (const file of Array.from(files)) {
+        const image = await uploadNewsletterImage(session, file);
+        uploaded.push(image);
+      }
+      setNewsletterImages((current) => [...current, ...uploaded]);
+      setMessage(`${uploaded.length} afbeelding${uploaded.length === 1 ? "" : "en"} toegevoegd aan de nieuwsbrief.`);
+    } catch (uploadError) {
+      setError(uploadError instanceof Error ? uploadError.message : "Afbeelding uploaden is mislukt.");
+    } finally {
+      setNewsletterImageBusy(false);
+    }
+  }
+
+  async function handleNewsletterImageRemove(image: NewsletterImage) {
+    if (!session) return;
+
+    setNewsletterImageBusy(true);
+    setError("");
+
+    try {
+      await deleteNewsletterImage(session, image);
+      setNewsletterImages((current) => current.filter((item) => item.storage_path !== image.storage_path));
+    } catch (deleteError) {
+      setError(deleteError instanceof Error ? deleteError.message : "Afbeelding verwijderen is mislukt.");
+    } finally {
+      setNewsletterImageBusy(false);
+    }
+  }
+
   async function handleNewsletterSend(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (!session) return;
@@ -481,12 +524,19 @@ export default function CherelleAdminPage() {
     setMessage("");
 
     try {
-      const result = await sendNewsletter(session, subject, body, newsletterRecipients);
+      const result = await sendNewsletter(
+        session,
+        subject,
+        body,
+        newsletterRecipients,
+        newsletterImages.map((image) => image.url)
+      );
       const history = await loadNewsletterHistory(session);
       setNewsletters(history);
       setNewsletterSubject("");
       setNewsletterBody("");
       setNewsletterRecipients([]);
+      setNewsletterImages([]);
       setMessage(`Nieuwsbrief is verstuurd naar ${result.sent} klant${result.sent === 1 ? "" : "en"}.`);
     } catch (newsletterError) {
       setError(newsletterError instanceof Error ? newsletterError.message : "Nieuwsbrief kon niet worden verstuurd.");
