@@ -1508,6 +1508,121 @@ export default function CherelleAdminPage() {
           </div>
         )}
 
+        {tab === "nieuwsbrief" && (
+          <div className={styles.newsletterAdmin}>
+            <div className={styles.newsletterGrid}>
+              <form className={styles.newsletterComposer} onSubmit={handleNewsletterSend}>
+                <div className={styles.newsletterHeading}>
+                  <div>
+                    <p className={styles.eyebrow}>Nieuwe nieuwsbrief</p>
+                    <h2>Schrijf vanuit Cherelle.</h2>
+                    <p>
+                      De nieuwsbrief wordt persoonlijk per klant verstuurd en begint automatisch met de voornaam.
+                    </p>
+                  </div>
+                  <span>{newsletterRecipients.length} geselecteerd</span>
+                </div>
+
+                <label>
+                  <span>Onderwerp</span>
+                  <input
+                    value={newsletterSubject}
+                    onChange={(event) => setNewsletterSubject(event.target.value)}
+                    placeholder="Onderwerp van de nieuwsbrief"
+                    required
+                  />
+                </label>
+
+                <label>
+                  <span>Bericht</span>
+                  <textarea
+                    rows={12}
+                    value={newsletterBody}
+                    onChange={(event) => setNewsletterBody(event.target.value)}
+                    placeholder="Schrijf hier de nieuwsbrief..."
+                    required
+                  />
+                </label>
+
+                <div className={styles.newsletterSendBar}>
+                  <p>
+                    Voor verzending verschijnt nog één bevestiging met het aantal ontvangers.
+                  </p>
+                  <button
+                    className={styles.primaryButton}
+                    type="submit"
+                    disabled={newsletterBusy || newsletterRecipients.length === 0}
+                  >
+                    {newsletterBusy ? "Versturen…" : "Nieuwsbrief versturen"}
+                  </button>
+                </div>
+              </form>
+
+              <aside className={styles.newsletterRecipients}>
+                <div className={styles.newsletterRecipientsHead}>
+                  <div>
+                    <p className={styles.eyebrow}>Ontvangers</p>
+                    <h3>Klantenbestand</h3>
+                  </div>
+                  <div>
+                    <button type="button" onClick={selectAllNewsletterRecipients}>Alles</button>
+                    <button type="button" onClick={() => setNewsletterRecipients([])}>Geen</button>
+                  </div>
+                </div>
+
+                <div className={styles.newsletterClientList}>
+                  {clients.length === 0 ? (
+                    <div className={styles.emptyState}>Nog geen klanten beschikbaar.</div>
+                  ) : (
+                    clients.map((client) => (
+                      <label key={client.id}>
+                        <input
+                          type="checkbox"
+                          checked={newsletterRecipients.includes(client.id)}
+                          onChange={() => toggleNewsletterRecipient(client.id)}
+                        />
+                        <span className={styles.newsletterClientAvatar}>
+                          {client.name.trim().slice(0, 1).toUpperCase()}
+                        </span>
+                        <span>
+                          <strong>{client.name}</strong>
+                          <small>{client.email}</small>
+                        </span>
+                      </label>
+                    ))
+                  )}
+                </div>
+              </aside>
+            </div>
+
+            <section className={styles.newsletterHistory}>
+              <div className={styles.newsletterHistoryHead}>
+                <div>
+                  <p className={styles.eyebrow}>Verzonden</p>
+                  <h2>Nieuwsbriefhistorie</h2>
+                </div>
+              </div>
+
+              {newsletters.length === 0 ? (
+                <div className={styles.emptyState}>Nog geen nieuwsbrieven verstuurd.</div>
+              ) : (
+                <div className={styles.newsletterHistoryList}>
+                  {newsletters.map((item) => (
+                    <article key={item.id}>
+                      <div>
+                        <strong>{item.subject}</strong>
+                        <span>{formatAdminDate(item.sent_at)}</span>
+                      </div>
+                      <p>{item.body}</p>
+                      <small>{item.recipient_count} ontvanger{item.recipient_count === 1 ? "" : "s"}</small>
+                    </article>
+                  ))}
+                </div>
+              )}
+            </section>
+          </div>
+        )}
+
         {tab === "ervaringen" && (
           <div className={styles.stack}>
             <div className={styles.sectionActions}>
