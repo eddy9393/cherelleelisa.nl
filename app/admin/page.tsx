@@ -1559,6 +1559,45 @@ export default function CherelleAdminPage() {
                   />
                 </label>
 
+                <div className={styles.newsletterImages}>
+                  <div className={styles.newsletterImagesHead}>
+                    <div>
+                      <span>Afbeeldingen</span>
+                      <small>De afbeeldingen verschijnen onder de tekst in de nieuwsbrief.</small>
+                    </div>
+                    <label className={styles.newsletterImageUpload}>
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        multiple
+                        disabled={newsletterImageBusy || newsletterBusy}
+                        onChange={(event) => {
+                          void handleNewsletterImageUpload(event.target.files);
+                          event.currentTarget.value = "";
+                        }}
+                      />
+                      {newsletterImageBusy ? "Uploaden…" : "Afbeelding toevoegen"}
+                    </label>
+                  </div>
+
+                  {newsletterImages.length > 0 && (
+                    <div className={styles.newsletterImageGrid}>
+                      {newsletterImages.map((image, index) => (
+                        <article key={image.storage_path}>
+                          <img src={image.url} alt={`Nieuwsbrief afbeelding ${index + 1}`} />
+                          <button
+                            type="button"
+                            disabled={newsletterImageBusy || newsletterBusy}
+                            onClick={() => void handleNewsletterImageRemove(image)}
+                          >
+                            Verwijderen
+                          </button>
+                        </article>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
                 <div className={styles.newsletterSendBar}>
                   <p>
                     Voor verzending verschijnt nog één bevestiging met het aantal ontvangers.
@@ -1629,7 +1668,17 @@ export default function CherelleAdminPage() {
                         <span>{formatAdminDate(item.sent_at)}</span>
                       </div>
                       <p>{item.body}</p>
-                      <small>{item.recipient_count} ontvanger{item.recipient_count === 1 ? "" : "s"}</small>
+                      {item.image_urls?.length > 0 && (
+                        <div className={styles.newsletterHistoryImages}>
+                          {item.image_urls.slice(0, 4).map((url, index) => (
+                            <img key={`${item.id}-${index}`} src={url} alt="" />
+                          ))}
+                        </div>
+                      )}
+                      <small>
+                        {item.recipient_count} ontvanger{item.recipient_count === 1 ? "" : "s"}
+                        {item.image_urls?.length ? ` · ${item.image_urls.length} afbeelding${item.image_urls.length === 1 ? "" : "en"}` : ""}
+                      </small>
                     </article>
                   ))}
                 </div>
