@@ -77,6 +77,44 @@ export type CherelleIntake = {
   updated_at: string;
 };
 
+export type CherelleClientMessage = {
+  id: string;
+  client_id: string;
+  subject: string;
+  body: string;
+  created_by: string | null;
+  created_at: string;
+  read_at: string | null;
+};
+
+export type CherelleAdminEvent = {
+  id: string;
+  client_id: string | null;
+  event_type: "account_activated" | "intake_submitted";
+  title: string;
+  created_at: string;
+  read_at: string | null;
+};
+
+export type CherelleDashboardMetrics = {
+  clients_total: number;
+  clients_active: number;
+  visitors_today: number;
+  visitors_7d: number;
+  visitors_30d: number;
+  page_views_today: number;
+  unread_activity: number;
+};
+
+export type CherelleNewsletterLog = {
+  id: string;
+  subject: string;
+  body: string;
+  recipient_count: number;
+  sent_by: string | null;
+  sent_at: string;
+};
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "") ?? "";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? "";
 const sessionKey = "cherelle-cms-session";
@@ -652,6 +690,261 @@ export async function inviteClient(
   }
 
   return data.client as CherelleClient;
+}
+
+export async function loadClientMessages(
+  session: CmsSession,
+  clientId: string
+): Promise<CherelleClientMessage[]> {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_client_messages?select=*&client_id=eq.${encodeURIComponent(clientId)}&order=created_at.desc`,
+    {
+      headers: headers(session.access_token),
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+  return await response.json() as CherelleClientMessage[];
+}
+
+export async function sendClientMessage(
+  session: CmsSession,
+  clientId: string,
+  subject: string,
+  body: string
+) {
+  const response = await fetch(`${supabaseUrl}/rest/v1/cherelle_client_messages`, {
+    method: "POST",
+    headers: {
+      ...headers(session.access_token),
+      Prefer: "return=representation",
+    },
+    body: JSON.stringify({
+      client_id: clientId,
+      subject: subject.trim(),
+      body: body.trim(),
+      created_by: session.user.id,
+    }),
+  });
+
+  if (!response.ok) throw new Error(await responseError(response));
+  const rows = await response.json() as CherelleClientMessage[];
+  return rows[0];
+}
+
+export async function markClientMessagesRead(
+  session: CmsSession,
+  clientId: string
+) {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_client_messages?client_id=eq.${encodeURIComponent(clientId)}&read_at=is.null`,
+    {
+      method: "PATCH",
+      headers: {
+        ...headers(session.access_token),
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify({ read_at: new Date().toISOString() }),
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+}
+
+export async function loadAdminDashboard(session: CmsSession): Promise<{
+  metrics: CherelleDashboardMetrics;
+  events: CherelleAdminEvent[];
+}> {
+  const [metricsResponse, eventsResponse] = await Promise.all([
+    fetch(`${supabaseUrl}/rest/v1/rpc/cherelle_admin_dashboard_metrics`, {
+      method: "POST",
+      headers: headers(session.access_token),
+      body: JSON.stringify({}),
+      cache: "no-store",
+    }),
+    fetch(`${supabaseUrl}/rest/v1/cherelle_admin_events?select=*&order=created_at.desc&limit=10`, {
+      headers: headers(session.access_token),
+      cache: "no-store",
+    }),
+  ]);
+
+  if (!metricsResponse.ok) throw new Error(await responseError(metricsResponse));
+  if (!eventsResponse.ok) throw new Error(await responseError(eventsResponse));
+
+  return {
+    metrics: await metricsResponse.json() as CherelleDashboardMetrics,
+    events: await eventsResponse.json() as CherelleAdminEvent[],
+  };
+}
+
+export async function markAdminEventsRead(session: CmsSession) {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_admin_events?read_at=is.null`,
+    {
+      method: "PATCH",
+      headers: {
+        ...headers(session.access_token),
+        Prefer: "return=minimal",
+      },
+      body: JSON.stringify({ read_at: new Date().toISOString() }),
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+}
+
+export async function updateClientProfile(
+  session: CmsSession,
+  clientId: string,
+  name: string,
+  phone: string
+) {
+  const now = new Date().toISOString();
+
+  const [clientResponse, intakeResponse] = await Promise.all([
+    fetch(
+      `${supabaseUrl}/rest/v1/cherelle_clients?id=eq.${encodeURIComponent(clientId)}`,
+      {
+        method: "PATCH",
+        headers: {
+          ...headers(session.access_token),
+          Prefer: "return=representation",
+        },
+        body: JSON.stringify({
+          name: name.trim(),
+          updated_at: now,
+        }),
+      }
+    ),
+    fetch(`${supabaseUrl}/rest/v1/cherelle_intakes?on_conflict=client_id`, {
+      method: "POST",
+      headers: {
+        ...headers(session.access_token),
+        Prefer: "resolution=merge-duplicates,return=representation",
+      },
+      body: JSON.stringify({
+        client_id: clientId,
+        phone: phone.trim() || null,
+        updated_at: now,
+      }),
+    }),
+  ]);
+
+  if (!clientResponse.ok) throw new Error(await responseError(clientResponse));
+  if (!intakeResponse.ok) throw new Error(await responseError(intakeResponse));
+
+  const clients = await clientResponse.json() as CherelleClient[];
+  const intakes = await intakeResponse.json() as CherelleIntake[];
+
+  return {
+    client: clients[0],
+    intake: intakes[0],
+  };
+}
+
+export async function updateAccountEmail(
+  session: CmsSession,
+  email: string
+): Promise<CmsSession> {
+  const response = await fetch(`${supabaseUrl}/auth/v1/user`, {
+    method: "PUT",
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${session.access_token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ email: email.trim().toLowerCase() }),
+  });
+
+  if (!response.ok) throw new Error(await responseError(response));
+  const user = await response.json();
+
+  const nextSession: CmsSession = {
+    ...session,
+    user: {
+      ...session.user,
+      email: user.email ?? session.user.email,
+    },
+  };
+
+  saveAccountSession(nextSession);
+  return nextSession;
+}
+
+export async function deleteOwnClientAccount(session: CmsSession) {
+  const response = await fetch(`${supabaseUrl}/functions/v1/client-account`, {
+    method: "POST",
+    headers: {
+      apikey: supabaseKey,
+      Authorization: `Bearer ${session.access_token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ action: "delete" }),
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data?.error || "Account kon niet worden verwijderd.");
+}
+
+export async function loadNewsletterHistory(
+  session: CmsSession
+): Promise<CherelleNewsletterLog[]> {
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_newsletters?select=*&order=sent_at.desc&limit=20`,
+    {
+      headers: headers(session.access_token),
+      cache: "no-store",
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+  return await response.json() as CherelleNewsletterLog[];
+}
+
+export async function sendNewsletter(
+  session: CmsSession,
+  subject: string,
+  body: string,
+  recipientIds: string[]
+) {
+  const response = await fetch("/api/admin/newsletter", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${session.access_token}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      subject,
+      body,
+      recipient_ids: recipientIds,
+    }),
+  });
+
+  const data = await response.json().catch(() => ({}));
+  if (!response.ok) throw new Error(data?.error || "Nieuwsbrief kon niet worden verstuurd.");
+  return data as { ok: true; sent: number };
+}
+
+export async function downloadClientIntakePdf(
+  session: CmsSession,
+  clientId: string
+) {
+  const response = await fetch(
+    `/api/admin/clients/${encodeURIComponent(clientId)}/pdf`,
+    {
+      headers: {
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    }
+  );
+
+  if (!response.ok) {
+    const data = await response.json().catch(() => ({}));
+    throw new Error(data?.error || "PDF kon niet worden aangemaakt.");
+  }
+
+  return await response.blob();
 }
 
 export async function verifyAccountSession(session: CmsSession) {
