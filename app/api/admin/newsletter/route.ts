@@ -71,6 +71,13 @@ export async function POST(request: NextRequest) {
         .filter((value) => uuidPattern.test(value))
     : [];
 
+  const allowedImagePrefix = `${supabaseUrl}/storage/v1/object/public/cherelle-media/newsletters/`;
+  const imageUrls = Array.isArray(body.image_urls)
+    ? body.image_urls
+        .map((value) => clean(value, 1200))
+        .filter((value) => value.startsWith(allowedImagePrefix))
+    : [];
+
   if (!subject || !content || recipientIds.length === 0) {
     return NextResponse.json(
       { ok: false, error: "Onderwerp, bericht en minimaal één ontvanger zijn verplicht." },
@@ -99,6 +106,16 @@ export async function POST(request: NextRequest) {
 
   const safeSubject = escapeHtml(subject);
   const safeContent = escapeHtml(content).replace(/\n/g, "<br />");
+  const safeImages = imageUrls
+    .map(
+      (url) => `
+          <tr>
+            <td style="padding:0 38px 18px;">
+              <img src="${escapeHtml(url)}" alt="" width="564" border="0" style="display:block;width:100%;max-width:564px;height:auto;border-radius:14px;" />
+            </td>
+          </tr>`
+    )
+    .join("");
 
   const sendOne = async (client: { name: string; email: string }) => {
     const firstName = client.name.trim().split(/\s+/)[0] || "lieve vrouw";
@@ -121,6 +138,7 @@ export async function POST(request: NextRequest) {
           <tr>
             <td style="padding:12px 38px 28px;font-size:15px;line-height:25px;color:#5a4a40;">${safeContent}</td>
           </tr>
+          ${safeImages}
           <tr>
             <td style="padding:0 38px 42px;font-size:13px;line-height:22px;color:#8a766a;">
               Liefs,<br />Cherelle
@@ -182,6 +200,7 @@ export async function POST(request: NextRequest) {
     body: JSON.stringify({
       subject,
       body: content,
+      image_urls: imageUrls,
       recipient_count: clients.length,
       sent_by: user.id,
     }),
