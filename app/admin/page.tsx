@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import {
   clearAccountSession,
   clearCmsSession,
+  clearNewsletterHistory,
   CherelleAdminEvent,
   CherelleClient,
   CherelleClientMessage,
@@ -501,6 +502,28 @@ export default function CherelleAdminPage() {
       setError(deleteError instanceof Error ? deleteError.message : "Afbeelding verwijderen is mislukt.");
     } finally {
       setNewsletterImageBusy(false);
+    }
+  }
+
+  async function handleNewsletterHistoryClear() {
+    if (!session || newsletters.length === 0) return;
+
+    if (!window.confirm("Weet je zeker dat je de volledige nieuwsbriefhistorie wilt wissen? Dit kan niet ongedaan worden gemaakt.")) {
+      return;
+    }
+
+    setNewsletterBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await clearNewsletterHistory(session);
+      setNewsletters([]);
+      setMessage("De nieuwsbriefhistorie is geleegd.");
+    } catch (historyError) {
+      setError(historyError instanceof Error ? historyError.message : "De nieuwsbriefhistorie kon niet worden geleegd.");
+    } finally {
+      setNewsletterBusy(false);
     }
   }
 
@@ -1655,6 +1678,16 @@ export default function CherelleAdminPage() {
                   <p className={styles.eyebrow}>Verzonden</p>
                   <h2>Nieuwsbriefhistorie</h2>
                 </div>
+                {newsletters.length > 0 && (
+                  <button
+                    type="button"
+                    className={styles.newsletterClearButton}
+                    disabled={newsletterBusy}
+                    onClick={() => void handleNewsletterHistoryClear()}
+                  >
+                    Historie wissen
+                  </button>
+                )}
               </div>
 
               {newsletters.length === 0 ? (
