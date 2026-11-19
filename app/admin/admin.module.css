@@ -1662,3 +1662,554 @@
     gap: 5px;
   }
 }
+
+
+/* 2026-11-19 dashboard communications expansion */
+.dashboardOverview {
+  display: grid;
+  gap: 22px;
+}
+
+.overviewIntro {
+  padding: 4px 0 2px;
+}
+
+.overviewIntro .script {
+  margin: 0;
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.overviewMetrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.overviewMetrics article {
+  min-height: 185px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid rgba(74, 58, 50, 0.09);
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 88% 10%, rgba(201,167,161,0.11), transparent 34%),
+    rgba(255,255,255,0.82);
+}
+
+.overviewMetrics article > span {
+  font-size: 0.65rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: rgba(74,58,50,0.46);
+}
+
+.overviewMetrics article strong {
+  margin-top: auto;
+  font-family: "Bride", Georgia, serif;
+  font-size: clamp(3.1rem, 4.5vw, 5rem);
+  line-height: 0.9;
+  font-weight: 400;
+  color: var(--ink);
+}
+
+.overviewMetrics article p {
+  margin: 12px 0 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: rgba(74,58,50,0.58);
+}
+
+.activityPanel {
+  overflow: hidden;
+  border: 1px solid rgba(74,58,50,0.09);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.82);
+}
+
+.activityHead {
+  padding: 25px 28px 20px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px;
+  border-bottom: 1px solid rgba(74,58,50,0.08);
+}
+
+.activityHead h2,
+.clientMessageAdmin h3,
+.newsletterComposer h2,
+.newsletterRecipients h3,
+.newsletterHistory h2 {
+  margin: 0;
+  font-family: "Bride", Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  color: var(--ink);
+}
+
+.activityHead h2 {
+  font-size: 2.25rem;
+}
+
+.activityList {
+  display: grid;
+}
+
+.activityList article {
+  min-height: 72px;
+  padding: 16px 28px;
+  display: grid;
+  grid-template-columns: 12px minmax(0,1fr) auto;
+  gap: 14px;
+  align-items: center;
+  border-bottom: 1px solid rgba(74,58,50,0.07);
+}
+
+.activityList article:last-child {
+  border-bottom: 0;
+}
+
+.activityUnread {
+  background: rgba(247,241,234,0.68);
+}
+
+.activityDot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(74,58,50,0.18);
+}
+
+.activityUnread .activityDot {
+  background: var(--accent);
+}
+
+.activityList article > div {
+  display: grid;
+  gap: 4px;
+}
+
+.activityList strong {
+  font-family: "Bride", Georgia, serif;
+  font-size: 1rem;
+  font-weight: 400;
+}
+
+.activityList small {
+  font-size: 0.68rem;
+  color: rgba(74,58,50,0.5);
+}
+
+.activityNew {
+  padding: 5px 8px;
+  border-radius: 999px;
+  background: rgba(168,111,93,0.11);
+  color: var(--accent-deep);
+  font-size: 0.59rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.activityEmpty {
+  padding: 34px 28px;
+  color: rgba(74,58,50,0.58);
+  font-size: 0.82rem;
+}
+
+.clientDetailActions {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.clientDetailActions .secondaryButton {
+  margin-top: 0;
+  padding: 8px 13px 9px;
+  font-size: 0.78rem;
+}
+
+.clientDetailActions .secondaryButton:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.clientMessageAdmin {
+  padding: 26px 28px 28px;
+  border-bottom: 1px solid rgba(74,58,50,0.08);
+  background: #faf6f1;
+}
+
+.clientMessageAdmin h3 {
+  font-size: 1.85rem;
+}
+
+.clientMessageForm {
+  margin-top: 20px;
+  display: grid;
+  gap: 12px;
+}
+
+.clientMessageForm label {
+  display: grid;
+  gap: 7px;
+}
+
+.clientMessageForm label > span {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(74,58,50,0.48);
+}
+
+.clientMessageForm input,
+.clientMessageForm textarea,
+.newsletterComposer input,
+.newsletterComposer textarea {
+  width: 100%;
+  padding: 12px 13px;
+  border: 1px solid rgba(74,58,50,0.16);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.9);
+  color: var(--ink);
+  font: inherit;
+  line-height: 1.55;
+  outline: none;
+}
+
+.clientMessageForm textarea,
+.newsletterComposer textarea {
+  resize: vertical;
+}
+
+.clientMessageForm input:focus,
+.clientMessageForm textarea:focus,
+.newsletterComposer input:focus,
+.newsletterComposer textarea:focus {
+  border-color: rgba(168,111,93,0.68);
+  box-shadow: 0 0 0 3px rgba(168,111,93,0.07);
+}
+
+.clientMessageForm .primaryButton {
+  justify-self: start;
+}
+
+.clientSentMessages {
+  margin-top: 28px;
+  display: grid;
+  gap: 10px;
+}
+
+.clientSentMessages article {
+  padding: 15px 16px;
+  border: 1px solid rgba(74,58,50,0.08);
+  border-radius: 12px;
+  background: rgba(255,255,255,0.78);
+}
+
+.clientSentMessages article > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.clientSentMessages strong {
+  font-family: "Bride", Georgia, serif;
+  font-weight: 400;
+}
+
+.clientSentMessages span,
+.clientSentMessages small {
+  font-size: 0.64rem;
+  color: rgba(74,58,50,0.48);
+}
+
+.clientSentMessages p {
+  margin: 9px 0;
+  white-space: pre-wrap;
+  font-size: 0.76rem;
+  line-height: 1.55;
+  color: rgba(74,58,50,0.68);
+}
+
+.newsletterAdmin {
+  display: grid;
+  gap: 22px;
+}
+
+.newsletterGrid {
+  display: grid;
+  grid-template-columns: minmax(0,1.35fr) minmax(320px,0.65fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.newsletterComposer,
+.newsletterRecipients,
+.newsletterHistory {
+  border: 1px solid rgba(74,58,50,0.09);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.82);
+}
+
+.newsletterComposer {
+  padding: clamp(26px, 3vw, 40px);
+  display: grid;
+  gap: 18px;
+}
+
+.newsletterHeading {
+  margin-bottom: 6px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.newsletterHeading h2 {
+  font-size: clamp(2.4rem,4vw,4.1rem);
+  line-height: 0.98;
+}
+
+.newsletterHeading p:last-child {
+  max-width: 600px;
+  margin: 14px 0 0;
+  font-size: 0.8rem;
+  line-height: 1.65;
+  color: rgba(74,58,50,0.62);
+}
+
+.newsletterHeading > span {
+  flex: 0 0 auto;
+  padding: 7px 10px;
+  border-radius: 999px;
+  background: #f1e5dc;
+  color: var(--accent-deep);
+  font-size: 0.65rem;
+}
+
+.newsletterComposer label {
+  display: grid;
+  gap: 7px;
+}
+
+.newsletterComposer label > span {
+  font-size: 0.63rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(74,58,50,0.48);
+}
+
+.newsletterSendBar {
+  padding-top: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-top: 1px solid rgba(74,58,50,0.08);
+}
+
+.newsletterSendBar p {
+  margin: 0;
+  max-width: 520px;
+  font-size: 0.72rem;
+  line-height: 1.55;
+  color: rgba(74,58,50,0.55);
+}
+
+.newsletterRecipients {
+  overflow: hidden;
+}
+
+.newsletterRecipientsHead {
+  padding: 22px 22px 17px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 1px solid rgba(74,58,50,0.08);
+}
+
+.newsletterRecipients h3 {
+  font-size: 1.8rem;
+}
+
+.newsletterRecipientsHead > div:last-child {
+  display: flex;
+  gap: 8px;
+}
+
+.newsletterRecipientsHead button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--accent-deep);
+  font-size: 0.68rem;
+  cursor: pointer;
+}
+
+.newsletterClientList {
+  max-height: 510px;
+  overflow-y: auto;
+}
+
+.newsletterClientList > label {
+  padding: 13px 18px;
+  display: grid;
+  grid-template-columns: 18px 34px minmax(0,1fr);
+  gap: 11px;
+  align-items: center;
+  border-bottom: 1px solid rgba(74,58,50,0.065);
+  cursor: pointer;
+}
+
+.newsletterClientList > label:last-child {
+  border-bottom: 0;
+}
+
+.newsletterClientList input {
+  width: 16px;
+  height: 16px;
+}
+
+.newsletterClientAvatar {
+  width: 34px;
+  height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: #eadbd0;
+  font-family: "Bride", Georgia, serif;
+  color: var(--accent-deep);
+}
+
+.newsletterClientList label > span:last-child {
+  min-width: 0;
+  display: grid;
+  gap: 3px;
+}
+
+.newsletterClientList strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: "Bride", Georgia, serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+}
+
+.newsletterClientList small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: rgba(74,58,50,0.5);
+  font-size: 0.67rem;
+}
+
+.newsletterHistory {
+  overflow: hidden;
+}
+
+.newsletterHistoryHead {
+  padding: 24px 28px 18px;
+  border-bottom: 1px solid rgba(74,58,50,0.08);
+}
+
+.newsletterHistory h2 {
+  font-size: 2.1rem;
+}
+
+.newsletterHistoryList {
+  display: grid;
+}
+
+.newsletterHistoryList article {
+  padding: 18px 28px;
+  border-bottom: 1px solid rgba(74,58,50,0.07);
+}
+
+.newsletterHistoryList article:last-child {
+  border-bottom: 0;
+}
+
+.newsletterHistoryList article > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.newsletterHistoryList strong {
+  font-family: "Bride", Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 400;
+}
+
+.newsletterHistoryList span,
+.newsletterHistoryList small {
+  color: rgba(74,58,50,0.48);
+  font-size: 0.66rem;
+}
+
+.newsletterHistoryList p {
+  max-width: 980px;
+  margin: 8px 0;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: pre-wrap;
+  color: rgba(74,58,50,0.64);
+  font-size: 0.77rem;
+  line-height: 1.55;
+}
+
+@media (max-width: 1180px) {
+  .overviewMetrics {
+    grid-template-columns: repeat(2,minmax(0,1fr));
+  }
+
+  .newsletterGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .overviewMetrics {
+    grid-template-columns: 1fr;
+  }
+
+  .overviewMetrics article {
+    min-height: 150px;
+  }
+
+  .activityHead,
+  .newsletterHeading,
+  .newsletterSendBar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .clientDetailActions {
+    align-items: flex-end;
+    flex-direction: column-reverse;
+  }
+
+  .clientMessageAdmin {
+    padding: 22px 18px;
+  }
+
+  .clientMessageForm .primaryButton,
+  .newsletterSendBar .primaryButton {
+    width: 100%;
+  }
+
+  .newsletterComposer {
+    padding: 24px 18px;
+  }
+
+  .newsletterHistoryHead,
+  .newsletterHistoryList article {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+}
