@@ -77,10 +77,10 @@ export default function AccountPage() {
 
       <section className="accountPortalCard">
         <p className="accountPortalScript">Cherelle Elisa</p>
-        <p className="accountPortalKicker">Persoonlijke omgeving</p>
+        <p className="accountPortalKicker">Inloggen</p>
         <h1>Welkom terug.</h1>
         <p className="accountPortalIntro">
-          Log in met het e-mailadres dat aan jouw account is gekoppeld.
+          Log in met het e-mailadres dat aan jouw account is gekoppeld. Je wordt automatisch naar jouw klantomgeving of beheeromgeving gebracht.
         </p>
 
         <form className="accountPortalForm" onSubmit={handleLogin}>
