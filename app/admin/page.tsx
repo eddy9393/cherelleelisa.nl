@@ -376,16 +376,140 @@ export default function CherelleAdminPage() {
     if (!session) return;
     setSelectedClient(client);
     setSelectedIntake(null);
+    setSelectedClientMessages([]);
+    setClientMessageSubject("");
+    setClientMessageBody("");
     setClientDetailLoading(true);
     setError("");
 
     try {
-      const intake = await loadAdminIntake(session, client.id);
+      const [intake, messageRows] = await Promise.all([
+        loadAdminIntake(session, client.id),
+        loadClientMessages(session, client.id),
+      ]);
       setSelectedIntake(intake);
+      setSelectedClientMessages(messageRows);
     } catch (loadError) {
-      setError(loadError instanceof Error ? loadError.message : "Intake kon niet worden geladen.");
+      setError(loadError instanceof Error ? loadError.message : "Klantgegevens konden niet worden geladen.");
     } finally {
       setClientDetailLoading(false);
+    }
+  }
+
+  async function handleClientPdfDownload(client: CherelleClient) {
+    if (!session) return;
+    setClientBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const blob = await downloadClientIntakePdf(session, client.id);
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement("a");
+      anchor.href = url;
+      anchor.download = "intake.pdf";
+      document.body.appendChild(anchor);
+      anchor.click();
+      anchor.remove();
+      URL.revokeObjectURL(url);
+      setMessage(`PDF van ${client.name} is aangemaakt.`);
+    } catch (pdfError) {
+      setError(pdfError instanceof Error ? pdfError.message : "PDF kon niet worden aangemaakt.");
+    } finally {
+      setClientBusy(false);
+    }
+  }
+
+  async function handleClientMessageSend(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!session || !selectedClient) return;
+
+    const subject = clientMessageSubject.trim();
+    const body = clientMessageBody.trim();
+    if (!subject || !body) {
+      setError("Vul een onderwerp en bericht in.");
+      return;
+    }
+
+    setClientBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      await sendClientMessage(session, selectedClient.id, subject, body);
+      const messageRows = await loadClientMessages(session, selectedClient.id);
+      setSelectedClientMessages(messageRows);
+      setClientMessageSubject("");
+      setClientMessageBody("");
+      setMessage(`Bericht voor ${selectedClient.name} is opgeslagen.`);
+    } catch (sendError) {
+      setError(sendError instanceof Error ? sendError.message : "Bericht kon niet worden opgeslagen.");
+    } finally {
+      setClientBusy(false);
+    }
+  }
+
+  async function handleMarkActivityRead() {
+    if (!session) return;
+    setBusy(true);
+    setError("");
+
+    try {
+      await markAdminEventsRead(session);
+      const dashboard = await loadAdminDashboard(session);
+      setDashboardMetrics(dashboard.metrics);
+      setAdminEvents(dashboard.events);
+      setMessage("Nieuwe klantactiviteit is als gelezen gemarkeerd.");
+    } catch (activityError) {
+      setError(activityError instanceof Error ? activityError.message : "Activiteit kon niet worden bijgewerkt.");
+    } finally {
+      setBusy(false);
+    }
+  }
+
+  function toggleNewsletterRecipient(clientId: string) {
+    setNewsletterRecipients((current) =>
+      current.includes(clientId)
+        ? current.filter((id) => id !== clientId)
+        : [...current, clientId]
+    );
+  }
+
+  function selectAllNewsletterRecipients() {
+    setNewsletterRecipients(clients.map((client) => client.id));
+  }
+
+  async function handleNewsletterSend(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!session) return;
+
+    const subject = newsletterSubject.trim();
+    const body = newsletterBody.trim();
+    if (!subject || !body || newsletterRecipients.length === 0) {
+      setError("Vul een onderwerp en bericht in en selecteer minimaal één ontvanger.");
+      return;
+    }
+
+    if (!window.confirm(`Nieuwsbrief versturen naar ${newsletterRecipients.length} geselecteerde klant${newsletterRecipients.length === 1 ? "" : "en"}?`)) {
+      return;
+    }
+
+    setNewsletterBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const result = await sendNewsletter(session, subject, body, newsletterRecipients);
+      const history = await loadNewsletterHistory(session);
+      setNewsletters(history);
+      setNewsletterSubject("");
+      setNewsletterBody("");
+      setNewsletterRecipients([]);
+      setMessage(`Nieuwsbrief is verstuurd naar ${result.sent} klant${result.sent === 1 ? "" : "en"}.`);
+    } catch (newsletterError) {
+      setError(newsletterError instanceof Error ? newsletterError.message : "Nieuwsbrief kon niet worden verstuurd.");
+    } finally {
+      setNewsletterBusy(false);
     }
   }
 
