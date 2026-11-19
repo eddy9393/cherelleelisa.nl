@@ -304,7 +304,7 @@ export default function Home() {
           </nav>
           <div className="headerUtilityGroup">
             <LanguageSwitcher />
-            <AccountLink />
+            <AccountLink label={language === "nl" ? "Inloggen" : "Log in"} />
           </div>
         </header>
       )}
@@ -324,7 +324,7 @@ export default function Home() {
 
           <div className="headerUtilityGroup">
             <LanguageSwitcher />
-            <AccountLink />
+            <AccountLink label={language === "nl" ? "Inloggen" : "Log in"} />
           </div>
 
           <button
