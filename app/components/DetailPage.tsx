@@ -160,7 +160,7 @@ export default function DetailPage({ page }: { page: DetailKey }) {
           <span>/</span>
           <button type="button" className={language === "en" ? "isActive" : ""} onClick={() => setLanguage("en")}>EN</button>
           </div>
-          <AccountLink />
+          <AccountLink label={language === "nl" ? "Inloggen" : "Log in"} />
         </div>
         <button
           className="detailMenuButton"
