@@ -4,25 +4,36 @@ import { FormEvent, useEffect, useMemo, useState } from "react";
 import {
   clearAccountSession,
   clearCmsSession,
+  CherelleAdminEvent,
   CherelleClient,
+  CherelleClientMessage,
+  CherelleDashboardMetrics,
   CherelleIntake,
+  CherelleNewsletterLog,
   CmsContentMap,
   CmsMedia,
   CmsReview,
   CmsSession,
   CONTENT_GROUPS,
   DEFAULT_HOMEPAGE_CONTENT,
+  downloadClientIntakePdf,
   getSavedCmsSession,
   inviteClient,
   isCmsConfigured,
   loadAdminClients,
   loadAdminCms,
+  loadAdminDashboard,
   loadAdminIntake,
+  loadClientMessages,
+  loadNewsletterHistory,
   loginCms,
   signupCms,
   MEDIA_SLOTS,
+  markAdminEventsRead,
   saveContentGroup,
   saveReview,
+  sendClientMessage,
+  sendNewsletter,
   deleteMedia,
   deleteReview,
   uploadMedia,
@@ -30,7 +41,7 @@ import {
 } from "../../lib/cherelleCms";
 import styles from "./admin.module.css";
 
-type AdminTab = "website" | "klanten" | "overzicht" | "teksten" | "ervaringen" | "beelden";
+type AdminTab = "overzicht" | "website" | "klanten" | "nieuwsbrief" | "ervaringen" | "teksten" | "beelden";
 
 const FIELD_LABELS: Record<string, string> = {
   hero_sentence_1: "Hero – regel 1",
@@ -116,17 +127,35 @@ function energyLevelAdmin(value: CherelleIntake["energy_experience_level"]) {
 export default function CherelleAdminPage() {
   const [ready, setReady] = useState(false);
   const [session, setSession] = useState<CmsSession | null>(null);
-  const [tab, setTab] = useState<AdminTab>("website");
+  const [tab, setTab] = useState<AdminTab>("overzicht");
   const [content, setContent] = useState<CmsContentMap>({ ...DEFAULT_HOMEPAGE_CONTENT });
   const [reviews, setReviews] = useState<CmsReview[]>([]);
   const [media, setMedia] = useState<Record<string, CmsMedia>>({});
   const [clients, setClients] = useState<CherelleClient[]>([]);
+  const [dashboardMetrics, setDashboardMetrics] = useState<CherelleDashboardMetrics>({
+    clients_total: 0,
+    clients_active: 0,
+    visitors_today: 0,
+    visitors_7d: 0,
+    visitors_30d: 0,
+    page_views_today: 0,
+    unread_activity: 0,
+  });
+  const [adminEvents, setAdminEvents] = useState<CherelleAdminEvent[]>([]);
+  const [newsletters, setNewsletters] = useState<CherelleNewsletterLog[]>([]);
   const [selectedClient, setSelectedClient] = useState<CherelleClient | null>(null);
   const [selectedIntake, setSelectedIntake] = useState<CherelleIntake | null>(null);
+  const [selectedClientMessages, setSelectedClientMessages] = useState<CherelleClientMessage[]>([]);
   const [clientName, setClientName] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [clientBusy, setClientBusy] = useState(false);
   const [clientDetailLoading, setClientDetailLoading] = useState(false);
+  const [clientMessageSubject, setClientMessageSubject] = useState("");
+  const [clientMessageBody, setClientMessageBody] = useState("");
+  const [newsletterSubject, setNewsletterSubject] = useState("");
+  const [newsletterBody, setNewsletterBody] = useState("");
+  const [newsletterRecipients, setNewsletterRecipients] = useState<string[]>([]);
+  const [newsletterBusy, setNewsletterBusy] = useState(false);
 
   const [email, setEmail] = useState("info@cherelleelisa.nl");
   const [password, setPassword] = useState("");
@@ -167,9 +196,11 @@ export default function CherelleAdminPage() {
       }
 
       try {
-        const [data, clientRows] = await Promise.all([
+        const [data, clientRows, dashboard, newsletterRows] = await Promise.all([
           loadAdminCms(saved),
           loadAdminClients(saved),
+          loadAdminDashboard(saved),
+          loadNewsletterHistory(saved),
         ]);
         if (!active) return;
         setSession(saved);
@@ -177,6 +208,9 @@ export default function CherelleAdminPage() {
         setReviews(data.reviews);
         setMedia(data.media);
         setClients(clientRows);
+        setDashboardMetrics(dashboard.metrics);
+        setAdminEvents(dashboard.events);
+        setNewsletters(newsletterRows);
       } catch {
         clearCmsSession();
       } finally {
@@ -192,14 +226,19 @@ export default function CherelleAdminPage() {
 
   async function reload(nextSession = session) {
     if (!nextSession) return;
-    const [data, clientRows] = await Promise.all([
+    const [data, clientRows, dashboard, newsletterRows] = await Promise.all([
       loadAdminCms(nextSession),
       loadAdminClients(nextSession),
+      loadAdminDashboard(nextSession),
+      loadNewsletterHistory(nextSession),
     ]);
     setContent(data.content);
     setReviews(data.reviews);
     setMedia(data.media);
     setClients(clientRows);
+    setDashboardMetrics(dashboard.metrics);
+    setAdminEvents(dashboard.events);
+    setNewsletters(newsletterRows);
   }
 
   async function handleLogin(event: FormEvent<HTMLFormElement>) {
