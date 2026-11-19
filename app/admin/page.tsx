@@ -26,8 +26,6 @@ import {
   loadAdminIntake,
   loadClientMessages,
   loadNewsletterHistory,
-  loginCms,
-  signupCms,
   MEDIA_SLOTS,
   markAdminEventsRead,
   saveContentGroup,
@@ -159,8 +157,6 @@ export default function CherelleAdminPage() {
   const [newsletterRecipients, setNewsletterRecipients] = useState<string[]>([]);
   const [newsletterBusy, setNewsletterBusy] = useState(false);
 
-  const [email, setEmail] = useState("info@cherelleelisa.nl");
-  const [password, setPassword] = useState("");
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
@@ -263,63 +259,13 @@ export default function CherelleAdminPage() {
     setNewsletters(newsletterRows);
   }
 
-  async function handleLogin(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setBusy(true);
-    setError("");
-    try {
-      const nextSession = await loginCms(email.trim(), password);
-      setSession(nextSession);
-      setPassword("");
-      await reload(nextSession);
-    } catch (loginError) {
-      setError(loginError instanceof Error ? loginError.message : "Inloggen is mislukt.");
-    } finally {
-      setBusy(false);
-    }
-  }
-
-  async function handleActivation() {
-    const normalizedEmail = email.trim().toLowerCase();
-
-    if (normalizedEmail !== "info@cherelleelisa.nl") {
-      setError("Alleen info@cherelleelisa.nl kan als beheerder worden geactiveerd.");
-      return;
-    }
-
-    if (password.length < 8) {
-      setError("Gebruik minimaal 8 tekens voor het wachtwoord.");
-      return;
-    }
-
-    setBusy(true);
-    setError("");
-    setMessage("");
-
-    try {
-      await signupCms(normalizedEmail, password);
-      setMessage(
-        "Account is aangemaakt. Controleer info@cherelleelisa.nl en bevestig de Supabase-mail. Keer daarna terug naar /admin en log in."
-      );
-    } catch (activationError) {
-      setError(
-        activationError instanceof Error
-          ? activationError.message
-          : "Account activeren is mislukt."
-      );
-    } finally {
-      setBusy(false);
-    }
-  }
-
   function logout() {
     clearCmsSession();
     clearAccountSession();
     setSession(null);
-    setEmail("");
-    setPassword("");
     setMessage("");
     setError("");
+    window.location.replace("/account");
   }
 
   function updateContent(key: string, language: "nl" | "en", value: string) {
