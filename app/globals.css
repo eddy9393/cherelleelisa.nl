@@ -8227,3 +8227,347 @@ body,
     margin-top: 36px;
   }
 }
+
+
+/* 2026-11-19 client portal visual polish */
+.clientPortalPage {
+  background: #f8f4ef;
+}
+
+.clientPortalHero {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(54px, 7vw, 92px) 0 clamp(46px, 5vw, 72px);
+  border-bottom: 1px solid rgba(74, 58, 50, 0.08);
+  background:
+    radial-gradient(circle at 82% 12%, rgba(201, 167, 161, 0.18), transparent 28%),
+    linear-gradient(135deg, #f8f3ed 0%, #f3ebe3 100%);
+}
+
+.clientPortalHero::after {
+  content: "";
+  position: absolute;
+  right: -170px;
+  top: -250px;
+  width: 520px;
+  height: 520px;
+  border: 1px solid rgba(168, 111, 93, 0.12);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.clientPortalHeroInner {
+  position: relative;
+  z-index: 1;
+  width: min(1520px, calc(100% - 80px));
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, 0.52fr);
+  gap: clamp(42px, 6vw, 96px);
+  align-items: end;
+}
+
+.clientPortalHeroCopy {
+  max-width: 950px;
+}
+
+.clientPortalHeroCopy .accountPortalScript {
+  margin-bottom: 7px;
+  font-size: clamp(1.85rem, 2.5vw, 2.7rem);
+}
+
+.clientPortalEyebrow {
+  margin: 0 0 18px;
+  font-size: 0.62rem;
+  letter-spacing: 0.19em;
+  text-transform: uppercase;
+  color: rgba(74, 58, 50, 0.45);
+}
+
+.clientPortalHero h1 {
+  max-width: 100%;
+  margin: 0;
+  font-size: clamp(4.5rem, 7.4vw, 8.7rem);
+  line-height: 0.88;
+  letter-spacing: -0.055em;
+}
+
+.clientPortalHeroCopy > p:last-child {
+  max-width: 640px;
+  margin: 26px 0 0;
+  font-size: 0.98rem;
+  line-height: 1.72;
+  color: rgba(74, 58, 50, 0.66);
+}
+
+.clientHeroStatus {
+  position: relative;
+  padding: 26px 28px 24px;
+  border: 1px solid rgba(74, 58, 50, 0.1);
+  border-radius: 0 24px 24px 24px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: 0 24px 54px rgba(74, 58, 50, 0.055);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+}
+
+.clientHeroStatusHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.clientHeroStatusHead > span {
+  font-size: 0.61rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(74, 58, 50, 0.46);
+}
+
+.clientHeroStatusHead strong {
+  font-family: var(--font-display), serif;
+  font-size: 2rem;
+  font-weight: 400;
+  color: #2f241d;
+}
+
+.clientHeroProgress {
+  width: 100%;
+  height: 3px;
+  margin-top: 15px;
+  overflow: hidden;
+  background: rgba(74, 58, 50, 0.09);
+}
+
+.clientHeroProgress span {
+  display: block;
+  height: 100%;
+  background: #a86f5d;
+  transition: width 220ms ease;
+}
+
+.clientHeroStatus > p {
+  margin: 16px 0 0;
+  font-size: 0.78rem;
+  line-height: 1.6;
+  color: rgba(74, 58, 50, 0.62);
+}
+
+.clientHeroStatus > button {
+  margin-top: 17px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #855747;
+  font-family: var(--font-display), serif;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.clientPortalWorkspace {
+  width: min(1520px, calc(100% - 80px));
+  margin: 0 auto;
+  padding-top: clamp(34px, 4vw, 54px);
+  gap: clamp(30px, 4vw, 58px);
+}
+
+.clientPortalNav {
+  top: 112px;
+  padding: 12px 16px;
+  border: 1px solid rgba(74, 58, 50, 0.085);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.58);
+  box-shadow: 0 18px 40px rgba(74, 58, 50, 0.035);
+}
+
+.clientPortalNav button {
+  position: relative;
+  padding: 15px 10px;
+  border-bottom: 1px solid rgba(74, 58, 50, 0.08);
+  transition:
+    color 160ms ease,
+    background-color 160ms ease,
+    padding-left 160ms ease;
+}
+
+.clientPortalNav button:last-child {
+  border-bottom: 0;
+}
+
+.clientPortalNav button:hover,
+.clientPortalNav button.isActive {
+  padding-left: 15px;
+  color: #2f241d;
+}
+
+.clientPortalNav button.isActive {
+  background: rgba(247, 241, 234, 0.9);
+}
+
+.clientPortalNav button.isActive::before {
+  content: "";
+  position: absolute;
+  left: -16px;
+  top: 50%;
+  width: 3px;
+  height: 24px;
+  border-radius: 999px;
+  background: #a86f5d;
+  transform: translateY(-50%);
+}
+
+.clientOverview {
+  gap: 18px;
+}
+
+.clientOverviewIntro {
+  position: relative;
+  overflow: hidden;
+  padding: clamp(42px, 5vw, 72px);
+  border-radius: 0 26px 26px 26px;
+  box-shadow: 0 22px 55px rgba(74, 58, 50, 0.045);
+  background:
+    radial-gradient(circle at 88% 18%, rgba(201, 167, 161, 0.16), transparent 27%),
+    #fff;
+}
+
+.clientOverviewIntro::after {
+  content: "";
+  position: absolute;
+  right: -95px;
+  bottom: -125px;
+  width: 280px;
+  height: 280px;
+  border: 1px solid rgba(168, 111, 93, 0.1);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.clientOverviewIntro h2 {
+  position: relative;
+  z-index: 1;
+  max-width: 920px;
+  font-size: clamp(3.4rem, 5.4vw, 6.2rem);
+}
+
+.clientOverviewIntro p {
+  position: relative;
+  z-index: 1;
+}
+
+.clientOverviewCards button {
+  border-radius: 18px 18px 18px 5px;
+  box-shadow: 0 14px 34px rgba(74, 58, 50, 0.025);
+}
+
+.clientIntakeForm,
+.clientInfoPage,
+.clientContraPage {
+  border-radius: 0 26px 26px 26px;
+  box-shadow: 0 22px 55px rgba(74, 58, 50, 0.045);
+}
+
+@media (max-width: 1100px) {
+  .clientPortalHeroInner {
+    width: min(100% - 48px, 980px);
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 34px;
+  }
+
+  .clientPortalWorkspace {
+    width: min(100% - 48px, 1180px);
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 30px;
+  }
+
+  .clientPortalHero h1 {
+    font-size: clamp(4rem, 8vw, 6.6rem);
+  }
+}
+
+@media (max-width: 900px) {
+  .clientPortalHero {
+    padding: 52px 0 36px;
+  }
+
+  .clientPortalHeroInner {
+    width: min(100% - 28px, 760px);
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .clientPortalHero h1 {
+    font-size: clamp(4rem, 13vw, 6rem);
+  }
+
+  .clientHeroStatus {
+    width: 100%;
+    border-radius: 0 20px 20px 20px;
+  }
+
+  .clientPortalWorkspace {
+    width: min(100% - 28px, 760px);
+    padding-top: 22px;
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .clientPortalNav {
+    padding: 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .clientPortalNav button.isActive::before {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .clientPortalHero {
+    padding: 46px 0 30px;
+  }
+
+  .clientPortalHeroCopy .accountPortalScript {
+    font-size: 1.85rem;
+  }
+
+  .clientPortalEyebrow {
+    margin-bottom: 14px;
+  }
+
+  .clientPortalHero h1 {
+    font-size: clamp(3.7rem, 17vw, 5.2rem);
+  }
+
+  .clientPortalHeroCopy > p:last-child {
+    margin-top: 20px;
+    font-size: 0.9rem;
+  }
+
+  .clientHeroStatus {
+    padding: 22px 20px 20px;
+  }
+
+  .clientOverviewIntro {
+    padding: 34px 22px;
+    border-radius: 0 20px 20px 20px;
+  }
+
+  .clientOverviewIntro h2 {
+    font-size: clamp(3rem, 14vw, 4.3rem);
+  }
+
+  .clientOverviewCards button {
+    border-radius: 16px 16px 16px 5px;
+  }
+
+  .clientIntakeForm,
+  .clientInfoPage,
+  .clientContraPage {
+    border-radius: 0 20px 20px 20px;
+  }
+}
