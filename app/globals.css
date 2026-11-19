@@ -8888,3 +8888,46 @@ body,
     width: 100%;
   }
 }
+
+
+/* 2026-11-19 universal login text link */
+.accountHeaderLink {
+  width: auto !important;
+  height: auto !important;
+  min-width: 0;
+  padding: 4px 0 3px;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: var(--ce-ink, #2f241d);
+  font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  font-size: 0.74rem;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-decoration: none;
+  box-shadow: inset 0 -1px 0 rgba(47,36,29,0.22);
+  transition:
+    color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.accountHeaderLink:hover {
+  transform: translateY(-1px);
+  color: #855747;
+  box-shadow: inset 0 -1px 0 rgba(168,111,93,0.62);
+}
+
+.mobileSiteHeader .accountHeaderLink,
+.detailUtilities .accountHeaderLink {
+  width: auto !important;
+  height: auto !important;
+  background: transparent !important;
+}
+
+@media (max-width: 420px) {
+  .accountHeaderLink {
+    font-size: 0.69rem;
+  }
+}
