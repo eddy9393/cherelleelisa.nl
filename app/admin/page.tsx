@@ -877,16 +877,29 @@ export default function CherelleAdminPage() {
                         <h2>{selectedClient.name}</h2>
                         <p>{selectedClient.email}</p>
                       </div>
-                      <button
-                        className={styles.textButton}
-                        type="button"
-                        onClick={() => {
-                          setSelectedClient(null);
-                          setSelectedIntake(null);
-                        }}
-                      >
-                        Sluiten
-                      </button>
+                      <div className={styles.clientDetailActions}>
+                        <button
+                          className={styles.secondaryButton}
+                          type="button"
+                          disabled={clientBusy || !selectedIntake}
+                          onClick={() => void handleClientPdfDownload(selectedClient)}
+                        >
+                          Intake als PDF
+                        </button>
+                        <button
+                          className={styles.textButton}
+                          type="button"
+                          onClick={() => {
+                            setSelectedClient(null);
+                            setSelectedIntake(null);
+                            setSelectedClientMessages([]);
+                            setClientMessageSubject("");
+                            setClientMessageBody("");
+                          }}
+                        >
+                          Sluiten
+                        </button>
+                      </div>
                     </div>
 
                     <div className={styles.clientDetailMeta}>
@@ -903,6 +916,56 @@ export default function CherelleAdminPage() {
                         <strong>{formatAdminDate(selectedClient.activated_at)}</strong>
                       </div>
                     </div>
+
+                    <section className={styles.clientMessageAdmin}>
+                      <div className={styles.clientMessageAdminHead}>
+                        <div>
+                          <p className={styles.eyebrow}>Persoonlijk bericht</p>
+                          <h3>Schrijf iets voor {selectedClient.name.split(" ")[0]}.</h3>
+                        </div>
+                      </div>
+
+                      <form className={styles.clientMessageForm} onSubmit={handleClientMessageSend}>
+                        <label>
+                          <span>Onderwerp</span>
+                          <input
+                            value={clientMessageSubject}
+                            onChange={(event) => setClientMessageSubject(event.target.value)}
+                            placeholder="Bijvoorbeeld: Voor jouw sessie"
+                            required
+                          />
+                        </label>
+                        <label>
+                          <span>Bericht</span>
+                          <textarea
+                            rows={5}
+                            value={clientMessageBody}
+                            onChange={(event) => setClientMessageBody(event.target.value)}
+                            placeholder="Schrijf hier je persoonlijke bericht..."
+                            required
+                          />
+                        </label>
+                        <button className={styles.primaryButton} type="submit" disabled={clientBusy}>
+                          {clientBusy ? "Opslaan…" : "Bericht plaatsen"}
+                        </button>
+                      </form>
+
+                      {selectedClientMessages.length > 0 && (
+                        <div className={styles.clientSentMessages}>
+                          <p className={styles.eyebrow}>Eerder geplaatst</p>
+                          {selectedClientMessages.slice(0, 4).map((item) => (
+                            <article key={item.id}>
+                              <div>
+                                <strong>{item.subject}</strong>
+                                <span>{formatAdminDate(item.created_at)}</span>
+                              </div>
+                              <p>{item.body}</p>
+                              <small>{item.read_at ? "Gelezen door klant" : "Nog niet gelezen"}</small>
+                            </article>
+                          ))}
+                        </div>
+                      )}
+                    </section>
 
                     {clientDetailLoading ? (
                       <div className={styles.clientIntakeLoading}>Intake laden…</div>
