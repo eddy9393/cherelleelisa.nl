@@ -58,15 +58,18 @@ Deno.serve(async (req) => {
   }
 
   const action = body.action === "resend" ? "resend" : "invite";
-  const name = String(body.name ?? "").trim().slice(0, 160);
+  const firstName = String(body.first_name ?? "").trim().slice(0, 80);
+  const lastName = String(body.last_name ?? "").trim().slice(0, 100);
+  const name = [firstName, lastName].filter(Boolean).join(" ").slice(0, 160);
+  const phone = String(body.phone ?? "").trim().slice(0, 60);
   const email = String(body.email ?? "").trim().toLowerCase().slice(0, 254);
 
   if (!validEmail(email)) {
     return respond(400, { error: "Vul een geldig e-mailadres in." });
   }
 
-  if (action === "invite" && !name) {
-    return respond(400, { error: "Vul de naam van de klant in." });
+  if (action === "invite" && (!firstName || !lastName)) {
+    return respond(400, { error: "Vul de voornaam en achternaam van de klant in." });
   }
 
   const { data: existingClient, error: lookupError } = await service
@@ -94,7 +97,7 @@ Deno.serve(async (req) => {
 
   const linkParams =
     action === "invite"
-      ? { type: "invite" as const, email, data: { full_name: name } }
+      ? { type: "invite" as const, email, data: { full_name: name, first_name: firstName, last_name: lastName } }
       : { type: "magiclink" as const, email };
 
   const { data: linkData, error: linkError } =
@@ -128,6 +131,24 @@ Deno.serve(async (req) => {
         error: insertError?.message || "Klantaccount kon niet worden gekoppeld.",
       });
     }
+    if (phone) {
+      const { error: intakeError } = await service
+        .from("cherelle_intakes")
+        .upsert({
+          client_id: inserted.id,
+          phone,
+          updated_at: new Date().toISOString(),
+        }, { onConflict: "client_id" });
+
+      if (intakeError) {
+        await service.from("cherelle_clients").delete().eq("id", inserted.id);
+        await service.auth.admin.deleteUser(linkData.user.id);
+        return respond(500, {
+          error: "Klantaccount kon niet volledig worden gekoppeld.",
+        });
+      }
+    }
+
     client = inserted;
   } else {
     await service
