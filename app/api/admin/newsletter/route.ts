@@ -140,7 +140,7 @@ export async function POST(request: NextRequest) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "Cherelle Elisa <website@cherelleelisa.nl>",
+        from: "Cherelle Elisa <info@cherelleelisa.nl>",
         to: [client.email],
         reply_to: "info@cherelleelisa.nl",
         subject,
