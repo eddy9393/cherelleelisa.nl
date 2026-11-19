@@ -107,7 +107,7 @@ export default function ClientAccountPage() {
   const submitted = Boolean(draft.submitted_at);
 
   const completion = useMemo(() => {
-    const values = [
+    const answered = [
       draft.birth_date,
       draft.phone,
       draft.intention,
@@ -118,12 +118,14 @@ export default function ClientAccountPage() {
       draft.meditation_breathwork_experience,
       draft.mental_health_or_trauma,
       draft.stimulants,
-      draft.contraindications_acknowledged,
-      draft.declaration_accepted,
-      draft.signature_name,
-    ];
-    const complete = values.filter((value) => value !== null && value !== "" && value !== false).length;
-    return Math.min(100, Math.round((complete / values.length) * 100));
+    ].filter((value) => value !== null && value !== "").length;
+
+    const confirmations =
+      Number(draft.contraindications_acknowledged) +
+      Number(draft.declaration_accepted) +
+      Number(Boolean(draft.signature_name?.trim()));
+
+    return Math.min(100, Math.round(((answered + confirmations) / 13) * 100));
   }, [draft]);
 
   useEffect(() => {
