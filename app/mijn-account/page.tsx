@@ -255,11 +255,34 @@ export default function ClientAccountPage() {
       </header>
 
       <section className="clientPortalHero">
-        <p className="accountPortalScript">jouw plek</p>
-        <h1>Welkom, {client.name.split(" ")[0]}.</h1>
-        <p>
-          Alles voor jouw sessie op één rustige plek. Je antwoorden zijn alleen zichtbaar voor jou en Cherelle.
-        </p>
+        <div className="clientPortalHeroInner">
+          <div className="clientPortalHeroCopy">
+            <p className="accountPortalScript">jouw plek</p>
+            <p className="clientPortalEyebrow">Persoonlijke omgeving</p>
+            <h1>Welkom, {client.name.split(" ")[0]}.</h1>
+            <p>
+              Alles voor jouw sessie op één rustige plek. Je antwoorden zijn alleen zichtbaar voor jou en Cherelle.
+            </p>
+          </div>
+
+          <div className="clientHeroStatus">
+            <div className="clientHeroStatusHead">
+              <span>Jouw intake</span>
+              <strong>{submitted ? "Verstuurd" : `${completion}%`}</strong>
+            </div>
+            <div className="clientHeroProgress" aria-hidden="true">
+              <span style={{ width: submitted ? "100%" : `${completion}%` }} />
+            </div>
+            <p>
+              {submitted
+                ? `Verstuurd op ${formatDate(draft.submitted_at)}.`
+                : "Je kunt tussentijds opslaan en later rustig verdergaan."}
+            </p>
+            <button type="button" onClick={() => setSection("intake")}>
+              {submitted ? "Bekijk intake" : "Ga verder met intake"} →
+            </button>
+          </div>
+        </div>
       </section>
 
       <div className="clientPortalWorkspace">
@@ -297,31 +320,13 @@ export default function ClientAccountPage() {
             <div className="clientOverview">
               <div className="clientOverviewIntro">
                 <p className="accountPortalKicker">Sound of soul</p>
-                <h2>Lieve vrouw,</h2>
+                <h2>Lieve {client.name},</h2>
                 <p>
                   Wat bijzonder dat je ‘ja’ hebt gezegd tegen jezelf. Door deze keuze open je de deur naar meer bewustzijn,
                   energie en diepe transformatie. Deze intake helpt om jouw sessie veilig en afgestemd te laten verlopen.
                   Neem de tijd en beantwoord de vragen eerlijk. Alles wat je deelt blijft volledig vertrouwelijk.
                 </p>
                 <p>Ik kijk ernaar uit om deze reis samen met jou te maken. ✨</p>
-              </div>
-
-              <div className="clientProgressCard">
-                <div>
-                  <span>Jouw intake</span>
-                  <strong>{submitted ? "Verstuurd" : `${completion}%`}</strong>
-                </div>
-                <div className="clientProgressTrack">
-                  <span style={{ width: submitted ? "100%" : `${completion}%` }} />
-                </div>
-                <p>
-                  {submitted
-                    ? `Verstuurd op ${formatDate(draft.submitted_at)}. Je kunt je antwoorden nog bekijken en waar nodig bijwerken.`
-                    : "Je kunt tussentijds opslaan en later verdergaan."}
-                </p>
-                <button type="button" onClick={() => setSection("intake")}>
-                  {submitted ? "Bekijk intake" : "Ga verder met intake"} →
-                </button>
               </div>
 
               <div className="clientOverviewCards">
