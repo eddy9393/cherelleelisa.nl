@@ -110,9 +110,15 @@ export type CherelleNewsletterLog = {
   id: string;
   subject: string;
   body: string;
+  image_urls: string[];
   recipient_count: number;
   sent_by: string | null;
   sent_at: string;
+};
+
+export type NewsletterImage = {
+  url: string;
+  storage_path: string;
 };
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "") ?? "";
@@ -916,7 +922,8 @@ export async function sendNewsletter(
   session: CmsSession,
   subject: string,
   body: string,
-  recipientIds: string[]
+  recipientIds: string[],
+  imageUrls: string[] = []
 ) {
   const response = await fetch("/api/admin/newsletter", {
     method: "POST",
@@ -928,12 +935,66 @@ export async function sendNewsletter(
       subject,
       body,
       recipient_ids: recipientIds,
+      image_urls: imageUrls,
     }),
   });
 
   const data = await response.json().catch(() => ({}));
   if (!response.ok) throw new Error(data?.error || "Nieuwsbrief kon niet worden verstuurd.");
   return data as { ok: true; sent: number };
+}
+
+export async function uploadNewsletterImage(
+  session: CmsSession,
+  file: File
+): Promise<NewsletterImage> {
+  if (!file.type.startsWith("image/")) {
+    throw new Error("Selecteer een afbeelding.");
+  }
+
+  const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
+  const storagePath = `newsletters/${Date.now()}-${Math.random().toString(36).slice(2, 9)}.${extension}`;
+
+  const uploadResponse = await fetch(
+    `${supabaseUrl}/storage/v1/object/cherelle-media/${storagePath}`,
+    {
+      method: "POST",
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${session.access_token}`,
+        "Content-Type": file.type || "application/octet-stream",
+        "x-upsert": "false",
+      },
+      body: file,
+    }
+  );
+
+  if (!uploadResponse.ok) throw new Error(await responseError(uploadResponse));
+
+  return {
+    storage_path: storagePath,
+    url: `${supabaseUrl}/storage/v1/object/public/cherelle-media/${storagePath}`,
+  };
+}
+
+export async function deleteNewsletterImage(
+  session: CmsSession,
+  image: NewsletterImage
+) {
+  const response = await fetch(
+    `${supabaseUrl}/storage/v1/object/cherelle-media/${image.storage_path}`,
+    {
+      method: "DELETE",
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    }
+  );
+
+  if (!response.ok && response.status !== 404) {
+    throw new Error(await responseError(response));
+  }
 }
 
 export async function downloadClientIntakePdf(
