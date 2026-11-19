@@ -9070,3 +9070,127 @@ body,
     height: 27px;
   }
 }
+
+
+/* 2026-11-19 align login with menu typography */
+.accountHeaderLink {
+  position: relative;
+  width: auto !important;
+  height: auto !important;
+  min-width: 0;
+  padding: 10px 0 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  color: #2f241d;
+  font-family: inherit !important;
+  font-size: 0.74rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.045em !important;
+  line-height: normal;
+  text-decoration: none;
+  box-shadow: none !important;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transition: opacity 180ms ease;
+}
+
+.accountHeaderLink::before {
+  content: none !important;
+  display: none !important;
+}
+
+.accountHeaderLink::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 100%;
+  bottom: 4px;
+  height: 1px;
+  background: rgba(47, 36, 29, 0.92);
+  transition: right 180ms ease;
+}
+
+.accountHeaderLink:hover {
+  transform: none !important;
+  background: transparent !important;
+  border-color: transparent !important;
+  color: #2f241d;
+  box-shadow: none !important;
+  opacity: 0.88;
+}
+
+.accountHeaderLink:hover::after {
+  right: 0;
+}
+
+.mobileSiteHeader .accountHeaderLink,
+.detailUtilities .accountHeaderLink {
+  width: auto !important;
+  height: auto !important;
+  padding: 10px 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+}
+
+.accountPortalBack {
+  position: absolute;
+  top: 28px;
+  left: 28px;
+  padding: 7px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: rgba(47,36,29,0.66);
+  font-family: inherit;
+  font-size: 0.76rem;
+  font-weight: 500;
+  letter-spacing: 0.035em;
+  text-decoration: none;
+  box-shadow: none;
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  transition: color 180ms ease, opacity 180ms ease;
+}
+
+.accountPortalBack::after {
+  content: "";
+  display: block;
+  width: 100%;
+  height: 1px;
+  margin-top: 4px;
+  background: rgba(168,111,93,0.34);
+  transform: scaleX(0.46);
+  transform-origin: left;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.accountPortalBack:hover {
+  transform: none;
+  border-color: transparent;
+  background: transparent;
+  color: #855747;
+}
+
+.accountPortalBack:hover::after {
+  transform: scaleX(1);
+  background: rgba(168,111,93,0.72);
+}
+
+.accountPortalBackIcon {
+  display: none !important;
+}
+
+@media (max-width: 600px) {
+  .accountHeaderLink {
+    font-size: 0.74rem !important;
+    padding: 10px 0 !important;
+  }
+
+  .accountPortalBack {
+    top: 18px;
+    left: 18px;
+    padding: 6px 0;
+    font-size: 0.74rem;
+  }
+}
