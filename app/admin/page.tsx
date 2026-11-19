@@ -146,7 +146,9 @@ export default function CherelleAdminPage() {
   const [selectedClient, setSelectedClient] = useState<CherelleClient | null>(null);
   const [selectedIntake, setSelectedIntake] = useState<CherelleIntake | null>(null);
   const [selectedClientMessages, setSelectedClientMessages] = useState<CherelleClientMessage[]>([]);
-  const [clientName, setClientName] = useState("");
+  const [clientFirstName, setClientFirstName] = useState("");
+  const [clientLastName, setClientLastName] = useState("");
+  const [clientPhone, setClientPhone] = useState("");
   const [clientEmail, setClientEmail] = useState("");
   const [clientBusy, setClientBusy] = useState(false);
   const [clientDetailLoading, setClientDetailLoading] = useState(false);
@@ -184,14 +186,15 @@ export default function CherelleAdminPage() {
 
       const saved = getSavedCmsSession();
       if (!saved) {
-        if (active) setReady(true);
+        window.location.replace("/account");
         return;
       }
 
       const valid = await verifyCmsSession(saved);
       if (!valid) {
         clearCmsSession();
-        if (active) setReady(true);
+        clearAccountSession();
+        window.location.replace("/account");
         return;
       }
 
@@ -213,6 +216,8 @@ export default function CherelleAdminPage() {
         setNewsletters(newsletterRows);
       } catch {
         clearCmsSession();
+        clearAccountSession();
+        window.location.replace("/account");
       } finally {
         if (active) setReady(true);
       }
@@ -346,10 +351,13 @@ export default function CherelleAdminPage() {
     event.preventDefault();
     if (!session) return;
 
-    const name = clientName.trim();
+    const firstName = clientFirstName.trim();
+    const lastName = clientLastName.trim();
+    const phone = clientPhone.trim();
     const emailAddress = clientEmail.trim().toLowerCase();
-    if (!name || !emailAddress) {
-      setError("Vul de naam en het e-mailadres van de klant in.");
+
+    if (!firstName || !lastName || !emailAddress) {
+      setError("Vul de voornaam, achternaam en het e-mailadres van de klant in.");
       return;
     }
 
@@ -358,10 +366,18 @@ export default function CherelleAdminPage() {
     setMessage("");
 
     try {
-      await inviteClient(session, name, emailAddress, "invite");
+      await inviteClient(session, {
+        firstName,
+        lastName,
+        phone,
+        email: emailAddress,
+        action: "invite",
+      });
       const clientRows = await loadAdminClients(session);
       setClients(clientRows);
-      setClientName("");
+      setClientFirstName("");
+      setClientLastName("");
+      setClientPhone("");
       setClientEmail("");
       setMessage(`Uitnodiging is verstuurd naar ${emailAddress}.`);
     } catch (inviteError) {
@@ -378,7 +394,10 @@ export default function CherelleAdminPage() {
     setMessage("");
 
     try {
-      await inviteClient(session, client.name, client.email, "resend");
+      await inviteClient(session, {
+        email: client.email,
+        action: "resend",
+      });
       const clientRows = await loadAdminClients(session);
       setClients(clientRows);
       setMessage(`Nieuwe uitnodiging is verstuurd naar ${client.email}.`);
