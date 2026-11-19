@@ -224,6 +224,23 @@ export default function CherelleAdminPage() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!session || tab !== "overzicht") return;
+
+    let active = true;
+    void loadAdminDashboard(session)
+      .then((dashboard) => {
+        if (!active) return;
+        setDashboardMetrics(dashboard.metrics);
+        setAdminEvents(dashboard.events);
+      })
+      .catch(() => undefined);
+
+    return () => {
+      active = false;
+    };
+  }, [session, tab]);
+
   async function reload(nextSession = session) {
     if (!nextSession) return;
     const [data, clientRows, dashboard, newsletterRows] = await Promise.all([
