@@ -699,46 +699,7 @@ export default function CherelleAdminPage() {
   if (!session) {
     return (
       <main className={styles.page}>
-        <section className={styles.loginPanel}>
-          <p className={styles.script}>Cherelle Elisa</p>
-          <h1>Welkom terug</h1>
-          <p className={styles.muted}>Log in om de website, klanten en communicatie te beheren.</p>
-          <form onSubmit={handleLogin} className={styles.form}>
-            <label>
-              <span>E-mailadres</span>
-              <input
-                type="email"
-                autoComplete="email"
-                value={email}
-                onChange={(event) => setEmail(event.target.value)}
-                required
-              />
-            </label>
-            <label>
-              <span>Wachtwoord</span>
-              <input
-                type="password"
-                autoComplete="current-password"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-              />
-            </label>
-            {message && <div className={styles.notice}>{message}</div>}
-            {error && <p className={styles.error}>{error}</p>}
-            <button className={styles.primaryButton} type="submit" disabled={busy}>
-              {busy ? "Inloggen…" : "Inloggen"}
-            </button>
-            <button
-              className={styles.secondaryButton}
-              type="button"
-              disabled={busy}
-              onClick={() => void handleActivation()}
-            >
-              Eerste keer? Account activeren
-            </button>
-          </form>
-        </section>
+        <div className={styles.loading}>Doorsturen naar inloggen…</div>
       </main>
     );
   }
@@ -810,18 +771,29 @@ export default function CherelleAdminPage() {
                 <p className={styles.eyebrow}>Nieuwe klant</p>
                 <h2>Koppel een persoonlijke omgeving.</h2>
                 <p>
-                  Vul alleen de naam en het e-mailadres in. De klant ontvangt daarna automatisch een persoonlijke
+                  Vul de klantgegevens in. Telefoonnummer is optioneel. De klant ontvangt daarna automatisch een persoonlijke
                   uitnodiging en maakt zelf bij de eerste keer een wachtwoord aan.
                 </p>
               </div>
 
               <form className={styles.clientInviteForm} onSubmit={handleClientInvite}>
                 <label>
-                  <span>Naam</span>
+                  <span>Voornaam</span>
                   <input
-                    value={clientName}
-                    onChange={(event) => setClientName(event.target.value)}
-                    placeholder="Voor- en achternaam"
+                    value={clientFirstName}
+                    onChange={(event) => setClientFirstName(event.target.value)}
+                    placeholder="Voornaam"
+                    autoComplete="given-name"
+                    required
+                  />
+                </label>
+                <label>
+                  <span>Achternaam</span>
+                  <input
+                    value={clientLastName}
+                    onChange={(event) => setClientLastName(event.target.value)}
+                    placeholder="Achternaam"
+                    autoComplete="family-name"
                     required
                   />
                 </label>
@@ -832,7 +804,18 @@ export default function CherelleAdminPage() {
                     value={clientEmail}
                     onChange={(event) => setClientEmail(event.target.value)}
                     placeholder="naam@voorbeeld.nl"
+                    autoComplete="email"
                     required
+                  />
+                </label>
+                <label>
+                  <span>Telefoonnummer <small>optioneel</small></span>
+                  <input
+                    type="tel"
+                    value={clientPhone}
+                    onChange={(event) => setClientPhone(event.target.value)}
+                    placeholder="06..."
+                    autoComplete="tel"
                   />
                 </label>
                 <button className={styles.primaryButton} type="submit" disabled={clientBusy}>
@@ -1551,7 +1534,7 @@ export default function CherelleAdminPage() {
                 <div className={styles.newsletterHeading}>
                   <div>
                     <p className={styles.eyebrow}>Nieuwe nieuwsbrief</p>
-                    <h2>Schrijf vanuit Cherelle.</h2>
+                    <h2>Schrijf vanuit Cherelle Elisa.</h2>
                     <p>
                       De nieuwsbrief wordt persoonlijk per klant verstuurd en begint automatisch met de voornaam.
                     </p>
