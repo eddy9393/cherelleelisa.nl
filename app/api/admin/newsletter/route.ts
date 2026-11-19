@@ -64,8 +64,11 @@ export async function POST(request: NextRequest) {
 
   const subject = clean(body.subject, 180);
   const content = clean(body.body, 12000);
+  const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
   const recipientIds = Array.isArray(body.recipient_ids)
-    ? body.recipient_ids.map((value) => clean(value, 80)).filter(Boolean)
+    ? body.recipient_ids
+        .map((value) => clean(value, 80))
+        .filter((value) => uuidPattern.test(value))
     : [];
 
   if (!subject || !content || recipientIds.length === 0) {
@@ -79,9 +82,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, error: "Selecteer maximaal 250 ontvangers per verzending." }, { status: 400 });
   }
 
-  const ids = recipientIds.map((id) => `"${id.replace(/"/g, "")}"`).join(",");
+  const ids = recipientIds.map((id) => encodeURIComponent(id)).join(",");
   const clientsResponse = await fetch(
-    `${supabaseUrl}/rest/v1/cherelle_clients?select=id,name,email&id=in.(${encodeURIComponent(ids)})`,
+    `${supabaseUrl}/rest/v1/cherelle_clients?select=id,name,email&id=in.(${ids})`,
     { headers: commonHeaders, cache: "no-store" }
   );
 
