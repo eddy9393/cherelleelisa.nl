@@ -181,6 +181,16 @@ export default function Home() {
   const testimonialItems: Array<CmsReview | number> =
     cmsReviews.length > 0 ? cmsReviews : [1, 2, 3];
 
+  function formatExperienceMonthYear(value: string | null) {
+    if (!value) return "";
+    const parsed = new Date(`${value}T12:00:00`);
+    if (Number.isNaN(parsed.getTime())) return "";
+    return new Intl.DateTimeFormat(language === "nl" ? "nl-NL" : "en-GB", {
+      month: "long",
+      year: "numeric",
+    }).format(parsed);
+  }
+
   function renderHomepageTestimonial(
     item: CmsReview | number,
     index: number,
@@ -212,13 +222,18 @@ export default function Home() {
         key={`${duplicate ? "duplicate" : "primary"}-${item.id}`}
         aria-hidden={duplicate || undefined}
       >
-        <span>{role || item.name || `0${index + 1}`}</span>
-        <p>“{quote || item.quote_nl}”</p>
-        <div className="testimonialMarqueeAuthor">
+        <div className="testimonialMarqueeCopy">
           {item.image_url && (
             <img className="testimonialMarqueePhoto" src={item.image_url} alt={duplicate ? "" : item.name} />
           )}
+          <span className="testimonialMarqueeRole">{role || item.name || `0${index + 1}`}</span>
+          <p>“{quote || item.quote_nl}”</p>
+        </div>
+        <div className="testimonialMarqueeAuthor">
           <small>{item.name}</small>
+          {item.experience_date && (
+            <small className="testimonialMarqueeDate">{formatExperienceMonthYear(item.experience_date)}</small>
+          )}
         </div>
       </article>
     );
