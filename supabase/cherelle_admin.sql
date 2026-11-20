@@ -24,6 +24,8 @@ create table if not exists public.cherelle_reviews (
   role_en text,
   quote_nl text not null,
   quote_en text not null default '',
+  image_url text,
+  image_storage_path text,
   is_published boolean not null default true,
   sort_order integer not null default 0,
   created_at timestamptz not null default now(),
