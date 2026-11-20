@@ -91,8 +91,59 @@ const FIELD_LABELS: Record<string, string> = {
   invitation_body: "Hoofdtekst",
 };
 
+function fieldLabel(key: string) {
+  if (FIELD_LABELS[key]) return FIELD_LABELS[key];
+
+  const detailKey = key.replace(/^detail_(recognition|homecoming|guidance|approach|about)_/, "");
+
+  const fixed: Record<string, string> = {
+    hero_kicker: "Hero – bovenregel",
+    hero_title: "Hero – titel",
+    hero_intro: "Hero – introductie",
+    section_kicker: "Sectie – bovenregel",
+    section_title: "Sectie – titel",
+    body: "Hoofdtekst",
+    emphasis: "Accenttekst",
+    transitions_kicker: "Transformaties – bovenregel",
+    transitions_title: "Transformaties – titel",
+    story_kicker: "Verhaal – bovenregel",
+    story_title: "Verhaal – titel",
+    story_body: "Verhaal – tekst",
+    story_quote: "Verhaal – quote",
+    method_kicker: "Werkwijze – bovenregel",
+    method_title: "Werkwijze – titel",
+    statement: "Groot statement",
+    cta_kicker: "Onderste CTA – bovenregel",
+    cta_title: "Onderste CTA – titel",
+    cta_text: "Onderste CTA – tekst",
+    cta_label: "Onderste CTA – knoptekst",
+  };
+  if (fixed[detailKey]) return fixed[detailKey];
+
+  const transition = detailKey.match(/^transition_(\d+)$/);
+  if (transition) return `Transformatie ${transition[1]}`;
+
+  const service = detailKey.match(/^(\d+)_(script|title|body|meta|mantra)$/);
+  if (service) {
+    const type = { script: "Accentnaam", title: "Titel", body: "Tekst", meta: "Praktische info", mantra: "Accenttekst" }[service[2]];
+    return `Dienst ${service[1]} – ${type}`;
+  }
+
+  const serviceWord = detailKey.match(/^(\d+)_word_(\d+)$/);
+  if (serviceWord) return `Dienst ${serviceWord[1]} – kernwoord ${serviceWord[2]}`;
+
+  const step = detailKey.match(/^step_(\d+)_(title|body)$/);
+  if (step) return `Stap ${step[1]} – ${step[2] === "title" ? "titel" : "tekst"}`;
+
+  const stat = detailKey.match(/^stat_(\d+)_(value|label)$/);
+  if (stat) return `Statistiek ${stat[1]} – ${stat[2] === "value" ? "waarde" : "omschrijving"}`;
+
+  return key;
+}
+
+
 function isLongField(key: string) {
-  return /(body|emphasis|note|manifesto|subtitle|sentence)/.test(key);
+  return /(body|emphasis|note|manifesto|subtitle|sentence|intro|quote|transition|mantra|text)/.test(key);
 }
 
 function emptyReview(sortOrder: number): Omit<CmsReview, "id"> {
@@ -1343,6 +1394,77 @@ export default function CherelleAdminPage() {
                     <button type="button" onClick={() => openMediaEditor("invitation")}>Foto wijzigen</button>
                   </div>
                 </section>
+
+                <section className={styles.previewDetailPages}>
+                  <div className={styles.previewDetailPagesHeading}>
+                    <div>
+                      <p className={styles.previewKicker}>Losse pagina’s</p>
+                      <h2>Detailpagina’s beheren</h2>
+                    </div>
+                    <p>Teksten en hero-afbeeldingen van de losse pagina’s staan los van de homepage.</p>
+                  </div>
+
+                  <div className={styles.previewDetailPagesGrid}>
+                    {[
+                      {
+                        id: "detail-recognition",
+                        slot: "detail_recognition_hero",
+                        fallback: "/Herkenning.jpg",
+                        href: "/herkenning",
+                        label: "Herkenning",
+                        title: content.detail_recognition_hero_title?.nl,
+                      },
+                      {
+                        id: "detail-homecoming",
+                        slot: "detail_homecoming_hero",
+                        fallback: "/Thuiskomen.jpg",
+                        href: "/thuiskomen",
+                        label: "Thuiskomen",
+                        title: content.detail_homecoming_hero_title?.nl,
+                      },
+                      {
+                        id: "detail-guidance",
+                        slot: "detail_guidance_hero",
+                        fallback: "/feminine.jpg",
+                        href: "/begeleiding",
+                        label: "Begeleiding",
+                        title: content.detail_guidance_hero_title?.nl,
+                      },
+                      {
+                        id: "detail-approach",
+                        slot: "detail_approach_hero",
+                        fallback: "/Werkwijze.png",
+                        href: "/werkwijze",
+                        label: "Werkwijze",
+                        title: content.detail_approach_hero_title?.nl,
+                      },
+                      {
+                        id: "detail-about",
+                        slot: "detail_about_hero",
+                        fallback: "/Overmij.webp",
+                        href: "/over-mij",
+                        label: "Over mij",
+                        title: content.detail_about_hero_title?.nl,
+                      },
+                    ].map((page) => (
+                      <article className={styles.previewDetailPageCard} key={page.id}>
+                        <div className={styles.previewDetailPageImage}>
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={mediaPreview(page.slot, page.fallback)} alt="" />
+                        </div>
+                        <div className={styles.previewDetailPageCopy}>
+                          <span>{page.label}</span>
+                          <h3>{page.title}</h3>
+                        </div>
+                        <div className={styles.previewDetailPageActions}>
+                          <button type="button" onClick={() => openGroupEditor(page.id)}>Teksten wijzigen</button>
+                          <button type="button" onClick={() => openMediaEditor(page.slot)}>Foto wijzigen</button>
+                          <a href={page.href} target="_blank" rel="noreferrer">Open pagina ↗</a>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </section>
               </div>
             </div>
 
@@ -1369,7 +1491,7 @@ export default function CherelleAdminPage() {
                   <div className={styles.fields}>
                     {activeGroup.fields.map((key) => (
                       <div key={key} className={styles.fieldBlock}>
-                        <label>{FIELD_LABELS[key] ?? key}</label>
+                        <label>{fieldLabel(key)}</label>
                         <div className={styles.languageFields}>
                           <div>
                             <span>NL</span>
