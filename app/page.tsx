@@ -168,7 +168,7 @@ export default function Home() {
     });
 
     return () => observer.disconnect();
-  }, [isUnlocked]);
+  }, [isUnlocked, cmsReviews.length]);
 
   const copy = (key: string) => contentValue(cmsContent, key, language);
   const mediaSrc = (slot: string, fallback: string) => cmsMedia[slot]?.public_url || fallback;
