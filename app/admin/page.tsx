@@ -37,8 +37,10 @@ import {
   deleteMedia,
   deleteNewsletterImage,
   deleteReview,
+  deleteReviewImage,
   uploadMedia,
   uploadNewsletterImage,
+  uploadReviewImage,
   verifyCmsSession,
 } from "../../lib/cherelleCms";
 import styles from "./admin.module.css";
@@ -100,6 +102,8 @@ function emptyReview(sortOrder: number): Omit<CmsReview, "id"> {
     role_en: "",
     quote_nl: "",
     quote_en: "",
+    image_url: null,
+    image_storage_path: null,
     is_published: true,
     sort_order: sortOrder,
   };
@@ -168,6 +172,9 @@ export default function CherelleAdminPage() {
   const [error, setError] = useState("");
 
   const [editingReview, setEditingReview] = useState<(Omit<CmsReview, "id"> & { id?: string }) | null>(null);
+  const [reviewPhotoFile, setReviewPhotoFile] = useState<File | null>(null);
+  const [reviewPhotoPreview, setReviewPhotoPreview] = useState<string | null>(null);
+  const [removeExistingReviewPhoto, setRemoveExistingReviewPhoto] = useState(false);
   const [editingGroupId, setEditingGroupId] = useState<string | null>(null);
   const [editingMediaSlot, setEditingMediaSlot] = useState<string | null>(null);
   const [uploadingSlot, setUploadingSlot] = useState<string | null>(null);
@@ -568,17 +575,55 @@ export default function CherelleAdminPage() {
     }
   }
 
+  function clearReviewPhotoPreview() {
+    if (reviewPhotoPreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(reviewPhotoPreview);
+    }
+    setReviewPhotoFile(null);
+    setReviewPhotoPreview(null);
+    setRemoveExistingReviewPhoto(false);
+  }
+
   function openNewReview() {
     const nextSort = reviews.length ? Math.max(...reviews.map((review) => review.sort_order)) + 1 : 0;
+    clearReviewPhotoPreview();
     setEditingGroupId(null);
     setEditingMediaSlot(null);
     setEditingReview(emptyReview(nextSort));
   }
 
   function openExistingReview(review: CmsReview) {
+    clearReviewPhotoPreview();
     setEditingGroupId(null);
     setEditingMediaSlot(null);
     setEditingReview({ ...review });
+    setReviewPhotoPreview(review.image_url);
+  }
+
+  function handleReviewPhotoSelect(file: File | null) {
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      setError("Selecteer een afbeelding.");
+      return;
+    }
+
+    if (reviewPhotoPreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(reviewPhotoPreview);
+    }
+
+    setReviewPhotoFile(file);
+    setReviewPhotoPreview(URL.createObjectURL(file));
+    setRemoveExistingReviewPhoto(false);
+    setError("");
+  }
+
+  function handleReviewPhotoRemove() {
+    if (reviewPhotoPreview?.startsWith("blob:")) {
+      URL.revokeObjectURL(reviewPhotoPreview);
+    }
+    setReviewPhotoFile(null);
+    setReviewPhotoPreview(null);
+    setRemoveExistingReviewPhoto(true);
   }
 
   function openGroupEditor(groupId: string) {
@@ -604,7 +649,15 @@ export default function CherelleAdminPage() {
     setBusy(true);
     setError("");
     setMessage("");
+
+    let uploadedPhoto: { url: string; storage_path: string } | null = null;
+    const previousStoragePath = editingReview.image_storage_path;
+
     try {
+      if (reviewPhotoFile) {
+        uploadedPhoto = await uploadReviewImage(session, reviewPhotoFile);
+      }
+
       await saveReview(session, {
         ...editingReview,
         name: editingReview.name.trim(),
@@ -612,11 +665,30 @@ export default function CherelleAdminPage() {
         role_en: editingReview.role_en?.trim() || null,
         quote_nl: editingReview.quote_nl.trim(),
         quote_en: editingReview.quote_en.trim() || editingReview.quote_nl.trim(),
+        image_url: removeExistingReviewPhoto
+          ? null
+          : uploadedPhoto?.url ?? editingReview.image_url,
+        image_storage_path: removeExistingReviewPhoto
+          ? null
+          : uploadedPhoto?.storage_path ?? editingReview.image_storage_path,
       });
+
+      if (
+        previousStoragePath &&
+        (removeExistingReviewPhoto || uploadedPhoto?.storage_path) &&
+        previousStoragePath !== uploadedPhoto?.storage_path
+      ) {
+        await deleteReviewImage(session, previousStoragePath).catch(() => undefined);
+      }
+
       await reload();
+      clearReviewPhotoPreview();
       setEditingReview(null);
       setMessage("Ervaring is opgeslagen.");
     } catch (saveError) {
+      if (uploadedPhoto?.storage_path) {
+        await deleteReviewImage(session, uploadedPhoto.storage_path).catch(() => undefined);
+      }
       setError(saveError instanceof Error ? saveError.message : "Ervaring kon niet worden opgeslagen.");
     } finally {
       setBusy(false);
@@ -628,6 +700,9 @@ export default function CherelleAdminPage() {
     setBusy(true);
     setError("");
     try {
+      if (review.image_storage_path) {
+        await deleteReviewImage(session, review.image_storage_path).catch(() => undefined);
+      }
       await deleteReview(session, review.id);
       await reload();
       setMessage("Ervaring is verwijderd.");
@@ -1216,6 +1291,7 @@ export default function CherelleAdminPage() {
                     ) : (
                       reviews.map((review) => (
                         <article key={review.id}>
+                          {review.image_url && <img className={styles.previewReviewPhoto} src={review.image_url} alt="" />}
                           <blockquote>“{review.quote_nl}”</blockquote>
                           <strong>{review.name}</strong>
                           <div>
@@ -1367,7 +1443,7 @@ export default function CherelleAdminPage() {
                       <p className={styles.eyebrow}>{editingReview.id ? "Ervaring wijzigen" : "Nieuwe ervaring"}</p>
                       <h2>Ervaring</h2>
                     </div>
-                    <button className={styles.textButton} type="button" onClick={() => setEditingReview(null)}>Sluiten</button>
+                    <button className={styles.textButton} type="button" onClick={() => { clearReviewPhotoPreview(); setEditingReview(null); }}>Sluiten</button>
                   </div>
                   <div className={styles.reviewFormGrid}>
                     <label>
@@ -1386,6 +1462,62 @@ export default function CherelleAdminPage() {
                         onChange={(event) => setEditingReview({ ...editingReview, sort_order: Number(event.target.value) })}
                       />
                     </label>
+                    <div className={`${styles.reviewPhotoField} ${styles.fullField}`}>
+                      <div className={styles.reviewPhotoFieldHead}>
+                        <div>
+                          <span>Foto persoon</span>
+                          <small>Optioneel · wordt automatisch als WebP geoptimaliseerd</small>
+                        </div>
+                        {reviewPhotoPreview && (
+                          <button type="button" onClick={handleReviewPhotoRemove}>Foto verwijderen</button>
+                        )}
+                      </div>
+                      <div className={styles.reviewPhotoPicker}>
+                        <div className={styles.reviewPhotoPreview}>
+                          {reviewPhotoPreview ? (
+                            <img src={reviewPhotoPreview} alt="Preview van de persoon" />
+                          ) : (
+                            <span>Geen foto</span>
+                          )}
+                        </div>
+                        <label>
+                          <span>{reviewPhotoPreview ? "Andere foto kiezen" : "Foto kiezen"}</span>
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            onChange={(event) => handleReviewPhotoSelect(event.target.files?.[0] ?? null)}
+                          />
+                        </label>
+                      </div>
+                    </div>
+                    <div className={`${styles.reviewPhotoField} ${styles.fullField}`}>
+                      <div className={styles.reviewPhotoFieldHead}>
+                        <div>
+                          <span>Foto persoon</span>
+                          <small>Optioneel · wordt automatisch als WebP geoptimaliseerd</small>
+                        </div>
+                        {reviewPhotoPreview && (
+                          <button type="button" onClick={handleReviewPhotoRemove}>Foto verwijderen</button>
+                        )}
+                      </div>
+                      <div className={styles.reviewPhotoPicker}>
+                        <div className={styles.reviewPhotoPreview}>
+                          {reviewPhotoPreview ? (
+                            <img src={reviewPhotoPreview} alt="Preview van de persoon" />
+                          ) : (
+                            <span>Geen foto</span>
+                          )}
+                        </div>
+                        <label>
+                          <span>{reviewPhotoPreview ? "Andere foto kiezen" : "Foto kiezen"}</span>
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            onChange={(event) => handleReviewPhotoSelect(event.target.files?.[0] ?? null)}
+                          />
+                        </label>
+                      </div>
+                    </div>
                     <label className={styles.fullField}>
                       <span>Ervaring NL</span>
                       <textarea
@@ -1736,7 +1868,7 @@ export default function CherelleAdminPage() {
                     <p className={styles.eyebrow}>{editingReview.id ? "Bewerken" : "Nieuw"}</p>
                     <h2>Ervaring</h2>
                   </div>
-                  <button className={styles.textButton} type="button" onClick={() => setEditingReview(null)}>
+                  <button className={styles.textButton} type="button" onClick={() => { clearReviewPhotoPreview(); setEditingReview(null); }}>
                     Sluiten
                   </button>
                 </div>
@@ -1811,6 +1943,7 @@ export default function CherelleAdminPage() {
               )}
               {reviews.map((review) => (
                 <article key={review.id} className={styles.reviewCard}>
+                  {review.image_url && <img className={styles.reviewCardPhoto} src={review.image_url} alt="" />}
                   <div className={styles.reviewMeta}>
                     <span>{review.is_published ? "Zichtbaar" : "Verborgen"}</span>
                     <span>#{review.sort_order}</span>
