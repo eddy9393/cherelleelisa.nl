@@ -222,19 +222,21 @@ export default function Home() {
         key={`${duplicate ? "duplicate" : "primary"}-${item.id}`}
         aria-hidden={duplicate || undefined}
       >
-        <div className="testimonialMarqueeCopy">
-          {item.image_url && (
-            <img className="testimonialMarqueePhoto" src={item.image_url} alt={duplicate ? "" : item.name} />
-          )}
-          <span className="testimonialMarqueeRole">{role || item.name || `0${index + 1}`}</span>
-          <p>“{quote || item.quote_nl}”</p>
+        <div className="testimonialMarqueeHeader">
+          <div className="testimonialMarqueePerson">
+            {item.image_url && (
+              <img className="testimonialMarqueePhoto" src={item.image_url} alt={duplicate ? "" : item.name} />
+            )}
+            <div className="testimonialMarqueeIdentity">
+              <small className="testimonialMarqueeName">{item.name}</small>
+              {item.experience_date && (
+                <small className="testimonialMarqueeDate">{formatExperienceMonthYear(item.experience_date)}</small>
+              )}
+            </div>
+          </div>
+          {role && <span className="testimonialMarqueeRole">{role}</span>}
         </div>
-        <div className="testimonialMarqueeAuthor">
-          <small>{item.name}</small>
-          {item.experience_date && (
-            <small className="testimonialMarqueeDate">{formatExperienceMonthYear(item.experience_date)}</small>
-          )}
-        </div>
+        <p className="testimonialMarqueeQuote">“{quote || item.quote_nl}”</p>
       </article>
     );
   }
