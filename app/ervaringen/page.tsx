@@ -43,6 +43,16 @@ export default function ExperiencesPage() {
     document.documentElement.lang = language;
   }, [language]);
 
+  function formatExperienceMonthYear(value: string | null) {
+    if (!value) return "";
+    const parsed = new Date(`${value}T12:00:00`);
+    if (Number.isNaN(parsed.getTime())) return "";
+    return new Intl.DateTimeFormat(language === "nl" ? "nl-NL" : "en-GB", {
+      month: "long",
+      year: "numeric",
+    }).format(parsed);
+  }
+
   return (
     <main className="detailPage experiencesPage">
       <header className={`detailHeader ${menuOpen ? "menuOpen" : ""}`}>
@@ -135,6 +145,9 @@ export default function ExperiencesPage() {
                     <div>
                       <strong>{review.name}</strong>
                       {role ? <span>{role}</span> : null}
+                      {review.experience_date ? (
+                        <span className="experienceDate">{formatExperienceMonthYear(review.experience_date)}</span>
+                      ) : null}
                     </div>
                   </footer>
                 </article>
