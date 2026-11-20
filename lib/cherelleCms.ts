@@ -14,6 +14,8 @@ export type CmsReview = {
   role_en: string | null;
   quote_nl: string;
   quote_en: string;
+  image_url: string | null;
+  image_storage_path: string | null;
   is_published: boolean;
   sort_order: number;
 };
@@ -959,16 +961,66 @@ export async function sendNewsletter(
   return data as { ok: true; sent: number };
 }
 
-export async function uploadNewsletterImage(
-  session: CmsSession,
-  file: File
-): Promise<NewsletterImage> {
+export async function optimizeImageForWeb(
+  file: File,
+  options: { maxDimension?: number; quality?: number } = {}
+): Promise<File> {
   if (!file.type.startsWith("image/")) {
     throw new Error("Selecteer een afbeelding.");
   }
 
-  const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const storagePath = `newsletters/${Date.now()}-${Math.random().toString(36).slice(2, 9)}.${extension}`;
+  if (typeof document === "undefined" || typeof createImageBitmap === "undefined") {
+    throw new Error("Deze browser kan de afbeelding niet optimaliseren.");
+  }
+
+  const maxDimension = options.maxDimension ?? 2200;
+  const quality = options.quality ?? 0.82;
+  const bitmap = await createImageBitmap(file);
+
+  try {
+    const scale = Math.min(1, maxDimension / Math.max(bitmap.width, bitmap.height));
+    const width = Math.max(1, Math.round(bitmap.width * scale));
+    const height = Math.max(1, Math.round(bitmap.height * scale));
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("Afbeelding kon niet worden verwerkt.");
+
+    context.drawImage(bitmap, 0, 0, width, height);
+
+    const blob = await new Promise<Blob | null>((resolve) => {
+      canvas.toBlob(resolve, "image/webp", quality);
+    });
+
+    if (!blob || blob.type !== "image/webp") {
+      throw new Error("Afbeelding kon niet naar WebP worden omgezet.");
+    }
+
+    const baseName =
+      file.name
+        .replace(/\.[^.]+$/, "")
+        .replace(/[^a-z0-9_-]+/gi, "-")
+        .replace(/^-+|-+$/g, "")
+        .slice(0, 80) || "afbeelding";
+
+    return new File([blob], `${baseName}.webp`, {
+      type: "image/webp",
+      lastModified: Date.now(),
+    });
+  } finally {
+    bitmap.close();
+  }
+}
+
+export async function uploadNewsletterImage(
+  session: CmsSession,
+  file: File
+): Promise<NewsletterImage> {
+  const optimized = await optimizeImageForWeb(file);
+  const storagePath = `newsletters/${Date.now()}-${Math.random().toString(36).slice(2, 9)}.webp`;
 
   const uploadResponse = await fetch(
     `${supabaseUrl}/storage/v1/object/cherelle-media/${storagePath}`,
@@ -977,10 +1029,10 @@ export async function uploadNewsletterImage(
       headers: {
         apikey: supabaseKey,
         Authorization: `Bearer ${session.access_token}`,
-        "Content-Type": file.type || "application/octet-stream",
+        "Content-Type": "image/webp",
         "x-upsert": "false",
       },
-      body: file,
+      body: optimized,
     }
   );
 
@@ -1172,6 +1224,8 @@ export async function saveReview(
           role_en: review.role_en,
           quote_nl: review.quote_nl,
           quote_en: review.quote_en,
+          image_url: review.image_url,
+          image_storage_path: review.image_storage_path,
           is_published: review.is_published,
           sort_order: review.sort_order,
           updated_at: new Date().toISOString(),
@@ -1191,6 +1245,55 @@ export async function saveReview(
     body: JSON.stringify(review),
   });
   if (!response.ok) throw new Error(await responseError(response));
+}
+
+export async function uploadReviewImage(
+  session: CmsSession,
+  file: File
+): Promise<{ url: string; storage_path: string }> {
+  const optimized = await optimizeImageForWeb(file, { maxDimension: 1400, quality: 0.82 });
+  const storagePath = `reviews/${Date.now()}-${Math.random().toString(36).slice(2, 9)}.webp`;
+
+  const response = await fetch(
+    `${supabaseUrl}/storage/v1/object/cherelle-media/${storagePath}`,
+    {
+      method: "POST",
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${session.access_token}`,
+        "Content-Type": "image/webp",
+        "x-upsert": "false",
+      },
+      body: optimized,
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+
+  return {
+    storage_path: storagePath,
+    url: `${supabaseUrl}/storage/v1/object/public/cherelle-media/${storagePath}`,
+  };
+}
+
+export async function deleteReviewImage(
+  session: CmsSession,
+  storagePath: string
+) {
+  const response = await fetch(
+    `${supabaseUrl}/storage/v1/object/cherelle-media/${storagePath}`,
+    {
+      method: "DELETE",
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${session.access_token}`,
+      },
+    }
+  );
+
+  if (!response.ok && response.status !== 404) {
+    throw new Error(await responseError(response));
+  }
 }
 
 export async function deleteReview(session: CmsSession, id: string) {
@@ -1241,8 +1344,8 @@ export async function uploadMedia(
   altNl: string,
   altEn: string
 ) {
-  const extension = file.name.split(".").pop()?.toLowerCase() || "jpg";
-  const storagePath = `${slot}/${Date.now()}-${Math.random().toString(36).slice(2, 9)}.${extension}`;
+  const optimized = await optimizeImageForWeb(file);
+  const storagePath = `${slot}/${Date.now()}-${Math.random().toString(36).slice(2, 9)}.webp`;
 
   const uploadResponse = await fetch(
     `${supabaseUrl}/storage/v1/object/cherelle-media/${storagePath}`,
@@ -1251,10 +1354,10 @@ export async function uploadMedia(
       headers: {
         apikey: supabaseKey,
         Authorization: `Bearer ${session.access_token}`,
-        "Content-Type": file.type || "application/octet-stream",
+        "Content-Type": "image/webp",
         "x-upsert": "false",
       },
-      body: file,
+      body: optimized,
     }
   );
   if (!uploadResponse.ok) throw new Error(await responseError(uploadResponse));
