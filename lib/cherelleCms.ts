@@ -16,6 +16,7 @@ export type CmsReview = {
   quote_en: string;
   image_url: string | null;
   image_storage_path: string | null;
+  experience_date: string | null;
   is_published: boolean;
   sort_order: number;
 };
@@ -1226,6 +1227,7 @@ export async function saveReview(
           quote_en: review.quote_en,
           image_url: review.image_url,
           image_storage_path: review.image_storage_path,
+          experience_date: review.experience_date,
           is_published: review.is_published,
           sort_order: review.sort_order,
           updated_at: new Date().toISOString(),
