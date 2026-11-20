@@ -104,6 +104,7 @@ function emptyReview(sortOrder: number): Omit<CmsReview, "id"> {
     quote_en: "",
     image_url: null,
     image_storage_path: null,
+    experience_date: null,
     is_published: true,
     sort_order: sortOrder,
   };
@@ -1464,6 +1465,19 @@ export default function CherelleAdminPage() {
                         onChange={(event) => setEditingReview({ ...editingReview, sort_order: Number(event.target.value) })}
                       />
                     </label>
+                    <label>
+                      <span>Maand & jaar</span>
+                      <input
+                        type="month"
+                        value={editingReview.experience_date?.slice(0, 7) ?? ""}
+                        onChange={(event) =>
+                          setEditingReview({
+                            ...editingReview,
+                            experience_date: event.target.value ? `${event.target.value}-01` : null,
+                          })
+                        }
+                      />
+                    </label>
                     <div className={`${styles.reviewPhotoField} ${styles.fullField}`}>
                       <div className={styles.reviewPhotoFieldHead}>
                         <div>
@@ -1862,6 +1876,19 @@ export default function CherelleAdminPage() {
                       type="number"
                       value={editingReview.sort_order}
                       onChange={(event) => setEditingReview({ ...editingReview, sort_order: Number(event.target.value) })}
+                    />
+                  </label>
+                  <label>
+                    <span>Maand & jaar</span>
+                    <input
+                      type="month"
+                      value={editingReview.experience_date?.slice(0, 7) ?? ""}
+                      onChange={(event) =>
+                        setEditingReview({
+                          ...editingReview,
+                          experience_date: event.target.value ? `${event.target.value}-01` : null,
+                        })
+                      }
                     />
                   </label>
                   <label>
