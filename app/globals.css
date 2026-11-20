@@ -9401,3 +9401,176 @@ body,
     border-top: 1px solid rgba(47, 36, 29, 0.2);
   }
 }
+
+
+/* 2026-11-20 homepage testimonials horizontal marquee */
+#ervaringen.testimonialsSection {
+  overflow: hidden;
+  padding-top: clamp(58px, 5.2vw, 82px) !important;
+  padding-bottom: clamp(52px, 4.8vw, 76px) !important;
+}
+
+#ervaringen .testimonialsHeading {
+  max-width: 1120px;
+}
+
+#ervaringen .testimonialsMarqueeViewport {
+  width: 100vw;
+  margin-top: clamp(34px, 3.5vw, 50px);
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+  border-top: 1px solid rgba(47, 36, 29, 0.14);
+  border-bottom: 1px solid rgba(47, 36, 29, 0.14);
+}
+
+#ervaringen .testimonialsMarqueeTrack {
+  width: max-content;
+  display: flex;
+  align-items: stretch;
+  animation: testimonialsMarqueeFlow 38s linear infinite;
+  will-change: transform;
+}
+
+#ervaringen .testimonialsMarqueeViewport:hover .testimonialsMarqueeTrack,
+#ervaringen .testimonialsMarqueeViewport:focus-within .testimonialsMarqueeTrack {
+  animation-play-state: paused;
+}
+
+#ervaringen .testimonialsMarqueeGroup {
+  flex: none;
+  display: flex;
+  align-items: stretch;
+  gap: 22px;
+  padding: 16px 22px 16px 0;
+}
+
+#ervaringen .testimonialMarqueeCard {
+  width: clamp(540px, 43vw, 760px);
+  min-height: 245px;
+  padding: 28px 34px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1px solid rgba(47, 36, 29, 0.1);
+  border-radius: 18px 18px 18px 5px;
+  background: rgba(255, 255, 255, 0.5);
+  box-shadow: 0 16px 38px rgba(74, 58, 50, 0.035);
+}
+
+#ervaringen .testimonialMarqueeCard > span {
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(47, 36, 29, 0.46);
+}
+
+#ervaringen .testimonialMarqueeCard > p {
+  max-width: none;
+  margin: 18px 0 22px;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.35rem, 1.7vw, 1.9rem);
+  line-height: 1.3;
+  color: rgba(47, 36, 29, 0.72);
+}
+
+#ervaringen .testimonialMarqueeAuthor {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+#ervaringen .testimonialMarqueePhoto {
+  width: 76px;
+  height: 76px;
+  flex: 0 0 76px;
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #eadbd0;
+  box-shadow: 0 0 0 1px rgba(47, 36, 29, 0.08);
+}
+
+#ervaringen .testimonialMarqueeAuthor small {
+  font-family: var(--font-display), serif;
+  font-size: 1.02rem;
+  color: rgba(47, 36, 29, 0.76);
+}
+
+#ervaringen .testimonialsPageLinkWrap {
+  margin-top: 26px !important;
+}
+
+@keyframes testimonialsMarqueeFlow {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (max-width: 900px) {
+  #ervaringen.testimonialsSection {
+    padding: 56px 20px 52px !important;
+  }
+
+  #ervaringen .testimonialsMarqueeViewport {
+    margin-top: 30px;
+  }
+
+  #ervaringen .testimonialsMarqueeTrack {
+    animation-duration: 32s;
+  }
+
+  #ervaringen .testimonialsMarqueeGroup {
+    gap: 14px;
+    padding: 12px 14px 12px 0;
+  }
+
+  #ervaringen .testimonialMarqueeCard {
+    width: min(84vw, 560px);
+    min-height: 230px;
+    padding: 24px;
+    border-radius: 14px 14px 14px 5px;
+  }
+
+  #ervaringen .testimonialMarqueeCard > p {
+    margin: 16px 0 20px;
+    font-size: clamp(1.3rem, 5.4vw, 1.72rem);
+    line-height: 1.34;
+  }
+
+  #ervaringen .testimonialMarqueePhoto {
+    width: 66px;
+    height: 66px;
+    flex-basis: 66px;
+  }
+
+  #ervaringen .testimonialMarqueeAuthor small {
+    font-size: 0.96rem;
+  }
+
+  #ervaringen .testimonialsPageLinkWrap {
+    margin-top: 22px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #ervaringen .testimonialsMarqueeViewport {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  #ervaringen .testimonialsMarqueeViewport::-webkit-scrollbar {
+    display: none;
+  }
+
+  #ervaringen .testimonialsMarqueeTrack {
+    animation: none;
+  }
+
+  #ervaringen .testimonialsMarqueeGroup[aria-hidden="true"] {
+    display: none;
+  }
+}
