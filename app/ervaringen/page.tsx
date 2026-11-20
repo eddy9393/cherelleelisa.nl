@@ -128,9 +128,14 @@ export default function ExperiencesPage() {
                 >
                   <span className="experienceNumber">{String(index + 1).padStart(2, "0")}</span>
                   <blockquote>“{quote || review.quote_nl}”</blockquote>
-                  <footer>
-                    <strong>{review.name}</strong>
-                    {role ? <span>{role}</span> : null}
+                  <footer className="experienceAuthor">
+                    {review.image_url && (
+                      <img className="experienceAuthorPhoto" src={review.image_url} alt={review.name} />
+                    )}
+                    <div>
+                      <strong>{review.name}</strong>
+                      {role ? <span>{role}</span> : null}
+                    </div>
                   </footer>
                 </article>
               );
