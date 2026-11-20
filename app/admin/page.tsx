@@ -627,12 +627,14 @@ export default function CherelleAdminPage() {
   }
 
   function openGroupEditor(groupId: string) {
+    clearReviewPhotoPreview();
     setEditingReview(null);
     setEditingMediaSlot(null);
     setEditingGroupId(groupId);
   }
 
   function openMediaEditor(slot: string) {
+    clearReviewPhotoPreview();
     setEditingReview(null);
     setEditingGroupId(null);
     setEditingMediaSlot(slot);
@@ -700,10 +702,10 @@ export default function CherelleAdminPage() {
     setBusy(true);
     setError("");
     try {
+      await deleteReview(session, review.id);
       if (review.image_storage_path) {
         await deleteReviewImage(session, review.image_storage_path).catch(() => undefined);
       }
-      await deleteReview(session, review.id);
       await reload();
       setMessage("Ervaring is verwijderd.");
     } catch (deleteError) {
