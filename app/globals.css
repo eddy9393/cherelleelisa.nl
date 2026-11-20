@@ -9194,3 +9194,141 @@ body,
     font-size: 0.74rem;
   }
 }
+
+
+/* 2026-11-20 flags login alignment and review photos */
+.languageSwitcher {
+  gap: 7px;
+}
+
+.languageFlag {
+  min-width: 28px !important;
+  height: 34px !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  font-size: 1.05rem !important;
+  line-height: 1 !important;
+  filter: saturate(0.82);
+  opacity: 0.46;
+  cursor: pointer;
+}
+
+.languageFlag.isActive {
+  opacity: 1;
+  filter: saturate(1);
+}
+
+.languageDivider {
+  display: none !important;
+}
+
+.detailLanguage {
+  gap: 7px;
+}
+
+.detailLanguage button {
+  min-width: 28px;
+  height: 34px;
+  padding: 0 !important;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.05rem !important;
+  line-height: 1;
+  opacity: 0.46;
+  filter: saturate(0.82);
+}
+
+.detailLanguage button.isActive {
+  opacity: 1;
+  filter: saturate(1);
+}
+
+.desktopPersistentHeader .headerUtilityGroup {
+  align-self: center;
+}
+
+.desktopPersistentHeader .accountHeaderLink {
+  padding: 10px 0 !important;
+  font-family: var(--font-sans), sans-serif !important;
+  font-size: 0.74rem !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.045em !important;
+  line-height: normal !important;
+  align-self: center;
+}
+
+.detailHeader .detailUtilities {
+  align-self: center;
+}
+
+.detailHeader .accountHeaderLink {
+  padding: 10px 0 !important;
+  font-family: var(--font-display), serif !important;
+  font-size: 0.88rem !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
+  line-height: normal !important;
+  align-self: center;
+}
+
+.testimonialAuthor {
+  margin-top: 18px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+}
+
+.testimonialAuthor .testimonialName {
+  margin-top: 0;
+}
+
+.testimonialAuthorPhoto {
+  width: 46px;
+  height: 46px;
+  flex: 0 0 46px;
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #eadbd0;
+}
+
+.experienceCard footer.experienceAuthor {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 13px;
+}
+
+.experienceAuthorPhoto {
+  width: 58px;
+  height: 58px;
+  flex: 0 0 58px;
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #eadbd0;
+}
+
+.experienceAuthor > div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+@media (max-width: 900px) {
+  .languageFlag,
+  .detailLanguage button {
+    min-width: 27px !important;
+    height: 32px !important;
+    font-size: 1rem !important;
+  }
+
+  .mobileSiteHeader .accountHeaderLink {
+    font-family: var(--font-sans), sans-serif !important;
+    font-size: 0.74rem !important;
+    line-height: normal !important;
+  }
+}
