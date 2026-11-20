@@ -9574,3 +9574,120 @@ body,
     display: none;
   }
 }
+
+
+/* 2026-11-20 testimonial photo wrap date and slower motion */
+#ervaringen .testimonialsMarqueeTrack {
+  animation-duration: 46s;
+}
+
+#ervaringen .testimonialMarqueeCard {
+  min-height: 225px;
+  padding: 26px 32px;
+  justify-content: flex-start;
+}
+
+#ervaringen .testimonialMarqueeCopy {
+  display: block;
+}
+
+#ervaringen .testimonialMarqueeCopy::after {
+  content: "";
+  display: block;
+  clear: both;
+}
+
+#ervaringen .testimonialMarqueePhoto {
+  width: 88px;
+  height: 88px;
+  margin: 0 22px 12px 0;
+  float: left;
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #eadbd0;
+  box-shadow: 0 0 0 1px rgba(47, 36, 29, 0.08);
+}
+
+#ervaringen .testimonialMarqueeRole {
+  display: block;
+  padding-top: 3px;
+  font-size: 0.64rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(47, 36, 29, 0.46);
+}
+
+#ervaringen .testimonialMarqueeCard > .testimonialMarqueeCopy > p {
+  max-width: none;
+  margin: 12px 0 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(1.35rem, 1.7vw, 1.9rem);
+  line-height: 1.34;
+  color: rgba(47, 36, 29, 0.72);
+}
+
+#ervaringen .testimonialMarqueeAuthor {
+  margin-top: auto;
+  padding-top: 15px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  border-top: 1px solid rgba(47, 36, 29, 0.08);
+}
+
+#ervaringen .testimonialMarqueeAuthor small {
+  font-family: var(--font-display), serif;
+  font-size: 0.96rem;
+  color: rgba(47, 36, 29, 0.75);
+}
+
+#ervaringen .testimonialMarqueeDate {
+  font-family: var(--font-sans), sans-serif !important;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.035em;
+  color: rgba(47, 36, 29, 0.46) !important;
+  text-transform: lowercase;
+}
+
+#ervaringen .testimonialMarqueeDate::before {
+  content: "·";
+  margin-right: 9px;
+  color: rgba(47, 36, 29, 0.32);
+}
+
+.experienceDate {
+  margin-top: 1px;
+  font-family: var(--font-sans), sans-serif;
+  font-size: 0.68rem !important;
+  letter-spacing: 0.035em;
+  color: rgba(47, 36, 29, 0.46) !important;
+  text-transform: lowercase;
+}
+
+@media (max-width: 900px) {
+  #ervaringen .testimonialsMarqueeTrack {
+    animation-duration: 40s;
+  }
+
+  #ervaringen .testimonialMarqueeCard {
+    min-height: 220px;
+    padding: 22px;
+  }
+
+  #ervaringen .testimonialMarqueePhoto {
+    width: 76px;
+    height: 76px;
+    margin: 0 17px 10px 0;
+  }
+
+  #ervaringen .testimonialMarqueeCard > .testimonialMarqueeCopy > p {
+    margin-top: 10px;
+    font-size: clamp(1.28rem, 5.2vw, 1.68rem);
+    line-height: 1.36;
+  }
+
+  #ervaringen .testimonialMarqueeAuthor {
+    padding-top: 13px;
+  }
+}
