@@ -764,7 +764,12 @@ export default function Home() {
                   <article className="testimonialSlot" key={item.id} data-reveal>
                     <span>{role || item.name || `0${index + 1}`}</span>
                     <p>“{quote || item.quote_nl}”</p>
-                    <small className="testimonialName">{item.name}</small>
+                    <div className="testimonialAuthor">
+                      {item.image_url && (
+                        <img className="testimonialAuthorPhoto" src={item.image_url} alt={item.name} />
+                      )}
+                      <small className="testimonialName">{item.name}</small>
+                    </div>
                   </article>
                 );
               })}
