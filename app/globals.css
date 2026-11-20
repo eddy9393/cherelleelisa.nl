@@ -9332,3 +9332,30 @@ body,
     line-height: normal !important;
   }
 }
+
+
+/* 2026-11-20 exact login nav match */
+@media (min-width: 901px) {
+  .desktopPersistentHeader .accountHeaderLink {
+    position: relative;
+    display: inline-block;
+    padding: 10px 0 !important;
+    margin: 0;
+    border: 0 !important;
+    background: transparent !important;
+    font-family: var(--font-display), serif !important;
+    font-size: 0.92rem !important;
+    font-weight: 400 !important;
+    letter-spacing: 0.015em !important;
+    line-height: normal !important;
+    color: #2f241d !important;
+    vertical-align: baseline;
+    align-self: auto;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+
+  .desktopPersistentHeader .accountHeaderLink::after {
+    bottom: 4px;
+  }
+}
