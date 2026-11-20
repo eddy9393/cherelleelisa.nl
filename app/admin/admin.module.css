@@ -2408,3 +2408,127 @@
     flex-direction: column;
   }
 }
+
+
+/* 2026-11-20 review photo editor */
+.reviewPhotoField {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid rgba(74, 58, 50, 0.1);
+  border-radius: 14px;
+  background: rgba(250, 246, 241, 0.72);
+}
+
+.reviewPhotoFieldHead {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.reviewPhotoFieldHead > div {
+  display: grid;
+  gap: 4px;
+}
+
+.reviewPhotoFieldHead > div > span {
+  font-size: 0.82rem;
+  color: var(--text);
+}
+
+.reviewPhotoFieldHead small {
+  font-size: 0.68rem;
+  color: rgba(74, 58, 50, 0.5);
+}
+
+.reviewPhotoFieldHead > button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #8b3d38;
+  font-size: 0.7rem;
+  cursor: pointer;
+}
+
+.reviewPhotoPicker {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.reviewPhotoPreview {
+  width: 72px;
+  height: 72px;
+  flex: 0 0 72px;
+  overflow: hidden;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(74, 58, 50, 0.12);
+  border-radius: 50%;
+  background: #eee4dc;
+  color: rgba(74, 58, 50, 0.46);
+  font-size: 0.63rem;
+  text-align: center;
+}
+
+.reviewPhotoPreview img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.reviewPhotoPicker > label {
+  position: relative;
+  display: inline-flex !important;
+  align-items: center;
+  width: max-content;
+  cursor: pointer;
+}
+
+.reviewPhotoPicker > label > span {
+  padding: 9px 13px;
+  border: 1px solid rgba(168, 111, 93, 0.3);
+  border-radius: 14px 14px 14px 5px;
+  background: #fff;
+  color: var(--accent-deep);
+  font-family: "Bride", Georgia, serif;
+  font-size: 0.8rem;
+}
+
+.reviewPhotoPicker input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.reviewCardPhoto,
+.previewReviewPhoto {
+  display: block;
+  object-fit: cover;
+  border-radius: 50%;
+  background: #eadbd0;
+}
+
+.reviewCardPhoto {
+  width: 58px;
+  height: 58px;
+  margin: 0 0 16px;
+}
+
+.previewReviewPhoto {
+  width: 46px;
+  height: 46px;
+  margin: 0 0 16px;
+}
+
+@media (max-width: 700px) {
+  .reviewPhotoFieldHead,
+  .reviewPhotoPicker {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
