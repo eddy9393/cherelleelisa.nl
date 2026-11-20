@@ -156,9 +156,8 @@ export default function DetailPage({ page }: { page: DetailKey }) {
         </nav>
         <div className="detailUtilities">
           <div className="detailLanguage" aria-label={language === "nl" ? "Taal kiezen" : "Choose language"}>
-          <button type="button" className={language === "nl" ? "isActive" : ""} onClick={() => setLanguage("nl")}>NL</button>
-          <span>/</span>
-          <button type="button" className={language === "en" ? "isActive" : ""} onClick={() => setLanguage("en")}>EN</button>
+            <button type="button" className={language === "nl" ? "isActive" : ""} onClick={() => setLanguage("nl")} aria-label="Nederlands">🇳🇱</button>
+            <button type="button" className={language === "en" ? "isActive" : ""} onClick={() => setLanguage("en")} aria-label="English">🇬🇧</button>
           </div>
           <AccountLink label={language === "nl" ? "Inloggen" : "Log in"} />
         </div>
