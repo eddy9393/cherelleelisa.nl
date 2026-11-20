@@ -178,6 +178,52 @@ export default function Home() {
     return (language === "nl" ? item.alt_nl : item.alt_en) || fallback;
   };
 
+  const testimonialItems: Array<CmsReview | number> =
+    cmsReviews.length > 0 ? cmsReviews : [1, 2, 3];
+
+  function renderHomepageTestimonial(
+    item: CmsReview | number,
+    index: number,
+    duplicate = false
+  ) {
+    if (typeof item === "number") {
+      return (
+        <article
+          className="testimonialMarqueeCard"
+          key={`${duplicate ? "duplicate" : "primary"}-placeholder-${item}`}
+          aria-hidden={duplicate || undefined}
+        >
+          <span>{language === "nl" ? `Ervaring 0${item}` : `Experience 0${item}`}</span>
+          <p>
+            {language === "nl"
+              ? "Ruimte voor haar ervaring, in haar eigen woorden."
+              : "Space for her experience, in her own words."}
+          </p>
+        </article>
+      );
+    }
+
+    const role = language === "nl" ? item.role_nl : item.role_en;
+    const quote = language === "nl" ? item.quote_nl : item.quote_en;
+
+    return (
+      <article
+        className="testimonialMarqueeCard"
+        key={`${duplicate ? "duplicate" : "primary"}-${item.id}`}
+        aria-hidden={duplicate || undefined}
+      >
+        <span>{role || item.name || `0${index + 1}`}</span>
+        <p>“{quote || item.quote_nl}”</p>
+        <div className="testimonialMarqueeAuthor">
+          {item.image_url && (
+            <img className="testimonialMarqueePhoto" src={item.image_url} alt={duplicate ? "" : item.name} />
+          )}
+          <small>{item.name}</small>
+        </div>
+      </article>
+    );
+  }
+
   function handleAccess(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
 
@@ -743,36 +789,15 @@ export default function Home() {
               <h2>{copy("reviews_title")}</h2>
             </div>
 
-            <div className="testimonialsGrid" aria-label="Ruimte voor ervaringen">
-              {(cmsReviews.length > 0 ? cmsReviews : [1, 2, 3]).map((item, index) => {
-                if (typeof item === "number") {
-                  return (
-                    <article className="testimonialSlot" key={item} data-reveal>
-                      <span>{language === "nl" ? `Ervaring 0${item}` : `Experience 0${item}`}</span>
-                      <p>
-                        {language === "nl"
-                          ? "Ruimte voor haar ervaring, in haar eigen woorden."
-                          : "Space for her experience, in her own words."}
-                      </p>
-                    </article>
-                  );
-                }
-
-                const role = language === "nl" ? item.role_nl : item.role_en;
-                const quote = language === "nl" ? item.quote_nl : item.quote_en;
-                return (
-                  <article className="testimonialSlot" key={item.id} data-reveal>
-                    <span>{role || item.name || `0${index + 1}`}</span>
-                    <p>“{quote || item.quote_nl}”</p>
-                    <div className="testimonialAuthor">
-                      {item.image_url && (
-                        <img className="testimonialAuthorPhoto" src={item.image_url} alt={item.name} />
-                      )}
-                      <small className="testimonialName">{item.name}</small>
-                    </div>
-                  </article>
-                );
-              })}
+            <div className="testimonialsMarqueeViewport" aria-label={language === "nl" ? "Ervaringen" : "Experiences"}>
+              <div className="testimonialsMarqueeTrack">
+                <div className="testimonialsMarqueeGroup">
+                  {testimonialItems.map((item, index) => renderHomepageTestimonial(item, index))}
+                </div>
+                <div className="testimonialsMarqueeGroup" aria-hidden="true">
+                  {testimonialItems.map((item, index) => renderHomepageTestimonial(item, index, true))}
+                </div>
+              </div>
             </div>
 
             <div className="testimonialsPageLinkWrap" data-reveal>
