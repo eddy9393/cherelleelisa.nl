@@ -208,9 +208,8 @@ export default function Home() {
           aria-label="Nederlands"
           aria-pressed={language === "nl"}
         >
-          NL
+          🇳🇱
         </button>
-        <span className="languageDivider" aria-hidden="true">/</span>
         <button
           type="button"
           className={language === "en" ? "languageFlag isActive" : "languageFlag"}
@@ -218,7 +217,7 @@ export default function Home() {
           aria-label="English"
           aria-pressed={language === "en"}
         >
-          EN
+          🇬🇧
         </button>
       </div>
     );
