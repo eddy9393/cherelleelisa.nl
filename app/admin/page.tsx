@@ -1490,34 +1490,6 @@ export default function CherelleAdminPage() {
                         </label>
                       </div>
                     </div>
-                    <div className={`${styles.reviewPhotoField} ${styles.fullField}`}>
-                      <div className={styles.reviewPhotoFieldHead}>
-                        <div>
-                          <span>Foto persoon</span>
-                          <small>Optioneel · wordt automatisch als WebP geoptimaliseerd</small>
-                        </div>
-                        {reviewPhotoPreview && (
-                          <button type="button" onClick={handleReviewPhotoRemove}>Foto verwijderen</button>
-                        )}
-                      </div>
-                      <div className={styles.reviewPhotoPicker}>
-                        <div className={styles.reviewPhotoPreview}>
-                          {reviewPhotoPreview ? (
-                            <img src={reviewPhotoPreview} alt="Preview van de persoon" />
-                          ) : (
-                            <span>Geen foto</span>
-                          )}
-                        </div>
-                        <label>
-                          <span>{reviewPhotoPreview ? "Andere foto kiezen" : "Foto kiezen"}</span>
-                          <input
-                            type="file"
-                            accept="image/jpeg,image/png,image/webp"
-                            onChange={(event) => handleReviewPhotoSelect(event.target.files?.[0] ?? null)}
-                          />
-                        </label>
-                      </div>
-                    </div>
                     <label className={styles.fullField}>
                       <span>Ervaring NL</span>
                       <textarea
@@ -1904,6 +1876,34 @@ export default function CherelleAdminPage() {
                       onChange={(event) => setEditingReview({ ...editingReview, role_en: event.target.value })}
                     />
                   </label>
+                    <div className={`${styles.reviewPhotoField} ${styles.fullField}`}>
+                      <div className={styles.reviewPhotoFieldHead}>
+                        <div>
+                          <span>Foto persoon</span>
+                          <small>Optioneel · wordt automatisch als WebP geoptimaliseerd</small>
+                        </div>
+                        {reviewPhotoPreview && (
+                          <button type="button" onClick={handleReviewPhotoRemove}>Foto verwijderen</button>
+                        )}
+                      </div>
+                      <div className={styles.reviewPhotoPicker}>
+                        <div className={styles.reviewPhotoPreview}>
+                          {reviewPhotoPreview ? (
+                            <img src={reviewPhotoPreview} alt="Preview van de persoon" />
+                          ) : (
+                            <span>Geen foto</span>
+                          )}
+                        </div>
+                        <label>
+                          <span>{reviewPhotoPreview ? "Andere foto kiezen" : "Foto kiezen"}</span>
+                          <input
+                            type="file"
+                            accept="image/jpeg,image/png,image/webp"
+                            onChange={(event) => handleReviewPhotoSelect(event.target.files?.[0] ?? null)}
+                          />
+                        </label>
+                      </div>
+                    </div>
                   <label className={styles.fullField}>
                     <span>Ervaring NL</span>
                     <textarea
