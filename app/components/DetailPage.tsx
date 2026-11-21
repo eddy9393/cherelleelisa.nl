@@ -87,6 +87,27 @@ function SectionShell({
   );
 }
 
+function DetailWave({ from, to }: { from: string; to: string }) {
+  return (
+    <div
+      className="detailSectionWave"
+      style={{ backgroundColor: from, color: to }}
+      aria-hidden="true"
+    >
+      <svg
+        viewBox="0 0 1440 180"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M0,42 C170,108 325,18 520,58 C710,98 865,162 1080,118 C1245,84 1345,42 1440,70 L1440,180 L0,180 Z"
+          fill="currentColor"
+        />
+      </svg>
+    </div>
+  );
+}
+
 function Paragraphs({ value, className = "" }: { value: string; className?: string }) {
   const paragraphs = value.split(/\n\s*\n/).map((item) => item.trim()).filter(Boolean);
   return (
@@ -108,6 +129,8 @@ function HerkenningBody({ t }: { t: (key: string) => string }) {
           <p className="detailEmphasis">{t("detail_recognition_emphasis")}</p>
         </div>
       </SectionShell>
+
+      <DetailWave from="#f8f4ef" to="#f1e7dc" />
 
       <SectionShell
         kicker={t("detail_recognition_transitions_kicker")}
@@ -139,6 +162,8 @@ function ThuiskomenBody({ t }: { t: (key: string) => string }) {
       >
         <Paragraphs value={t("detail_homecoming_body")} className="detailLongform" />
       </SectionShell>
+
+      <DetailWave from="#f8f4ef" to="#f5eee7" />
 
       <SectionShell
         kicker={t("detail_homecoming_story_kicker")}
@@ -246,6 +271,8 @@ function WerkwijzeBody({ t }: { t: (key: string) => string }) {
         </div>
       </SectionShell>
 
+      <DetailWave from="#f8f4ef" to="#f4eee8" />
+
       <section className="detailMethodSection">
         <div className="detailEditorialHeading">
           <p className="detailKicker">{t("detail_approach_method_kicker")}</p>
@@ -263,6 +290,8 @@ function WerkwijzeBody({ t }: { t: (key: string) => string }) {
           ))}
         </div>
       </section>
+
+      <DetailWave from="#f4eee8" to="#eadbd0" />
 
       <section className="detailStatement">
         <p>{t("detail_approach_statement")}</p>
@@ -284,6 +313,8 @@ function OverMijBody({ t }: { t: (key: string) => string }) {
         </div>
       </SectionShell>
 
+      <DetailWave from="#f8f4ef" to="#f4eee8" />
+
       <section className="detailStatsStrip">
         {[1, 2, 3].map((index) => (
           <div key={index}>
@@ -292,6 +323,8 @@ function OverMijBody({ t }: { t: (key: string) => string }) {
           </div>
         ))}
       </section>
+
+      <DetailWave from="#f4eee8" to="#eadbd0" />
 
       <section className="detailStatement">
         <p>{t("detail_about_statement")}</p>
@@ -384,6 +417,15 @@ export default function DetailPage({ page }: { page: DetailKey }) {
 
       <div className="detailEditorialFlow">
         <PageBody page={page} t={t} />
+        <DetailWave
+          from={
+            page === "herkenning" ? "#f1e7dc" :
+            page === "thuiskomen" ? "#f5eee7" :
+            page === "werkwijze" || page === "over-mij" ? "#eadbd0" :
+            "#f8f4ef"
+          }
+          to="#ffffff"
+        />
       </div>
 
       <section className="detailInvitation detailInvitationEditorial">
