@@ -24,7 +24,7 @@ const navItems = [
   { href: "/werkwijze", nl: "Werkwijze", en: "Approach" },
   { href: "/over-mij", nl: "Over mij", en: "About me" },
   { href: "/ervaringen", nl: "Ervaringen", en: "Experiences" },
-  { href: "/#uitnodiging", nl: "Uitnodiging", en: "Invitation" },
+  { href: "/uitnodiging", nl: "Uitnodiging", en: "Invitation" },
 ];
 
 const pageConfig: Record<DetailKey, {
@@ -49,7 +49,7 @@ const pageConfig: Record<DetailKey, {
     prefix: "detail_guidance",
     mediaSlot: "detail_guidance_hero",
     fallbackImage: "/feminine.jpg",
-    nextHref: "/#uitnodiging",
+    nextHref: "/uitnodiging",
   },
   werkwijze: {
     prefix: "detail_approach",
@@ -61,7 +61,7 @@ const pageConfig: Record<DetailKey, {
     prefix: "detail_about",
     mediaSlot: "detail_about_hero",
     fallbackImage: "/Overmij.webp",
-    nextHref: "/#uitnodiging",
+    nextHref: "/uitnodiging",
   },
 };
 
@@ -451,7 +451,7 @@ export default function DetailPage({ page }: { page: DetailKey }) {
 
       <footer className="detailFooter">
         <a href="/">CHERELLE ELISA</a>
-        <a href="/#uitnodiging">Contact</a>
+        <a href="/uitnodiging">Contact</a>
       </footer>
     </main>
   );
