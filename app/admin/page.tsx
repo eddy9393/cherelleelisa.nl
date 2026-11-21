@@ -315,6 +315,29 @@ export default function CherelleAdminPage() {
     };
   }, [session, tab]);
 
+  useEffect(() => {
+    if (!session || tab !== "nieuwsbrief") return;
+
+    let active = true;
+    void Promise.all([
+      loadNewsletterAudience(session),
+      loadNewsletterHistory(session),
+    ])
+      .then(([audience, history]) => {
+        if (!active) return;
+        setNewsletterAudience(audience);
+        setNewsletters(history);
+        setNewsletterRecipients((current) =>
+          current.filter((key) => audience.some((recipient) => recipient.key === key))
+        );
+      })
+      .catch(() => undefined);
+
+    return () => {
+      active = false;
+    };
+  }, [session, tab]);
+
   async function reload(nextSession = session) {
     if (!nextSession) return;
     const [data, clientRows, dashboard, newsletterRows, audienceRows] = await Promise.all([
