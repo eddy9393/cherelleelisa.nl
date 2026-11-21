@@ -231,7 +231,7 @@ export async function POST(request: NextRequest) {
     if (!normalized || seenEmails.has(normalized)) continue;
     seenEmails.add(normalized);
     recipients.push({
-      name: contact.first_name?.trim() || "lieve vrouw",
+      name: contact.first_name?.trim() || "",
       email: contact.email,
       unsubscribeToken: contact.unsubscribe_token,
     });
@@ -255,7 +255,7 @@ export async function POST(request: NextRequest) {
     .join("");
 
   const sendOne = async (recipient: Recipient) => {
-    const firstName = recipient.name.trim().split(/\s+/)[0] || "lieve vrouw";
+    const firstName = recipient.name.trim().split(/\s+/)[0] || "vrouw";
     const unsubscribeUrl = `${request.nextUrl.origin}/api/newsletter/unsubscribe?token=${encodeURIComponent(recipient.unsubscribeToken)}`;
     const safeUnsubscribeUrl = escapeHtml(unsubscribeUrl);
 
