@@ -10787,3 +10787,128 @@ body,
     font-size: clamp(1.85rem, 8vw, 2.6rem);
   }
 }
+
+
+/* 2026-11-21 standalone invitation page */
+.invitationPage {
+  min-height: 100svh;
+  background: #ddcec0;
+  color: var(--ce-ink);
+}
+
+.invitationPageSection {
+  min-height: calc(100svh - 82px);
+  margin: 0 !important;
+  background: #ddcec0 !important;
+  align-items: stretch;
+}
+
+.invitationPageSection .invitationImageWrap {
+  position: relative;
+  min-height: calc(100svh - 82px);
+  height: auto !important;
+  align-self: stretch;
+  overflow: hidden;
+  border-radius: 0 !important;
+}
+
+.invitationPageSection .invitationImage {
+  object-fit: cover;
+  object-position: center;
+}
+
+.invitationPageSection .invitationCopy {
+  align-self: center;
+  background: #ddcec0 !important;
+  padding:
+    clamp(64px, 6vw, 104px)
+    clamp(44px, 6.5vw, 112px);
+}
+
+.invitationPageSection .invitationCopy h1 {
+  max-width: 760px;
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.6rem, 3.7vw, 4.15rem);
+  line-height: 1.01;
+  font-weight: 400;
+  letter-spacing: -0.035em;
+  color: var(--ce-ink);
+}
+
+.invitationPageSection .invitationCopy h1::after {
+  content: "";
+  display: block;
+  width: 54px;
+  height: 1px;
+  margin-top: 24px;
+  background: var(--ce-accent);
+}
+
+.invitationPageSection .invitationCopy > p:not(.sectionKicker) {
+  max-width: 620px;
+  margin-top: 28px;
+}
+
+.invitationPageSection .contactForm {
+  max-width: 760px;
+  margin-top: 38px;
+}
+
+.invitationPage .detailFooter {
+  background: #2f241d;
+  color: #f4eee7;
+}
+
+.invitationPage .detailFooter a {
+  color: inherit;
+}
+
+@media (max-width: 900px) {
+  .invitationPageSection {
+    min-height: 0;
+    grid-template-columns: 1fr;
+  }
+
+  .invitationPageSection .invitationImageWrap {
+    min-height: min(62svh, 620px);
+  }
+
+  .invitationPageSection .invitationCopy {
+    padding: 56px 20px 64px;
+  }
+
+  .invitationPageSection .invitationCopy h1 {
+    max-width: 760px;
+    font-size: clamp(2.35rem, 8vw, 3.4rem);
+  }
+}
+
+@media (max-width: 560px) {
+  .invitationPageSection .invitationImageWrap {
+    min-height: 52svh;
+  }
+
+  .invitationPageSection .invitationCopy {
+    padding: 48px 14px 56px;
+  }
+
+  .invitationPageSection .invitationCopy h1 {
+    font-size: clamp(2.15rem, 10vw, 3rem);
+  }
+
+  .invitationPageSection .contactFormRow {
+    grid-template-columns: 1fr;
+    gap: 22px;
+  }
+
+  .invitationPageSection .contactFormRow + .contactFormRow,
+  .invitationPageSection .contactMessage {
+    margin-top: 22px;
+  }
+
+  .invitationPageSection .contactFormFooter {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
