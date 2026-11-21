@@ -350,7 +350,7 @@ export default function Home() {
                 item.id === "werkwijze" ? "/werkwijze" :
                 item.id === "over-mij" ? "/over-mij" :
                 item.id === "ervaringen" ? "/ervaringen" :
-                "/#uitnodiging";
+                "/uitnodiging";
 
               return (
                 <a
@@ -410,7 +410,7 @@ export default function Home() {
                 item.id === "werkwijze" ? "/werkwijze" :
                 item.id === "over-mij" ? "/over-mij" :
                 item.id === "ervaringen" ? "/ervaringen" :
-                "/#uitnodiging";
+                "/uitnodiging";
 
               return (
                 <a
@@ -967,7 +967,7 @@ export default function Home() {
                   item.id === "werkwijze" ? "/werkwijze" :
                   item.id === "over-mij" ? "/over-mij" :
                   item.id === "ervaringen" ? "/ervaringen" :
-                  "/#uitnodiging";
+                  "/uitnodiging";
 
                 return (
                   <a key={item.id} href={href}>
