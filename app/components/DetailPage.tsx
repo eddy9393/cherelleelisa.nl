@@ -413,6 +413,18 @@ export default function DetailPage({ page }: { page: DetailKey }) {
           <h1>{t(`${prefix}_hero_title`)}</h1>
           <p>{t(`${prefix}_hero_intro`)}</p>
         </div>
+        <div className="detailHeroBottomWave" aria-hidden="true">
+          <svg
+            viewBox="0 0 1440 180"
+            preserveAspectRatio="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M0,78 C175,34 322,124 520,86 C716,48 876,18 1082,62 C1242,96 1346,120 1440,92 L1440,180 L0,180 Z"
+              fill="currentColor"
+            />
+          </svg>
+        </div>
       </section>
 
       <div className="detailEditorialFlow">
