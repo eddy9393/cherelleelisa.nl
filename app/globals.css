@@ -10912,3 +10912,240 @@ body,
     align-items: flex-start;
   }
 }
+
+
+/* 2026-11-21 newsletter signup page */
+.detailFooterLinks {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.newsletterPage {
+  min-height: 100svh;
+  background:
+    radial-gradient(circle at 72% 16%, rgba(201, 167, 161, 0.2), transparent 30%),
+    #f7f1ea;
+  color: #2f241d;
+}
+
+.newsletterPageHeader {
+  height: 82px;
+  padding: 0 max(24px, calc((100vw - 1320px) / 2));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(47, 36, 29, 0.08);
+}
+
+.newsletterPageHeader > a {
+  font-family: var(--font-display), serif;
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  color: #2f241d;
+  text-decoration: none;
+}
+
+.newsletterPageHeader > div {
+  display: flex;
+  gap: 7px;
+}
+
+.newsletterPageHeader button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  opacity: 0.48;
+  cursor: pointer;
+}
+
+.newsletterPageHeader button.isActive {
+  opacity: 1;
+}
+
+.newsletterPageInner {
+  width: min(1060px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: clamp(78px, 9vw, 136px) 0;
+  display: grid;
+  grid-template-columns: minmax(0, 0.85fr) minmax(380px, 1.15fr);
+  gap: clamp(54px, 7vw, 100px);
+  align-items: start;
+}
+
+.newsletterPageIntro h1 {
+  max-width: 610px;
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(2.7rem, 4.6vw, 5rem);
+  line-height: 0.98;
+  font-weight: 400;
+  letter-spacing: -0.045em;
+}
+
+.newsletterPageIntro > p:last-child {
+  max-width: 560px;
+  margin: 26px 0 0;
+  font-size: 0.98rem;
+  line-height: 1.75;
+  color: rgba(47, 36, 29, 0.66);
+}
+
+.newsletterSignupForm,
+.newsletterPageResult {
+  padding: clamp(26px, 3.5vw, 42px);
+  border: 1px solid rgba(47, 36, 29, 0.1);
+  border-radius: 24px 24px 24px 7px;
+  background: rgba(255,255,255,0.72);
+  box-shadow: 0 24px 60px rgba(74, 58, 50, 0.06);
+  backdrop-filter: blur(10px);
+}
+
+.newsletterSignupForm {
+  display: grid;
+  gap: 20px;
+}
+
+.newsletterSignupForm > label:not(.newsletterConsent) {
+  display: grid;
+  gap: 8px;
+}
+
+.newsletterSignupForm > label > span {
+  font-size: 0.72rem;
+  color: rgba(47, 36, 29, 0.62);
+}
+
+.newsletterSignupForm input[type="text"],
+.newsletterSignupForm input[type="email"] {
+  width: 100%;
+  box-sizing: border-box;
+  border: 0;
+  border-bottom: 1px solid rgba(47, 36, 29, 0.24);
+  padding: 10px 0 11px;
+  background: transparent;
+  color: #2f241d;
+  font: inherit;
+  font-size: 0.95rem;
+  outline: none;
+}
+
+.newsletterSignupForm input:focus {
+  border-bottom-color: #a86f5d;
+}
+
+.newsletterConsent {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 10px;
+  align-items: start;
+  margin-top: 2px;
+}
+
+.newsletterConsent input {
+  margin: 2px 0 0;
+  accent-color: #a86f5d;
+}
+
+.newsletterConsent span {
+  line-height: 1.55;
+}
+
+.newsletterSignupForm > button {
+  width: max-content;
+  margin-top: 6px;
+  border: 1px solid rgba(133, 87, 71, 0.34);
+  border-radius: 999px;
+  padding: 12px 17px;
+  background: #a86f5d;
+  color: #fff;
+  font: inherit;
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+
+.newsletterSignupForm > button:disabled {
+  opacity: 0.62;
+  cursor: wait;
+}
+
+.newsletterFormSuccess,
+.newsletterFormError {
+  margin: 0;
+  font-size: 0.74rem;
+  line-height: 1.55;
+}
+
+.newsletterFormSuccess {
+  color: #617661;
+}
+
+.newsletterFormError {
+  color: #9c4b44;
+}
+
+.newsletterPageResult {
+  text-align: center;
+}
+
+.newsletterPageResult > strong {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 18px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(111, 131, 111, 0.13);
+  color: #617661;
+  font-size: 1.3rem;
+}
+
+.newsletterPageResult p {
+  margin: 0 0 20px;
+  line-height: 1.65;
+  color: rgba(47, 36, 29, 0.68);
+}
+
+.newsletterPageResult a {
+  color: #855747;
+  text-decoration: none;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 900px) {
+  .newsletterPageInner {
+    width: min(720px, calc(100% - 40px));
+    grid-template-columns: 1fr;
+    gap: 38px;
+    padding: 64px 0 80px;
+  }
+
+  .newsletterPageIntro h1 {
+    font-size: clamp(2.55rem, 9vw, 4rem);
+  }
+}
+
+@media (max-width: 560px) {
+  .detailFooterLinks {
+    gap: 14px;
+  }
+
+  .newsletterPageHeader {
+    height: 72px;
+    padding: 0 14px;
+  }
+
+  .newsletterPageInner {
+    width: calc(100% - 28px);
+    padding: 52px 0 64px;
+  }
+
+  .newsletterSignupForm,
+  .newsletterPageResult {
+    padding: 24px 18px;
+    border-radius: 20px 20px 20px 6px;
+  }
+}
