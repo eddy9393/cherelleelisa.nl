@@ -16,7 +16,7 @@ const navItems = [
   { href: "/werkwijze", nl: "Werkwijze", en: "Approach" },
   { href: "/ervaringen", nl: "Ervaringen", en: "Experiences" },
   { href: "/over-mij", nl: "Over mij", en: "About me" },
-  { href: "/#uitnodiging", nl: "Uitnodiging", en: "Invitation" },
+  { href: "/uitnodiging", nl: "Uitnodiging", en: "Invitation" },
 ];
 
 export default function ExperiencesPage() {
@@ -177,14 +177,14 @@ export default function ExperiencesPage() {
             ? "Je hoeft nog niets te beslissen. Een kennismaking is er om samen te kijken wat bij jou en jouw moment past."
             : "You do not need to decide anything yet. An introductory conversation is there to explore what fits you and where you are right now."}
         </p>
-        <a className="detailCta" href="/#uitnodiging">
+        <a className="detailCta" href="/uitnodiging">
           {language === "nl" ? "Plan een kennismaking" : "Plan an introduction"} <span aria-hidden="true">→</span>
         </a>
       </section>
 
       <footer className="detailFooter">
         <a href="/">CHERELLE ELISA</a>
-        <a href="/#uitnodiging">{language === "nl" ? "Contact" : "Contact"}</a>
+        <a href="/uitnodiging">{language === "nl" ? "Contact" : "Contact"}</a>
       </footer>
     </main>
   );
