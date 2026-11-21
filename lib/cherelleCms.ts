@@ -1133,7 +1133,7 @@ export async function sendNewsletter(
   session: CmsSession,
   subject: string,
   body: string,
-  recipientIds: string[],
+  recipientKeys: string[],
   imageUrls: string[] = []
 ) {
   const response = await fetch("/api/admin/newsletter", {
@@ -1145,7 +1145,7 @@ export async function sendNewsletter(
     body: JSON.stringify({
       subject,
       body,
-      recipient_ids: recipientIds,
+      recipient_keys: recipientKeys,
       image_urls: imageUrls,
     }),
   });
