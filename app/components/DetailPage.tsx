@@ -303,34 +303,19 @@ function WerkwijzeBody({ t }: { t: (key: string) => string }) {
 function OverMijBody({ t }: { t: (key: string) => string }) {
   return (
     <>
-      <section className="detailAboutCenteredSection">
-        <div className="detailAboutCenteredIntro">
-          <p className="detailKicker">{t("detail_about_section_kicker")}</p>
-          <h2>{t("detail_about_section_title")}</h2>
-        </div>
-
-        <div className="detailAboutCenteredCopy">
+      <SectionShell
+        kicker={t("detail_about_section_kicker")}
+        title={t("detail_about_section_title")}
+      >
+        <div className="detailLongform">
           <Paragraphs value={t("detail_about_body")} />
-          <p className="detailAboutCenteredEmphasis">
-            {t("detail_about_emphasis")}
-          </p>
+          <p className="detailEmphasis">{t("detail_about_emphasis")}</p>
         </div>
-      </section>
+      </SectionShell>
 
-      <figure className="detailAboutLandscape">
-        <Image
-          src="/cherelle-elisa-kust.webp"
-          alt="Cherelle Elisa aan de kust"
-          fill
-          sizes="100vw"
-          className="detailAboutLandscapeImage"
-        />
-        <div className="detailAboutLandscapeVeil" aria-hidden="true" />
-      </figure>
+      <DetailWave from="#f8f4ef" to="#eadbd0" />
 
-      <DetailWave from="#d8c6b2" to="#eadbd0" />
-
-      <section className="detailStatement detailAboutStatement">
+      <section className="detailStatement">
         <p>{t("detail_about_statement")}</p>
       </section>
     </>
