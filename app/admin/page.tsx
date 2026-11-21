@@ -47,10 +47,9 @@ import {
   loadNewsletterAudience,
   NewsletterAudienceRecipient,
 } from "../../lib/cherelleLegal";
-import LegalQuestionnaire from "./LegalQuestionnaire";
 import styles from "./admin.module.css";
 
-type AdminTab = "overzicht" | "website" | "klanten" | "nieuwsbrief" | "ervaringen" | "juridisch" | "teksten" | "beelden";
+type AdminTab = "overzicht" | "website" | "klanten" | "nieuwsbrief" | "ervaringen" | "teksten" | "beelden";
 
 const FIELD_LABELS: Record<string, string> = {
   hero_sentence_1: "Hero – regel 1",
@@ -908,7 +907,6 @@ export default function CherelleAdminPage() {
             ["klanten", "Klanten"],
             ["nieuwsbrief", "Nieuwsbrief"],
             ["ervaringen", "Ervaringen"],
-            ["juridisch", "Juridisch"],
           ] as Array<[AdminTab, string]>).map(([id, label]) => (
             <button
               key={id}
@@ -937,7 +935,6 @@ export default function CherelleAdminPage() {
               {tab === "klanten" && "Klanten"}
               {tab === "nieuwsbrief" && "Nieuwsbrief"}
               {tab === "ervaringen" && "Ervaringen beheren"}
-              {tab === "juridisch" && "Juridisch voorbereiden"}
               {tab === "teksten" && "Teksten wijzigen"}
               {tab === "beelden" && "Beelden beheren"}
             </h1>
@@ -1833,10 +1830,6 @@ export default function CherelleAdminPage() {
               </section>
             ))}
           </div>
-        )}
-
-        {tab === "juridisch" && (
-          <LegalQuestionnaire session={session} />
         )}
 
         {tab === "nieuwsbrief" && (
