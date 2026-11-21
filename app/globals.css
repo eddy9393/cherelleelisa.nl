@@ -10912,3 +10912,162 @@ body,
     align-items: flex-start;
   }
 }
+
+
+/* 2026-11-21 about page coastal photo story */
+.detailAboutPhotoSection {
+  position: relative;
+  width: 100%;
+  min-height: 760px;
+  overflow: hidden;
+  isolation: isolate;
+  background: #3c3029;
+}
+
+.detailAboutPhotoBackground {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+
+.detailAboutPhotoImage {
+  object-fit: cover;
+  object-position: center 46%;
+  transform: scale(1.015);
+  filter: saturate(0.92) contrast(0.96);
+}
+
+.detailAboutPhotoShade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      90deg,
+      rgba(43, 34, 29, 0.80) 0%,
+      rgba(43, 34, 29, 0.70) 34%,
+      rgba(43, 34, 29, 0.55) 64%,
+      rgba(43, 34, 29, 0.44) 100%
+    ),
+    linear-gradient(
+      180deg,
+      rgba(43, 34, 29, 0.20) 0%,
+      rgba(43, 34, 29, 0.34) 38%,
+      rgba(43, 34, 29, 0.60) 100%
+    );
+}
+
+.detailAboutPhotoTopFade {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      180deg,
+      #f8f4ef 0%,
+      rgba(248, 244, 239, 0.98) 6%,
+      rgba(248, 244, 239, 0.82) 12%,
+      rgba(248, 244, 239, 0.42) 20%,
+      rgba(248, 244, 239, 0.10) 28%,
+      rgba(248, 244, 239, 0) 36%
+    );
+  pointer-events: none;
+}
+
+.detailAboutPhotoInner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: minmax(360px, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(54px, 6vw, 104px);
+  width: 100%;
+  box-sizing: border-box;
+  padding:
+    clamp(138px, 12vw, 190px)
+    max(40px, calc((100vw - 1420px) / 2))
+    clamp(92px, 9vw, 132px);
+}
+
+.detailAboutPhotoSection .detailEditorialHeading {
+  position: sticky;
+  top: 120px;
+}
+
+.detailAboutPhotoSection .detailKicker {
+  color: #d9a692;
+}
+
+.detailAboutPhotoSection .detailEditorialHeading h2 {
+  color: #fffaf5;
+  text-shadow: 0 1px 18px rgba(0, 0, 0, 0.14);
+}
+
+.detailAboutPhotoCopy {
+  max-width: 900px;
+}
+
+.detailAboutPhotoCopy p {
+  color: rgba(255, 250, 245, 0.88);
+  border-top-color: rgba(255,255,255,0.13);
+  text-shadow: 0 1px 14px rgba(0,0,0,0.10);
+}
+
+.detailAboutPhotoEmphasis {
+  background: rgba(236, 220, 208, 0.80) !important;
+  color: #3b2f29 !important;
+  border: 1px solid rgba(255,255,255,0.16) !important;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  box-shadow: 0 18px 45px rgba(34, 25, 20, 0.14);
+  text-shadow: none !important;
+}
+
+@media (max-width: 900px) {
+  .detailAboutPhotoSection {
+    min-height: 0;
+  }
+
+  .detailAboutPhotoImage {
+    object-position: 62% center;
+  }
+
+  .detailAboutPhotoShade {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(43, 34, 29, 0.48) 0%,
+        rgba(43, 34, 29, 0.68) 44%,
+        rgba(43, 34, 29, 0.76) 100%
+      );
+  }
+
+  .detailAboutPhotoTopFade {
+    background:
+      linear-gradient(
+        180deg,
+        #f8f4ef 0%,
+        rgba(248,244,239,0.94) 7%,
+        rgba(248,244,239,0.58) 15%,
+        rgba(248,244,239,0.14) 24%,
+        rgba(248,244,239,0) 32%
+      );
+  }
+
+  .detailAboutPhotoInner {
+    grid-template-columns: 1fr;
+    gap: 36px;
+    padding: 118px 20px 76px;
+  }
+
+  .detailAboutPhotoSection .detailEditorialHeading {
+    position: static;
+  }
+}
+
+@media (max-width: 560px) {
+  .detailAboutPhotoInner {
+    padding: 102px 14px 62px;
+  }
+
+  .detailAboutPhotoImage {
+    object-position: 64% center;
+  }
+}
