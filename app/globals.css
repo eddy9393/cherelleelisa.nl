@@ -10353,3 +10353,286 @@ body,
     width: calc(100% - 28px);
   }
 }
+
+
+/* 2026-11-21 detail pages wider typography full-width backgrounds and waves */
+.detailHeroEditorial .detailHeroFade {
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,0.97) 0%,
+      rgba(255,255,255,0.92) 22%,
+      rgba(255,255,255,0.76) 46%,
+      rgba(255,255,255,0.38) 68%,
+      rgba(255,255,255,0.08) 86%,
+      rgba(255,255,255,0) 96%
+    );
+}
+
+.detailHeroEditorial .detailHeroCopy {
+  width: min(1180px, 74vw);
+  max-width: none;
+  margin-left: max(40px, calc((100vw - 1420px) / 2));
+}
+
+.detailHeroEditorial .detailHeroCopy h1 {
+  max-width: 1180px;
+  font-size: clamp(3.15rem, 4.55vw, 5.35rem);
+  line-height: 0.99;
+  letter-spacing: -0.04em;
+}
+
+.detailHeroEditorial .detailHeroCopy > p:last-child {
+  max-width: 780px;
+  margin-top: 26px;
+}
+
+.detailEditorialFlow {
+  width: 100%;
+  background: transparent;
+}
+
+.detailEditorialSection,
+.detailServicesSection,
+.detailMethodSection {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+  padding:
+    clamp(82px, 7.5vw, 124px)
+    max(40px, calc((100vw - 1420px) / 2));
+  grid-template-columns: minmax(360px, 0.78fr) minmax(0, 1.22fr);
+  gap: clamp(54px, 6vw, 104px);
+}
+
+.detailEditorialSection {
+  background: #f8f4ef;
+}
+
+.detailTransitionsSection {
+  background: #f1e7dc;
+}
+
+.detailStorySection {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(201, 167, 161, 0.18), transparent 30%),
+    #f5eee7;
+}
+
+.detailServicesSection {
+  background: #f8f4ef;
+}
+
+.detailMethodSection {
+  background: #f4eee8;
+}
+
+.detailEditorialHeading h2 {
+  max-width: 760px;
+  font-size: clamp(2.2rem, 3.1vw, 3.65rem);
+  line-height: 1.01;
+  letter-spacing: -0.04em;
+}
+
+.detailLongform {
+  max-width: 900px;
+}
+
+.detailTransitions p {
+  font-size: clamp(1.22rem, 1.65vw, 1.72rem);
+  line-height: 1.4;
+}
+
+.detailStory blockquote {
+  font-size: clamp(1.55rem, 2vw, 2.25rem);
+}
+
+.detailServiceContent h3 {
+  max-width: 900px;
+  font-size: clamp(1.9rem, 2.65vw, 3.15rem);
+  line-height: 1.03;
+}
+
+.detailServiceScript {
+  font-size: clamp(1.55rem, 2.25vw, 2.45rem);
+}
+
+.detailServiceMantra {
+  max-width: 900px;
+  font-size: clamp(1.55rem, 2.15vw, 2.45rem);
+}
+
+.detailMethodSteps h3 {
+  max-width: 780px;
+  font-size: clamp(1.45rem, 1.95vw, 2.15rem);
+}
+
+.detailStatsStrip {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  box-sizing: border-box;
+  padding:
+    clamp(70px, 7vw, 104px)
+    max(40px, calc((100vw - 1420px) / 2));
+  background: #f4eee8;
+}
+
+.detailStatsStrip strong {
+  font-size: clamp(3.2rem, 5vw, 5.4rem);
+}
+
+.detailStatement {
+  box-sizing: border-box;
+  padding:
+    clamp(74px, 7vw, 112px)
+    max(40px, calc((100vw - 1420px) / 2));
+}
+
+.detailStatement p {
+  max-width: 1180px;
+  font-size: clamp(2.6rem, 4.25vw, 4.9rem);
+  line-height: 1;
+}
+
+.detailInvitationEditorial {
+  box-sizing: border-box;
+  padding:
+    clamp(82px, 7.5vw, 124px)
+    max(40px, calc((100vw - 1420px) / 2));
+  background: #fff;
+}
+
+.detailInvitationEditorial h2 {
+  max-width: 1180px;
+  font-size: clamp(2.2rem, 3.1vw, 3.7rem);
+  line-height: 1.03;
+}
+
+.detailInvitationEditorial > p:not(.detailKicker) {
+  max-width: 760px;
+}
+
+.detailSectionWave {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: clamp(70px, 8vw, 120px);
+  margin-top: -1px;
+  margin-bottom: -1px;
+  line-height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.detailSectionWave svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+@media (max-width: 900px) {
+  .detailHeroEditorial .detailHeroCopy {
+    width: calc(100% - 40px);
+    max-width: 760px;
+    margin-left: 20px;
+    margin-right: 20px;
+  }
+
+  .detailHeroEditorial .detailHeroCopy h1 {
+    max-width: 720px;
+    font-size: clamp(3rem, 10.5vw, 4.6rem);
+    line-height: 0.99;
+  }
+
+  .detailEditorialSection,
+  .detailServicesSection,
+  .detailMethodSection {
+    width: 100%;
+    max-width: none;
+    padding: 68px 20px;
+    grid-template-columns: 1fr;
+    gap: 38px;
+  }
+
+  .detailEditorialHeading h2 {
+    max-width: 720px;
+    font-size: clamp(2.15rem, 8vw, 3.45rem);
+  }
+
+  .detailServiceContent h3 {
+    font-size: clamp(1.95rem, 7vw, 2.8rem);
+  }
+
+  .detailServiceMantra {
+    font-size: clamp(1.7rem, 6vw, 2.3rem);
+  }
+
+  .detailMethodSteps h3 {
+    font-size: clamp(1.45rem, 5.5vw, 2rem);
+  }
+
+  .detailStatsStrip {
+    width: 100%;
+    max-width: none;
+    padding: 58px 20px;
+  }
+
+  .detailStatement {
+    padding: 68px 20px;
+  }
+
+  .detailStatement p {
+    font-size: clamp(2.6rem, 10vw, 4.2rem);
+  }
+
+  .detailInvitationEditorial {
+    padding: 68px 20px;
+  }
+
+  .detailInvitationEditorial h2 {
+    max-width: 760px;
+    font-size: clamp(2.2rem, 8vw, 3.5rem);
+  }
+
+  .detailSectionWave {
+    height: clamp(52px, 15vw, 88px);
+  }
+}
+
+@media (max-width: 560px) {
+  .detailHeroEditorial .detailHeroCopy {
+    width: calc(100% - 28px);
+    margin-left: 14px;
+    margin-right: 14px;
+  }
+
+  .detailHeroEditorial .detailHeroCopy h1 {
+    font-size: clamp(2.75rem, 12vw, 4rem);
+  }
+
+  .detailEditorialSection,
+  .detailServicesSection,
+  .detailMethodSection {
+    width: 100%;
+    padding: 56px 14px;
+  }
+
+  .detailEditorialHeading h2 {
+    font-size: clamp(2rem, 9.5vw, 3rem);
+  }
+
+  .detailStatsStrip {
+    width: 100%;
+    padding: 50px 14px;
+  }
+
+  .detailStatement {
+    padding: 58px 14px;
+  }
+
+  .detailInvitationEditorial {
+    padding: 58px 14px;
+  }
+}
