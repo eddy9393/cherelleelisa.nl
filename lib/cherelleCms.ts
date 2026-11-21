@@ -365,7 +365,7 @@ export const DEFAULT_HOMEPAGE_CONTENT: CmsContentMap = {
   detail_approach_cta_label: { nl: "Bekijk de begeleiding", en: "Explore guidance" },
 
   detail_about_hero_kicker: { nl: "Over mij", en: "About me" },
-  detail_about_hero_title: { nl: "Ik ben Cherelle.", en: "I’m Cherelle." },
+  detail_about_hero_title: { nl: "Ik ben Cherelle Elisa.", en: "I’m Cherelle Elisa." },
   detail_about_hero_intro: { nl: "Feminine embodiment coach. Ik ken deze weg niet alleen vanuit mijn werk, maar omdat ik hem zelf gelopen heb — en nog steeds loop.", en: "Feminine embodiment coach. I know this path not only through my work, but because I have walked it myself — and still do." },
   detail_about_section_kicker: { nl: "Mijn verhaal", en: "My story" },
   detail_about_section_title: { nl: "Ik dacht dat ik gewoon sterk was.", en: "I thought I was simply strong." },
@@ -487,9 +487,6 @@ export const CONTENT_GROUPS = [
     fields: [
       "detail_about_hero_kicker", "detail_about_hero_title", "detail_about_hero_intro",
       "detail_about_section_kicker", "detail_about_section_title", "detail_about_body", "detail_about_emphasis",
-      "detail_about_stat_1_value", "detail_about_stat_1_label",
-      "detail_about_stat_2_value", "detail_about_stat_2_label",
-      "detail_about_stat_3_value", "detail_about_stat_3_label",
       "detail_about_statement",
       "detail_about_cta_kicker", "detail_about_cta_title", "detail_about_cta_text", "detail_about_cta_label",
     ],
