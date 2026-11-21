@@ -303,17 +303,37 @@ function WerkwijzeBody({ t }: { t: (key: string) => string }) {
 function OverMijBody({ t }: { t: (key: string) => string }) {
   return (
     <>
-      <SectionShell
-        kicker={t("detail_about_section_kicker")}
-        title={t("detail_about_section_title")}
-      >
-        <div className="detailLongform">
-          <Paragraphs value={t("detail_about_body")} />
-          <p className="detailEmphasis">{t("detail_about_emphasis")}</p>
+      <section className="detailAboutPhotoSection">
+        <div className="detailAboutPhotoBackground" aria-hidden="true">
+          <Image
+            src="/cherelle-elisa-kust.webp"
+            alt=""
+            fill
+            sizes="100vw"
+            className="detailAboutPhotoImage"
+          />
+          <div className="detailAboutPhotoShade" />
+          <div className="detailAboutPhotoTopFade" />
         </div>
-      </SectionShell>
 
-      <DetailWave from="#f8f4ef" to="#eadbd0" />
+        <div className="detailAboutPhotoInner">
+          <div className="detailEditorialHeading">
+            <p className="detailKicker">{t("detail_about_section_kicker")}</p>
+            <h2>{t("detail_about_section_title")}</h2>
+          </div>
+
+          <div className="detailEditorialBody">
+            <div className="detailLongform detailAboutPhotoCopy">
+              <Paragraphs value={t("detail_about_body")} />
+              <p className="detailEmphasis detailAboutPhotoEmphasis">
+                {t("detail_about_emphasis")}
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <DetailWave from="#3c3029" to="#eadbd0" />
 
       <section className="detailStatement">
         <p>{t("detail_about_statement")}</p>
