@@ -2657,3 +2657,440 @@
     gap: 12px;
   }
 }
+
+
+/* 2026-11-21 legal questionnaire */
+.legalWorkspace {
+  display: grid;
+  gap: 24px;
+}
+
+.legalOverview {
+  padding: 30px 32px;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(280px, 0.7fr);
+  gap: 28px;
+  align-items: center;
+  border: 1px solid rgba(74, 58, 50, 0.1);
+  border-radius: 20px;
+  background:
+    radial-gradient(circle at 90% 15%, rgba(201, 167, 161, 0.16), transparent 34%),
+    #fff;
+}
+
+.legalOverviewCopy h2 {
+  margin: 4px 0 12px;
+  font-family: "Bride", Georgia, serif;
+  font-size: clamp(2rem, 3vw, 3.25rem);
+  line-height: 1;
+  font-weight: 400;
+}
+
+.legalOverviewCopy > p:last-child {
+  max-width: 760px;
+  margin: 0;
+  color: rgba(74, 58, 50, 0.66);
+  line-height: 1.68;
+}
+
+.legalProgressCard {
+  padding: 22px;
+  border-radius: 16px;
+  background: #f7f1ea;
+}
+
+.legalProgressTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.legalProgressTop strong {
+  font-family: "Bride", Georgia, serif;
+  font-size: 2.3rem;
+  font-weight: 400;
+}
+
+.legalProgressTop span,
+.legalProgressCard small {
+  color: rgba(74, 58, 50, 0.58);
+  font-size: 0.72rem;
+}
+
+.legalProgressTrack {
+  height: 7px;
+  margin: 16px 0 11px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(74, 58, 50, 0.09);
+}
+
+.legalProgressTrack span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: #a86f5d;
+  transition: width 220ms ease;
+}
+
+.legalGrid {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.34fr) minmax(0, 1fr);
+  gap: 20px;
+  align-items: start;
+}
+
+.legalSteps {
+  position: sticky;
+  top: 24px;
+  display: grid;
+  gap: 7px;
+}
+
+.legalStep {
+  width: 100%;
+  padding: 13px 14px;
+  display: grid;
+  grid-template-columns: 32px minmax(0, 1fr) 18px;
+  gap: 10px;
+  align-items: center;
+  border: 1px solid rgba(74, 58, 50, 0.09);
+  border-radius: 13px;
+  background: rgba(255,255,255,0.74);
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+}
+
+.legalStep:hover,
+.legalStepActive {
+  border-color: rgba(168, 111, 93, 0.34);
+  background: #fff;
+}
+
+.legalStepActive {
+  box-shadow: 0 10px 30px rgba(74, 58, 50, 0.055);
+}
+
+.legalStepNumber {
+  font-size: 0.62rem;
+  letter-spacing: 0.12em;
+  color: rgba(74, 58, 50, 0.44);
+}
+
+.legalStep > span:nth-child(2) {
+  display: grid;
+  gap: 3px;
+}
+
+.legalStep strong {
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+
+.legalStep small {
+  font-size: 0.64rem;
+  color: rgba(74, 58, 50, 0.48);
+}
+
+.legalStep i {
+  font-style: normal;
+  color: rgba(74, 58, 50, 0.38);
+}
+
+.legalStepDone i,
+.legalStepDone small {
+  color: #6f836f;
+}
+
+.legalQuestionCard {
+  min-width: 0;
+  padding: clamp(26px, 3vw, 42px);
+  border: 1px solid rgba(74, 58, 50, 0.1);
+  border-radius: 20px;
+  background: #fff;
+  box-shadow: 0 20px 54px rgba(74, 58, 50, 0.045);
+}
+
+.legalQuestionHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid rgba(74, 58, 50, 0.09);
+}
+
+.legalQuestionHeader h2 {
+  max-width: 820px;
+  margin: 4px 0 10px;
+  font-family: "Bride", Georgia, serif;
+  font-size: clamp(1.8rem, 2.7vw, 3rem);
+  line-height: 1.04;
+  font-weight: 400;
+}
+
+.legalQuestionHeader > div > p:last-child {
+  max-width: 800px;
+  margin: 0;
+  color: rgba(74, 58, 50, 0.63);
+  line-height: 1.68;
+}
+
+.legalStatusDone,
+.legalStatusOpen {
+  flex: 0 0 auto;
+  height: max-content;
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 0.62rem;
+  letter-spacing: 0.05em;
+}
+
+.legalStatusDone {
+  background: rgba(111, 131, 111, 0.13);
+  color: #5b715b;
+}
+
+.legalStatusOpen {
+  background: rgba(168, 111, 93, 0.1);
+  color: #855747;
+}
+
+.legalTip,
+.legalKnown {
+  margin-top: 20px;
+  padding: 16px 18px;
+  border-radius: 14px;
+}
+
+.legalTip {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr);
+  gap: 12px;
+  background: #f7f1ea;
+}
+
+.legalTip > span {
+  font-family: "Natalia Signature", cursive;
+  font-size: 1.35rem;
+  color: #a86f5d;
+}
+
+.legalTip p,
+.legalKnown p {
+  margin: 0;
+  font-size: 0.78rem;
+  line-height: 1.65;
+  color: rgba(74, 58, 50, 0.67);
+}
+
+.legalKnown {
+  border: 1px solid rgba(126, 144, 152, 0.18);
+  background: rgba(126, 144, 152, 0.08);
+}
+
+.legalKnown strong {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 0.72rem;
+  color: #52666e;
+}
+
+.legalFields {
+  margin-top: 26px;
+  display: grid;
+  gap: 20px;
+}
+
+.legalFields label {
+  display: grid;
+  gap: 8px;
+}
+
+.legalFields label > span {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: var(--text);
+  font-size: 0.78rem;
+}
+
+.legalFields label em {
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: rgba(168, 111, 93, 0.08);
+  color: rgba(133, 87, 71, 0.72);
+  font-size: 0.56rem;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.legalFields input,
+.legalFields textarea,
+.legalFields select {
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid rgba(74, 58, 50, 0.16);
+  border-radius: 12px;
+  padding: 12px 13px;
+  background: rgba(255,255,255,0.92);
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.9rem;
+  line-height: 1.55;
+  outline: none;
+}
+
+.legalFields textarea {
+  min-height: 116px;
+  resize: vertical;
+}
+
+.legalFields input:focus,
+.legalFields textarea:focus,
+.legalFields select:focus {
+  border-color: rgba(168, 111, 93, 0.72);
+  box-shadow: 0 0 0 3px rgba(168, 111, 93, 0.08);
+}
+
+.legalFields input[readonly],
+.legalFields textarea[readonly] {
+  background: #f6f1ec;
+  color: rgba(74, 58, 50, 0.72);
+}
+
+.legalFields label > small {
+  color: rgba(74, 58, 50, 0.48);
+  font-size: 0.66rem;
+  line-height: 1.5;
+}
+
+.legalQuestionFooter {
+  margin-top: 30px;
+  padding-top: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  border-top: 1px solid rgba(74, 58, 50, 0.09);
+}
+
+.legalSaveMeta {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.legalSaveMeta > small {
+  margin-right: 4px;
+  color: rgba(74, 58, 50, 0.45);
+  font-size: 0.64rem;
+}
+
+.legalInlineError,
+.legalInlineSuccess {
+  margin: 16px 0 0;
+  font-size: 0.76rem;
+}
+
+.legalInlineError {
+  color: #9c4b44;
+}
+
+.legalInlineSuccess {
+  color: #617661;
+}
+
+.legalReady {
+  margin-top: 22px;
+  padding: 18px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  border-radius: 14px;
+  background: rgba(111, 131, 111, 0.1);
+}
+
+.legalReady > span {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: #6f836f;
+  color: #fff;
+}
+
+.legalReady strong {
+  font-size: 0.8rem;
+}
+
+.legalReady p {
+  margin: 4px 0 0;
+  font-size: 0.7rem;
+  color: rgba(74, 58, 50, 0.58);
+}
+
+.legalLoading {
+  padding: 36px;
+  border: 1px solid rgba(74, 58, 50, 0.1);
+  border-radius: 18px;
+  background: #fff;
+}
+
+.newsletterClientList label > span:last-child em {
+  display: block;
+  margin-top: 2px;
+  color: rgba(168, 111, 93, 0.66);
+  font-size: 0.58rem;
+  font-style: normal;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 1180px) {
+  .legalOverview,
+  .legalGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .legalSteps {
+    position: static;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .legalOverview,
+  .legalQuestionCard {
+    padding: 22px 18px;
+  }
+
+  .legalSteps {
+    grid-template-columns: 1fr;
+  }
+
+  .legalQuestionHeader,
+  .legalQuestionFooter {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .legalSaveMeta {
+    justify-content: stretch;
+  }
+
+  .legalSaveMeta > small {
+    width: 100%;
+  }
+
+  .legalQuestionFooter button,
+  .legalSaveMeta button {
+    width: 100%;
+  }
+}
