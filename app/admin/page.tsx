@@ -1446,6 +1446,14 @@ export default function CherelleAdminPage() {
                         label: "Over mij",
                         title: content.detail_about_hero_title?.nl,
                       },
+                      {
+                        id: "invitation",
+                        slot: "invitation",
+                        fallback: "/Uitnodiging.webp",
+                        href: "/uitnodiging",
+                        label: "Uitnodiging",
+                        title: content.invitation_title?.nl,
+                      },
                     ].map((page) => (
                       <article className={styles.previewDetailPageCard} key={page.id}>
                         <div className={styles.previewDetailPageImage}>
