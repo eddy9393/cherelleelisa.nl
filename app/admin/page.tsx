@@ -43,9 +43,14 @@ import {
   uploadReviewImage,
   verifyCmsSession,
 } from "../../lib/cherelleCms";
+import {
+  loadNewsletterAudience,
+  NewsletterAudienceRecipient,
+} from "../../lib/cherelleLegal";
+import LegalQuestionnaire from "./LegalQuestionnaire";
 import styles from "./admin.module.css";
 
-type AdminTab = "overzicht" | "website" | "klanten" | "nieuwsbrief" | "ervaringen" | "teksten" | "beelden";
+type AdminTab = "overzicht" | "website" | "klanten" | "nieuwsbrief" | "ervaringen" | "juridisch" | "teksten" | "beelden";
 
 const FIELD_LABELS: Record<string, string> = {
   hero_sentence_1: "Hero – regel 1",
@@ -215,6 +220,7 @@ export default function CherelleAdminPage() {
   const [newsletterSubject, setNewsletterSubject] = useState("");
   const [newsletterBody, setNewsletterBody] = useState("");
   const [newsletterRecipients, setNewsletterRecipients] = useState<string[]>([]);
+  const [newsletterAudience, setNewsletterAudience] = useState<NewsletterAudienceRecipient[]>([]);
   const [newsletterImages, setNewsletterImages] = useState<NewsletterImage[]>([]);
   const [newsletterBusy, setNewsletterBusy] = useState(false);
   const [newsletterImageBusy, setNewsletterImageBusy] = useState(false);
@@ -260,11 +266,12 @@ export default function CherelleAdminPage() {
       }
 
       try {
-        const [data, clientRows, dashboard, newsletterRows] = await Promise.all([
+        const [data, clientRows, dashboard, newsletterRows, audienceRows] = await Promise.all([
           loadAdminCms(saved),
           loadAdminClients(saved),
           loadAdminDashboard(saved),
           loadNewsletterHistory(saved),
+          loadNewsletterAudience(saved),
         ]);
         if (!active) return;
         setSession(saved);
@@ -275,6 +282,7 @@ export default function CherelleAdminPage() {
         setDashboardMetrics(dashboard.metrics);
         setAdminEvents(dashboard.events);
         setNewsletters(newsletterRows);
+        setNewsletterAudience(audienceRows);
       } catch {
         clearCmsSession();
         clearAccountSession();
@@ -309,11 +317,12 @@ export default function CherelleAdminPage() {
 
   async function reload(nextSession = session) {
     if (!nextSession) return;
-    const [data, clientRows, dashboard, newsletterRows] = await Promise.all([
+    const [data, clientRows, dashboard, newsletterRows, audienceRows] = await Promise.all([
       loadAdminCms(nextSession),
       loadAdminClients(nextSession),
       loadAdminDashboard(nextSession),
       loadNewsletterHistory(nextSession),
+      loadNewsletterAudience(nextSession),
     ]);
     setContent(data.content);
     setReviews(data.reviews);
@@ -322,6 +331,7 @@ export default function CherelleAdminPage() {
     setDashboardMetrics(dashboard.metrics);
     setAdminEvents(dashboard.events);
     setNewsletters(newsletterRows);
+    setNewsletterAudience(audienceRows);
   }
 
   function logout() {
@@ -514,16 +524,16 @@ export default function CherelleAdminPage() {
     }
   }
 
-  function toggleNewsletterRecipient(clientId: string) {
+  function toggleNewsletterRecipient(recipientKey: string) {
     setNewsletterRecipients((current) =>
-      current.includes(clientId)
-        ? current.filter((id) => id !== clientId)
-        : [...current, clientId]
+      current.includes(recipientKey)
+        ? current.filter((key) => key !== recipientKey)
+        : [...current, recipientKey]
     );
   }
 
   function selectAllNewsletterRecipients() {
-    setNewsletterRecipients(clients.map((client) => client.id));
+    setNewsletterRecipients(newsletterAudience.map((recipient) => recipient.key));
   }
 
   async function handleNewsletterImageUpload(files: FileList | null) {
@@ -597,7 +607,7 @@ export default function CherelleAdminPage() {
       return;
     }
 
-    if (!window.confirm(`Nieuwsbrief versturen naar ${newsletterRecipients.length} geselecteerde klant${newsletterRecipients.length === 1 ? "" : "en"}?`)) {
+    if (!window.confirm(`Nieuwsbrief versturen naar ${newsletterRecipients.length} geselecteerde ontvanger${newsletterRecipients.length === 1 ? "" : "s"}?`)) {
       return;
     }
 
@@ -613,13 +623,17 @@ export default function CherelleAdminPage() {
         newsletterRecipients,
         newsletterImages.map((image) => image.url)
       );
-      const history = await loadNewsletterHistory(session);
+      const [history, audience] = await Promise.all([
+        loadNewsletterHistory(session),
+        loadNewsletterAudience(session),
+      ]);
       setNewsletters(history);
+      setNewsletterAudience(audience);
       setNewsletterSubject("");
       setNewsletterBody("");
       setNewsletterRecipients([]);
       setNewsletterImages([]);
-      setMessage(`Nieuwsbrief is verstuurd naar ${result.sent} klant${result.sent === 1 ? "" : "en"}.`);
+      setMessage(`Nieuwsbrief is verstuurd naar ${result.sent} ontvanger${result.sent === 1 ? "" : "s"}.`);
     } catch (newsletterError) {
       setError(newsletterError instanceof Error ? newsletterError.message : "Nieuwsbrief kon niet worden verstuurd.");
     } finally {
@@ -871,6 +885,7 @@ export default function CherelleAdminPage() {
             ["klanten", "Klanten"],
             ["nieuwsbrief", "Nieuwsbrief"],
             ["ervaringen", "Ervaringen"],
+            ["juridisch", "Juridisch"],
           ] as Array<[AdminTab, string]>).map(([id, label]) => (
             <button
               key={id}
@@ -899,6 +914,7 @@ export default function CherelleAdminPage() {
               {tab === "klanten" && "Klanten"}
               {tab === "nieuwsbrief" && "Nieuwsbrief"}
               {tab === "ervaringen" && "Ervaringen beheren"}
+              {tab === "juridisch" && "Juridisch voorbereiden"}
               {tab === "teksten" && "Teksten wijzigen"}
               {tab === "beelden" && "Beelden beheren"}
             </h1>
@@ -1796,6 +1812,10 @@ export default function CherelleAdminPage() {
           </div>
         )}
 
+        {tab === "juridisch" && (
+          <LegalQuestionnaire session={session} />
+        )}
+
         {tab === "nieuwsbrief" && (
           <div className={styles.newsletterAdmin}>
             <div className={styles.newsletterGrid}>
@@ -1805,7 +1825,7 @@ export default function CherelleAdminPage() {
                     <p className={styles.eyebrow}>Nieuwe nieuwsbrief</p>
                     <h2>Schrijf vanuit Cherelle Elisa.</h2>
                     <p>
-                      De nieuwsbrief wordt persoonlijk per klant verstuurd en begint automatisch met de voornaam.
+                      De nieuwsbrief wordt persoonlijk verstuurd naar geselecteerde klanten en losse inschrijvers. Afmeldingen worden automatisch gerespecteerd.
                     </p>
                   </div>
                   <span>{newsletterRecipients.length} geselecteerd</span>
@@ -1889,7 +1909,7 @@ export default function CherelleAdminPage() {
                 <div className={styles.newsletterRecipientsHead}>
                   <div>
                     <p className={styles.eyebrow}>Ontvangers</p>
-                    <h3>Klantenbestand</h3>
+                    <h3>Klanten & inschrijvers</h3>
                   </div>
                   <div>
                     <button type="button" onClick={selectAllNewsletterRecipients}>Alles</button>
@@ -1898,22 +1918,23 @@ export default function CherelleAdminPage() {
                 </div>
 
                 <div className={styles.newsletterClientList}>
-                  {clients.length === 0 ? (
-                    <div className={styles.emptyState}>Nog geen klanten beschikbaar.</div>
+                  {newsletterAudience.length === 0 ? (
+                    <div className={styles.emptyState}>Nog geen nieuwsbriefontvangers beschikbaar.</div>
                   ) : (
-                    clients.map((client) => (
-                      <label key={client.id}>
+                    newsletterAudience.map((recipient) => (
+                      <label key={recipient.key}>
                         <input
                           type="checkbox"
-                          checked={newsletterRecipients.includes(client.id)}
-                          onChange={() => toggleNewsletterRecipient(client.id)}
+                          checked={newsletterRecipients.includes(recipient.key)}
+                          onChange={() => toggleNewsletterRecipient(recipient.key)}
                         />
                         <span className={styles.newsletterClientAvatar}>
-                          {client.name.trim().slice(0, 1).toUpperCase()}
+                          {recipient.name.trim().slice(0, 1).toUpperCase()}
                         </span>
                         <span>
-                          <strong>{client.name}</strong>
-                          <small>{client.email}</small>
+                          <strong>{recipient.name}</strong>
+                          <small>{recipient.email}</small>
+                          <em>{recipient.kind === "client" ? "Klant" : "Losse inschrijver"}</em>
                         </span>
                       </label>
                     ))
