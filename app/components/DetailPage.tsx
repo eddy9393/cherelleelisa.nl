@@ -303,39 +303,34 @@ function WerkwijzeBody({ t }: { t: (key: string) => string }) {
 function OverMijBody({ t }: { t: (key: string) => string }) {
   return (
     <>
-      <section className="detailAboutPhotoSection">
-        <div className="detailAboutPhotoBackground" aria-hidden="true">
-          <Image
-            src="/cherelle-elisa-kust.webp"
-            alt=""
-            fill
-            sizes="100vw"
-            className="detailAboutPhotoImage"
-          />
-          <div className="detailAboutPhotoShade" />
-          <div className="detailAboutPhotoTopFade" />
+      <section className="detailAboutCenteredSection">
+        <div className="detailAboutCenteredIntro">
+          <p className="detailKicker">{t("detail_about_section_kicker")}</p>
+          <h2>{t("detail_about_section_title")}</h2>
         </div>
 
-        <div className="detailAboutPhotoInner">
-          <div className="detailEditorialHeading">
-            <p className="detailKicker">{t("detail_about_section_kicker")}</p>
-            <h2>{t("detail_about_section_title")}</h2>
-          </div>
-
-          <div className="detailEditorialBody">
-            <div className="detailLongform detailAboutPhotoCopy">
-              <Paragraphs value={t("detail_about_body")} />
-              <p className="detailEmphasis detailAboutPhotoEmphasis">
-                {t("detail_about_emphasis")}
-              </p>
-            </div>
-          </div>
+        <div className="detailAboutCenteredCopy">
+          <Paragraphs value={t("detail_about_body")} />
+          <p className="detailAboutCenteredEmphasis">
+            {t("detail_about_emphasis")}
+          </p>
         </div>
       </section>
 
-      <DetailWave from="#3c3029" to="#eadbd0" />
+      <figure className="detailAboutLandscape">
+        <Image
+          src="/cherelle-elisa-kust.webp"
+          alt="Cherelle Elisa aan de kust"
+          fill
+          sizes="100vw"
+          className="detailAboutLandscapeImage"
+        />
+        <div className="detailAboutLandscapeVeil" aria-hidden="true" />
+      </figure>
 
-      <section className="detailStatement">
+      <DetailWave from="#d8c6b2" to="#eadbd0" />
+
+      <section className="detailStatement detailAboutStatement">
         <p>{t("detail_about_statement")}</p>
       </section>
     </>
