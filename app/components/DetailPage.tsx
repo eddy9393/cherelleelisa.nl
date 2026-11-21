@@ -440,7 +440,10 @@ export default function DetailPage({ page }: { page: DetailKey }) {
 
       <footer className="detailFooter">
         <a href="/">CHERELLE ELISA</a>
-        <a href="/uitnodiging">Contact</a>
+        <div className="detailFooterLinks">
+          <a href="/nieuwsbrief">Nieuwsbrief</a>
+          <a href="/uitnodiging">Contact</a>
+        </div>
       </footer>
     </main>
   );
