@@ -245,7 +245,10 @@ export default function UitnodigingPage() {
 
       <footer className="detailFooter">
         <a href="/">CHERELLE ELISA</a>
-        <a href="mailto:info@cherelleelisa.nl">info@cherelleelisa.nl</a>
+        <div className="detailFooterLinks">
+          <a href="/nieuwsbrief">{language === "nl" ? "Nieuwsbrief" : "Newsletter"}</a>
+          <a href="mailto:info@cherelleelisa.nl">info@cherelleelisa.nl</a>
+        </div>
       </footer>
     </main>
   );
