@@ -15,6 +15,28 @@ function escapeHtml(value: string) {
     .replace(/'/g, "&#039;");
 }
 
+type ClientRow = {
+  id: string;
+  name: string;
+  email: string;
+};
+
+type ContactRow = {
+  id: string;
+  email: string;
+  first_name: string | null;
+  kind: "client" | "subscriber";
+  client_id: string | null;
+  status: "subscribed" | "unsubscribed";
+  unsubscribe_token: string;
+};
+
+type Recipient = {
+  name: string;
+  email: string;
+  unsubscribeToken: string;
+};
+
 export async function POST(request: NextRequest) {
   const resendApiKey = process.env.RESEND_API_KEY;
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
@@ -63,13 +85,28 @@ export async function POST(request: NextRequest) {
   }
 
   const subject = clean(body.subject, 180);
-  const content = clean(body.body, 12000);
+  const newsletterBody = clean(body.body, 12000);
   const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
-  const recipientIds = Array.isArray(body.recipient_ids)
-    ? body.recipient_ids
-        .map((value) => clean(value, 80))
-        .filter((value) => uuidPattern.test(value))
+
+  const recipientKeys = Array.isArray(body.recipient_keys)
+    ? Array.from(
+        new Set(
+          body.recipient_keys
+            .map((value) => clean(value, 100))
+            .filter((value) => /^(client|subscriber):/.test(value))
+        )
+      )
     : [];
+
+  const clientIds = recipientKeys
+    .filter((key) => key.startsWith("client:"))
+    .map((key) => key.slice("client:".length))
+    .filter((id) => uuidPattern.test(id));
+
+  const subscriberIds = recipientKeys
+    .filter((key) => key.startsWith("subscriber:"))
+    .map((key) => key.slice("subscriber:".length))
+    .filter((id) => uuidPattern.test(id));
 
   const allowedImagePrefix = `${supabaseUrl}/storage/v1/object/public/cherelle-media/newsletters/`;
   const imageUrls = Array.isArray(body.image_urls)
@@ -78,34 +115,134 @@ export async function POST(request: NextRequest) {
         .filter((value) => value.startsWith(allowedImagePrefix))
     : [];
 
-  if (!subject || !content || recipientIds.length === 0) {
+  if (!subject || !newsletterBody || recipientKeys.length === 0) {
     return NextResponse.json(
       { ok: false, error: "Onderwerp, bericht en minimaal één ontvanger zijn verplicht." },
       { status: 400 }
     );
   }
 
-  if (recipientIds.length > 250) {
+  if (recipientKeys.length > 250) {
     return NextResponse.json({ ok: false, error: "Selecteer maximaal 250 ontvangers per verzending." }, { status: 400 });
   }
 
-  const ids = recipientIds.map((id) => encodeURIComponent(id)).join(",");
-  const clientsResponse = await fetch(
-    `${supabaseUrl}/rest/v1/cherelle_clients?select=id,name,email&id=in.(${ids})`,
-    { headers: commonHeaders, cache: "no-store" }
-  );
+  let clients: ClientRow[] = [];
+  if (clientIds.length > 0) {
+    const ids = clientIds.map((id) => encodeURIComponent(id)).join(",");
+    const clientsResponse = await fetch(
+      `${supabaseUrl}/rest/v1/cherelle_clients?select=id,name,email&id=in.(${ids})`,
+      { headers: commonHeaders, cache: "no-store" }
+    );
 
-  if (!clientsResponse.ok) {
-    return NextResponse.json({ ok: false, error: "Ontvangers konden niet worden geladen." }, { status: 502 });
+    if (!clientsResponse.ok) {
+      return NextResponse.json({ ok: false, error: "Klanten konden niet worden geladen." }, { status: 502 });
+    }
+    clients = await clientsResponse.json() as ClientRow[];
   }
 
-  const clients = await clientsResponse.json() as Array<{ id: string; name: string; email: string }>;
-  if (!clients.length) {
-    return NextResponse.json({ ok: false, error: "Geen geldige ontvangers gevonden." }, { status: 400 });
+  let clientContacts: ContactRow[] = [];
+  if (clientIds.length > 0) {
+    const ids = clientIds.map((id) => encodeURIComponent(id)).join(",");
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/cherelle_newsletter_contacts?select=id,email,first_name,kind,client_id,status,unsubscribe_token&kind=eq.client&client_id=in.(${ids})`,
+      { headers: commonHeaders, cache: "no-store" }
+    );
+    if (!response.ok) {
+      return NextResponse.json({ ok: false, error: "Nieuwsbriefvoorkeuren konden niet worden geladen." }, { status: 502 });
+    }
+    clientContacts = await response.json() as ContactRow[];
+  }
+
+  const contactByClient = new Map(
+    clientContacts
+      .filter((contact) => contact.client_id)
+      .map((contact) => [contact.client_id as string, contact])
+  );
+
+  const missingContacts = clients.filter((client) => !contactByClient.has(client.id));
+  if (missingContacts.length > 0) {
+    const response = await fetch(`${supabaseUrl}/rest/v1/cherelle_newsletter_contacts`, {
+      method: "POST",
+      headers: {
+        ...commonHeaders,
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify(
+        missingContacts.map((client) => ({
+          email: client.email.trim().toLowerCase(),
+          first_name: client.name.trim().split(/\s+/)[0] || null,
+          kind: "client",
+          client_id: client.id,
+          status: "subscribed",
+          source: "client",
+          consent_text: null,
+        }))
+      ),
+    });
+
+    if (!response.ok) {
+      return NextResponse.json({ ok: false, error: "Afmeldlinks voor klanten konden niet worden voorbereid." }, { status: 502 });
+    }
+
+    const created = await response.json() as ContactRow[];
+    for (const contact of created) {
+      if (contact.client_id) contactByClient.set(contact.client_id, contact);
+    }
+  }
+
+  let subscriberContacts: ContactRow[] = [];
+  if (subscriberIds.length > 0) {
+    const ids = subscriberIds.map((id) => encodeURIComponent(id)).join(",");
+    const response = await fetch(
+      `${supabaseUrl}/rest/v1/cherelle_newsletter_contacts?select=id,email,first_name,kind,client_id,status,unsubscribe_token&id=in.(${ids})&kind=eq.subscriber&status=eq.subscribed`,
+      { headers: commonHeaders, cache: "no-store" }
+    );
+
+    if (!response.ok) {
+      return NextResponse.json({ ok: false, error: "Losse nieuwsbriefinschrijvers konden niet worden geladen." }, { status: 502 });
+    }
+    subscriberContacts = await response.json() as ContactRow[];
+  }
+
+  const recipients: Recipient[] = [];
+  const seenEmails = new Set<string>();
+  let skippedUnsubscribed = 0;
+
+  for (const client of clients) {
+    const contact = contactByClient.get(client.id);
+    if (!contact) continue;
+    if (contact.status === "unsubscribed") {
+      skippedUnsubscribed += 1;
+      continue;
+    }
+
+    const normalized = client.email.trim().toLowerCase();
+    if (!normalized || seenEmails.has(normalized)) continue;
+    seenEmails.add(normalized);
+    recipients.push({
+      name: client.name,
+      email: client.email,
+      unsubscribeToken: contact.unsubscribe_token,
+    });
+  }
+
+  for (const contact of subscriberContacts) {
+    const normalized = contact.email.trim().toLowerCase();
+    if (!normalized || seenEmails.has(normalized)) continue;
+    seenEmails.add(normalized);
+    recipients.push({
+      name: contact.first_name?.trim() || "lieve vrouw",
+      email: contact.email,
+      unsubscribeToken: contact.unsubscribe_token,
+    });
+  }
+
+  if (recipients.length === 0) {
+    return NextResponse.json({ ok: false, error: "Geen ingeschreven ontvangers gevonden." }, { status: 400 });
   }
 
   const safeSubject = escapeHtml(subject);
-  const safeContent = escapeHtml(content).replace(/\n/g, "<br />");
+  const safeContent = escapeHtml(newsletterBody).replace(/\n/g, "<br />");
   const safeImages = imageUrls
     .map(
       (url) => `
@@ -117,8 +254,11 @@ export async function POST(request: NextRequest) {
     )
     .join("");
 
-  const sendOne = async (client: { name: string; email: string }) => {
-    const firstName = client.name.trim().split(/\s+/)[0] || "lieve vrouw";
+  const sendOne = async (recipient: Recipient) => {
+    const firstName = recipient.name.trim().split(/\s+/)[0] || "lieve vrouw";
+    const unsubscribeUrl = `${request.nextUrl.origin}/api/newsletter/unsubscribe?token=${encodeURIComponent(recipient.unsubscribeToken)}`;
+    const safeUnsubscribeUrl = escapeHtml(unsubscribeUrl);
+
     const html = `<!DOCTYPE html>
 <html>
 <body style="margin:0;padding:0;background:#f7f1ea;font-family:Arial,Helvetica,sans-serif;color:#2f241d;">
@@ -140,8 +280,14 @@ export async function POST(request: NextRequest) {
           </tr>
           ${safeImages}
           <tr>
-            <td style="padding:0 38px 42px;font-size:13px;line-height:22px;color:#8a766a;">
-              Liefs,<br />Cherelle
+            <td style="padding:0 38px 24px;font-size:13px;line-height:22px;color:#8a766a;">
+              Liefs,<br />Cherelle Elisa
+            </td>
+          </tr>
+          <tr>
+            <td style="padding:18px 38px 34px;border-top:1px solid #eee4dc;font-size:11px;line-height:18px;color:#9a887d;">
+              Je ontvangt deze nieuwsbrief van Cherelle Elisa.
+              <a href="${safeUnsubscribeUrl}" style="color:#855747;text-decoration:underline;">Afmelden</a>
             </td>
           </tr>
         </table>
@@ -159,25 +305,25 @@ export async function POST(request: NextRequest) {
       },
       body: JSON.stringify({
         from: "Cherelle Elisa <info@cherelleelisa.nl>",
-        to: [client.email],
+        to: [recipient.email],
         reply_to: "info@cherelleelisa.nl",
         subject,
         html,
-        text: `Lieve ${firstName},\n\n${content}\n\nLiefs,\nCherelle`,
+        text: `Lieve ${firstName},\n\n${newsletterBody}\n\nLiefs,\nCherelle Elisa\n\nAfmelden: ${unsubscribeUrl}`,
       }),
     });
   };
 
   const failed: string[] = [];
-  for (let index = 0; index < clients.length; index += 5) {
-    const batch = clients.slice(index, index + 5);
-    const results = await Promise.all(batch.map(async (client) => {
-      const response = await sendOne(client);
-      return { client, ok: response.ok };
+  for (let index = 0; index < recipients.length; index += 5) {
+    const batch = recipients.slice(index, index + 5);
+    const results = await Promise.all(batch.map(async (recipient) => {
+      const response = await sendOne(recipient);
+      return { recipient, ok: response.ok };
     }));
 
     for (const result of results) {
-      if (!result.ok) failed.push(result.client.email);
+      if (!result.ok) failed.push(result.recipient.email);
     }
   }
 
@@ -199,9 +345,9 @@ export async function POST(request: NextRequest) {
     },
     body: JSON.stringify({
       subject,
-      body: content,
+      body: newsletterBody,
       image_urls: imageUrls,
-      recipient_count: clients.length,
+      recipient_count: recipients.length,
       sent_by: user.id,
     }),
   });
@@ -210,5 +356,9 @@ export async function POST(request: NextRequest) {
     console.error("Newsletter sent but logging failed");
   }
 
-  return NextResponse.json({ ok: true, sent: clients.length });
+  return NextResponse.json({
+    ok: true,
+    sent: recipients.length,
+    skipped_unsubscribed: skippedUnsubscribed,
+  });
 }
