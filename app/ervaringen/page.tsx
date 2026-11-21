@@ -184,7 +184,10 @@ export default function ExperiencesPage() {
 
       <footer className="detailFooter">
         <a href="/">CHERELLE ELISA</a>
-        <a href="/uitnodiging">{language === "nl" ? "Contact" : "Contact"}</a>
+        <div className="detailFooterLinks">
+          <a href="/nieuwsbrief">{language === "nl" ? "Nieuwsbrief" : "Newsletter"}</a>
+          <a href="/uitnodiging">Contact</a>
+        </div>
       </footer>
     </main>
   );
