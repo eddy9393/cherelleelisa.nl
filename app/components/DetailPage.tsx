@@ -313,18 +313,7 @@ function OverMijBody({ t }: { t: (key: string) => string }) {
         </div>
       </SectionShell>
 
-      <DetailWave from="#f8f4ef" to="#f4eee8" />
-
-      <section className="detailStatsStrip">
-        {[1, 2, 3].map((index) => (
-          <div key={index}>
-            <strong>{t(`detail_about_stat_${index}_value`)}</strong>
-            <span>{t(`detail_about_stat_${index}_label`)}</span>
-          </div>
-        ))}
-      </section>
-
-      <DetailWave from="#f4eee8" to="#eadbd0" />
+      <DetailWave from="#f8f4ef" to="#eadbd0" />
 
       <section className="detailStatement">
         <p>{t("detail_about_statement")}</p>
