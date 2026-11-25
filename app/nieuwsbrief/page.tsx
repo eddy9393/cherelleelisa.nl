@@ -128,7 +128,14 @@ export default function NewsletterPage() {
 
             <label className="newsletterConsent">
               <input name="consent" type="checkbox" value="yes" required />
-              <span>{copy.consent}</span>
+              <span>
+                {copy.consent}{" "}
+                {language === "nl" ? (
+                  <>Ik heb ook kennisgenomen van de <a href="/privacyverklaring" target="_blank" rel="noreferrer">privacyverklaring</a>.</>
+                ) : (
+                  <>I have also read the <a href="/privacyverklaring" target="_blank" rel="noreferrer">privacy policy</a>.</>
+                )}
+              </span>
             </label>
 
             <button type="submit" disabled={status === "sending"}>
