@@ -18,13 +18,13 @@ export default function PrivacyverklaringPage() {
 
         <section>
           <h2>1. Wie is verantwoordelijk?</h2>
-          <p>Cherelle Elisa, gevestigd aan Lekstroom 57, is verantwoordelijk voor de verwerking van persoonsgegevens zoals beschreven in deze privacyverklaring.</p>
+          <p>Ik, Cherelle Kroonstadt, handelend onder de naam Cherelle Elisa en gevestigd aan Lekstroom 57, ben verantwoordelijk voor de verwerking van persoonsgegevens zoals beschreven in deze privacyverklaring.</p>
           <p>Handelsnaam: Cherelle Elisa<br />Ondernemer: Cherelle Kroonstadt<br />KvK-nummer: 96467657<br />Btw-id: NL005212215B17<br />E-mail: <a href="mailto:info@cherelleelisa.nl">info@cherelleelisa.nl</a><br />Telefoon: 06 11998272</p>
         </section>
 
         <section>
-          <h2>2. Welke gegevens verwerken we?</h2>
-          <p>Afhankelijk van hoe je contact met ons hebt of van welke dienstverlening je gebruikmaakt, kunnen we onder meer de volgende gegevens verwerken:</p>
+          <h2>2. Welke gegevens verwerk ik?</h2>
+          <p>Afhankelijk van hoe je contact met mij hebt of van welke dienstverlening je gebruikmaakt, kan ik onder meer de volgende gegevens verwerken:</p>
           <ul>
             <li>naam, e-mailadres, telefoonnummer en adresgegevens;</li>
             <li>gegevens uit het contactformulier en persoonlijke berichten;</li>
@@ -37,12 +37,12 @@ export default function PrivacyverklaringPage() {
         </section>
 
         <section>
-          <h2>3. Waarvoor gebruiken we deze gegevens?</h2>
-          <p>Gegevens uit het contactformulier gebruiken we om contact op te nemen, vragen te beantwoorden en informatie te geven over trajecten, retreats en begeleiding.</p>
-          <p>Klantaccount- en berichtgegevens gebruiken we voor communicatie over aanvragen, deelname en begeleiding.</p>
-          <p>Intake- en gezondheidsgegevens gebruiken we om de begeleiding af te stemmen op persoonlijke behoeften, rekening te houden met fysieke of mentale aandachtspunten en te beoordelen of deelname passend en verantwoord is. Gezondheidsgegevens worden alleen verwerkt wanneer daarvoor een geldige wettelijke grondslag bestaat en, waar vereist, uitdrukkelijke toestemming is verkregen.</p>
-          <p>Factuur- en betaalgegevens gebruiken we voor inschrijvingen, facturatie, betalingen, het beheren van openstaande bedragen en wettelijke administratieve en fiscale verplichtingen.</p>
-          <p>Bezoekersstatistieken gebruiken we om inzicht te krijgen in het gebruik van de website en de website en informatievoorziening te verbeteren.</p>
+          <h2>3. Waarvoor gebruik ik deze gegevens?</h2>
+          <p>Gegevens uit het contactformulier gebruik ik om contact met je op te nemen, je vragen te beantwoorden en informatie te geven over trajecten, retreats en begeleiding.</p>
+          <p>Klantaccount- en berichtgegevens gebruik ik voor communicatie over aanvragen, deelname en begeleiding.</p>
+          <p>Intake- en gezondheidsgegevens gebruik ik om de begeleiding af te stemmen op jouw persoonlijke behoeften, rekening te houden met fysieke of mentale aandachtspunten en te beoordelen of deelname passend en verantwoord is. Gezondheidsgegevens verwerk ik alleen wanneer daarvoor een geldige wettelijke grondslag bestaat en, waar vereist, jouw uitdrukkelijke toestemming is verkregen.</p>
+          <p>Factuur- en betaalgegevens gebruik ik voor inschrijvingen, facturatie, betalingen, het beheren van openstaande bedragen en wettelijke administratieve en fiscale verplichtingen.</p>
+          <p>Bezoekersstatistieken gebruik ik om inzicht te krijgen in het gebruik van de website en om de website en informatievoorziening te verbeteren.</p>
         </section>
 
         <section>
@@ -52,7 +52,7 @@ export default function PrivacyverklaringPage() {
 
         <section>
           <h2>5. Techniek en dienstverleners</h2>
-          <p>Voor de website en dienstverlening worden onder meer Vercel gebruikt voor hosting en deployment, Supabase voor database, authenticatie, opslag en first-party bezoekersstatistieken, en Resend voor transactionele e-mail en nieuwsbriefverzending.</p>
+          <p>Voor mijn website en dienstverlening gebruik ik onder meer Vercel voor hosting en deployment, Supabase voor database, authenticatie, opslag en first-party bezoekersstatistieken, en Resend voor transactionele e-mail en nieuwsbriefverzending.</p>
           <p>De website gebruikt daarnaast browseropslag, zoals localStorage en sessionStorage, voor onder meer sessies, taalvoorkeuren en eigen first-party analytics.</p>
         </section>
 
@@ -71,7 +71,7 @@ export default function PrivacyverklaringPage() {
 
         <section>
           <h2>7. Delen van gegevens</h2>
-          <p>Persoonsgegevens worden niet met derden gedeeld, behalve wanneer dat nodig is voor de dienstverlening, voor de verwerking van betalingen of wanneer dit wettelijk verplicht is. Wanneer een externe betaaldienstverlener wordt gebruikt, worden alleen de daarvoor noodzakelijke gegevens gedeeld.</p>
+          <p>Ik deel persoonsgegevens niet met derden, behalve wanneer dat nodig is voor mijn dienstverlening, voor de verwerking van betalingen of wanneer ik daartoe wettelijk verplicht ben. Wanneer ik een externe betaaldienstverlener gebruik, deel ik alleen de daarvoor noodzakelijke gegevens.</p>
         </section>
 
         <section>
