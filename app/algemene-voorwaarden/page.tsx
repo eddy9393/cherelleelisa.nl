@@ -18,21 +18,21 @@ export default function AlgemeneVoorwaardenPage() {
 
         <section>
           <h2>1. Ondernemer</h2>
-          <p>Deze voorwaarden zijn van toepassing op diensten van Cherelle Elisa, handelend onder de naam Cherelle Elisa.</p>
+          <p>Deze voorwaarden zijn van toepassing op de diensten die ik aanbied onder de naam Cherelle Elisa.</p>
           <p>Ondernemer: Cherelle Kroonstadt<br />Adres: Lekstroom 57<br />KvK-nummer: 96467657<br />Btw-id: NL005212215B17<br />E-mail: <a href="mailto:info@cherelleelisa.nl">info@cherelleelisa.nl</a><br />Telefoon: 06 11998272</p>
         </section>
 
         <section>
           <h2>2. Diensten</h2>
-          <p>Cherelle Elisa biedt begeleiding gericht op persoonlijke ontwikkeling aan consumenten en zakelijke klanten. Het aanbod kan bestaan uit 1-op-1 sessies, groepsceremonies, retreats en trajecten van zes maanden.</p>
-          <p>De begeleiding is geen vervanging voor medische, psychiatrische of psychologische behandeling. Er worden geen diagnoses gesteld en geen medische of psychologische behandelingen aangeboden. De deelnemer blijft zelf verantwoordelijk voor de eigen fysieke en mentale gezondheid.</p>
+          <p>Ik bied begeleiding gericht op persoonlijke ontwikkeling aan consumenten en zakelijke klanten. Mijn aanbod kan bestaan uit 1-op-1 sessies, groepsceremonies, retreats en trajecten van zes maanden.</p>
+          <p>Mijn begeleiding is geen vervanging voor medische, psychiatrische of psychologische behandeling. Ik stel geen diagnoses en bied geen medische of psychologische behandelingen aan. Je blijft zelf verantwoordelijk voor je eigen fysieke en mentale gezondheid.</p>
         </section>
 
         <section>
           <h2>3. Totstandkoming en betaling</h2>
           <p>Een boeking of traject is definitief na de bevestigingsmail en de eerste betaling.</p>
           <p>Het betaalmoment verschilt per dienst. Bij trajecten en retreats zijn termijnbetalingen mogelijk. Voor facturen geldt een betaaltermijn van 14 dagen. De genoemde prijzen zijn inclusief btw.</p>
-          <p>Bij te late betaling kunnen betalingsherinneringen worden verstuurd.</p>
+          <p>Bij te late betaling kan ik betalingsherinneringen versturen.</p>
         </section>
 
         <section>
@@ -64,22 +64,22 @@ export default function AlgemeneVoorwaardenPage() {
             <li>bij niet verschijnen: geen terugbetaling.</li>
           </ul>
           <p>Kun je onverwacht niet deelnemen, dan mag je in overleg je plek overdragen aan iemand anders die aan eventuele deelnamevoorwaarden voldoet.</p>
-          <p>Bij bijzondere persoonlijke omstandigheden wordt in overleg gekeken naar een passende oplossing, bijvoorbeeld deelname aan een later traject, afhankelijk van mogelijkheden en beschikbaarheid.</p>
-          <p>Wanneer een traject of retreat door Cherelle Elisa wordt geannuleerd, wordt het reeds betaalde deelnamebedrag terugbetaald, tenzij samen een andere passende oplossing wordt overeengekomen.</p>
+          <p>Bij bijzondere persoonlijke omstandigheden kijk ik graag samen met je naar een passende oplossing, bijvoorbeeld deelname aan een later traject, afhankelijk van de mogelijkheden en beschikbaarheid.</p>
+          <p>Wanneer ik een traject of retreat annuleer, betaal ik het reeds betaalde deelnamebedrag terug, tenzij we samen een andere passende oplossing overeenkomen.</p>
         </section>
 
         <section>
           <h2>7. Tussentijds stoppen</h2>
           <p>Wanneer een deelnemer zelf tussentijds stopt met een traject, blijft de betalingsverplichting voor het volledige trajectbedrag bestaan, ook bij betaling in termijnen. Reeds betaalde bedragen worden in principe niet terugbetaald. Bij bijzondere omstandigheden kan in overleg naar een passende oplossing worden gekeken.</p>
-          <p>Wanneer Cherelle Elisa het traject voortijdig beëindigt om persoonlijke, praktische of organisatorische redenen, wordt het gedeelte van het traject dat nog niet heeft plaatsgevonden terugbetaald.</p>
+          <p>Wanneer ik het traject voortijdig beëindig om persoonlijke, praktische of organisatorische redenen, betaal ik het gedeelte van het traject dat nog niet heeft plaatsgevonden terug.</p>
           <p>Wanneer deelname tijdelijk niet mogelijk is, wordt in overleg bekeken of een bijeenkomst kan worden verplaatst of deelname later kan worden hervat. Dit hangt af van de aard van het traject en de beschikbare mogelijkheden.</p>
         </section>
 
         <section>
           <h2>8. Veiligheid en contra-indicaties</h2>
-          <p>Veiligheid heeft altijd voorrang. Deelname kan worden geweigerd of gestopt wanneer deelname niet verantwoord wordt geacht.</p>
+          <p>Veiligheid heeft voor mij altijd voorrang. Ik kan deelname weigeren of stoppen wanneer ik deelname niet verantwoord acht.</p>
           <p>Contra-indicaties of situaties waarbij vooraf overleg nodig is, zijn onder meer: zwangerschap, ernstige PTSS of niet-verwerkt trauma, diabetes, ernstige astma, netvliesloslating, epilepsie of een voorgeschiedenis van aanvallen, aneurysma, recente operaties, hechtingen of wonden, hoge bloeddruk zonder medicatie, glaucoom, bepaalde medicatie, psychiatrische aandoeningen en actief gebruik van drugs, recreatieve middelen, grote hoeveelheden cafeïne of alcohol kort voor of op de dag van deelname.</p>
-          <p>Bij twijfel wordt de deelnemer gevraagd vooraf contact op te nemen om te beoordelen of en hoe deelname veilig mogelijk is.</p>
+          <p>Bij twijfel vraag ik je om vooraf contact met mij op te nemen, zodat we kunnen beoordelen of en hoe deelname veilig mogelijk is.</p>
         </section>
 
         <section>
@@ -89,8 +89,8 @@ export default function AlgemeneVoorwaardenPage() {
 
         <section>
           <h2>10. Klachten</h2>
-          <p>Klachten kunnen worden ingediend via <a href="mailto:info@cherelleelisa.nl">info@cherelleelisa.nl</a>. Cherelle Elisa streeft ernaar binnen 7 werkdagen inhoudelijk te reageren.</p>
-          <p>Partijen proberen een klacht of geschil eerst samen op een respectvolle manier op te lossen. Wanneer dat niet lukt, kan in overleg worden gekeken naar een onafhankelijke vorm van bemiddeling. Eventuele kosten daarvan worden vooraf besproken.</p>
+          <p>Je kunt een klacht indienen via <a href="mailto:info@cherelleelisa.nl">info@cherelleelisa.nl</a>. Ik streef ernaar om binnen 7 werkdagen inhoudelijk te reageren.</p>
+          <p>Ik probeer een klacht of geschil eerst samen met jou op een respectvolle manier op te lossen. Wanneer dat niet lukt, kunnen we in overleg kijken naar een onafhankelijke vorm van bemiddeling. Eventuele kosten daarvan bespreken we vooraf.</p>
         </section>
 
         <section>
