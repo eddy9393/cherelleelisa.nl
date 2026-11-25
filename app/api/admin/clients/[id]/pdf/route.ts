@@ -8,6 +8,8 @@ type ClientRow = {
   name: string;
   email: string;
   activated_at: string | null;
+  privacy_acknowledged_at: string | null;
+  terms_acknowledged_at: string | null;
 };
 
 type IntakeRow = Record<string, unknown>;
@@ -116,7 +118,7 @@ export async function GET(
 
   const [clientResponse, intakeResponse] = await Promise.all([
     fetch(
-      `${supabaseUrl}/rest/v1/cherelle_clients?select=id,name,email,activated_at&id=eq.${encodeURIComponent(params.id)}&limit=1`,
+      `${supabaseUrl}/rest/v1/cherelle_clients?select=id,name,email,activated_at,privacy_acknowledged_at,terms_acknowledged_at&id=eq.${encodeURIComponent(params.id)}&limit=1`,
       { headers: commonHeaders, cache: "no-store" }
     ),
     fetch(
@@ -305,6 +307,11 @@ export async function GET(
     boolText(intake.stimulants),
     text(intake.stimulants_details) === "-" ? undefined : text(intake.stimulants_details)
   );
+
+  section("Juridische bevestigingen");
+  row("Privacyverklaring kennisgenomen", client.privacy_acknowledged_at ? "Ja" : "Nee", dateText(client.privacy_acknowledged_at));
+  row("Algemene voorwaarden kennisgenomen", client.terms_acknowledged_at ? "Ja" : "Nee", dateText(client.terms_acknowledged_at));
+  row("Toestemming verwerking gezondheidsgegevens", boolText(intake.health_data_consent), dateText(intake.health_data_consent_at));
 
   section("Verklaring & ondertekening");
   row("Contra-indicaties doorgenomen", boolText(intake.contraindications_acknowledged));
