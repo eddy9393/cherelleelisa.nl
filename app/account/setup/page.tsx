@@ -17,6 +17,7 @@ export default function AccountSetupPage() {
   const [session, setSession] = useState<CmsSession | null>(null);
   const [password, setPassword] = useState("");
   const [passwordAgain, setPasswordAgain] = useState("");
+  const [legalAcknowledged, setLegalAcknowledged] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -60,12 +61,17 @@ export default function AccountSetupPage() {
       return;
     }
 
+    if (!legalAcknowledged) {
+      setError("Bevestig eerst dat je de privacyverklaring en algemene voorwaarden hebt gelezen.");
+      return;
+    }
+
     setPhase("saving");
     setError("");
 
     try {
       await setAccountPassword(session, password);
-      await activateClientAccount(session);
+      await activateClientAccount(session, legalAcknowledged);
       saveAccountSession(session);
       window.location.replace("/mijn-account");
     } catch (saveError) {
@@ -129,7 +135,22 @@ export default function AccountSetupPage() {
                 />
               </label>
 
-              {error && <p className="accountPortalError">{error}</p>}
+              <label className="legalConsentCheck accountLegalConsent">
+                <input
+                  type="checkbox"
+                  checked={legalAcknowledged}
+                  onChange={(event) => setLegalAcknowledged(event.target.checked)}
+                  required
+                />
+                <span>
+                  Ik heb kennisgenomen van de{" "}
+                  <a href="/privacyverklaring" target="_blank" rel="noreferrer">privacyverklaring</a>
+                  {" "}en de{" "}
+                  <a href="/algemene-voorwaarden" target="_blank" rel="noreferrer">algemene voorwaarden</a>.
+                </span>
+              </label>
+
+              {error && <p className="accountPortalError">{error}</p>
 
               <button type="submit" disabled={phase === "saving"}>
                 {phase === "saving" ? "Jouw omgeving klaarzetten…" : "Wachtwoord opslaan"}
