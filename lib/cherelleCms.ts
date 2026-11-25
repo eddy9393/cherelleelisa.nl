@@ -52,6 +52,8 @@ export type CherelleClient = {
   created_by: string | null;
   created_at: string;
   updated_at: string;
+  privacy_acknowledged_at: string | null;
+  terms_acknowledged_at: string | null;
 };
 
 export type CherelleIntake = {
@@ -74,6 +76,8 @@ export type CherelleIntake = {
   stimulants_details: string | null;
   contraindications_acknowledged: boolean;
   declaration_accepted: boolean;
+  health_data_consent: boolean;
+  health_data_consent_at: string | null;
   signature_name: string | null;
   signature_date: string | null;
   submitted_at: string | null;
@@ -763,7 +767,14 @@ export async function setAccountPassword(session: CmsSession, password: string) 
   if (!response.ok) throw new Error(await responseError(response));
 }
 
-export async function activateClientAccount(session: CmsSession) {
+export async function activateClientAccount(
+  session: CmsSession,
+  legalAcknowledged: boolean
+) {
+  if (!legalAcknowledged) {
+    throw new Error("Bevestig eerst dat je de privacyverklaring en algemene voorwaarden hebt gelezen.");
+  }
+
   const now = new Date().toISOString();
   const response = await fetch(
     `${supabaseUrl}/rest/v1/cherelle_clients?user_id=eq.${encodeURIComponent(session.user.id)}`,
@@ -776,12 +787,41 @@ export async function activateClientAccount(session: CmsSession) {
       body: JSON.stringify({
         status: "active",
         activated_at: now,
+        privacy_acknowledged_at: now,
+        terms_acknowledged_at: now,
         updated_at: now,
       }),
     }
   );
 
   if (!response.ok) throw new Error(await responseError(response));
+}
+
+export async function acknowledgeClientLegal(
+  session: CmsSession,
+  clientId: string
+): Promise<CherelleClient> {
+  const now = new Date().toISOString();
+  const response = await fetch(
+    `${supabaseUrl}/rest/v1/cherelle_clients?id=eq.${encodeURIComponent(clientId)}`,
+    {
+      method: "PATCH",
+      headers: {
+        ...headers(session.access_token),
+        Prefer: "return=representation",
+      },
+      body: JSON.stringify({
+        privacy_acknowledged_at: now,
+        terms_acknowledged_at: now,
+        updated_at: now,
+      }),
+    }
+  );
+
+  if (!response.ok) throw new Error(await responseError(response));
+  const rows = await response.json() as CherelleClient[];
+  if (!rows[0]) throw new Error("De bevestiging kon niet worden opgeslagen.");
+  return rows[0];
 }
 
 export async function loadOwnClientPortal(session: CmsSession): Promise<{
