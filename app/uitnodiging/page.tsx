@@ -75,6 +75,7 @@ export default function UitnodigingPage() {
       phone: String(form.get("phone") ?? ""),
       interest: String(form.get("interest") ?? ""),
       message: String(form.get("message") ?? ""),
+      privacy_acknowledged: form.get("privacy_acknowledged") === "yes",
       language,
     };
 
@@ -209,6 +210,17 @@ export default function UitnodigingPage() {
                   : "Where are you now, and what do you long for?"}
               </span>
               <textarea name="message" rows={5} required />
+            </label>
+
+            <label className="legalConsentCheck contactLegalConsent">
+              <input name="privacy_acknowledged" type="checkbox" value="yes" required />
+              <span>
+                {language === "nl" ? (
+                  <>Ik heb kennisgenomen van de <a href="/privacyverklaring" target="_blank" rel="noreferrer">privacyverklaring</a> en begrijp hoe mijn gegevens voor deze aanvraag worden verwerkt.</>
+                ) : (
+                  <>I have read the <a href="/privacyverklaring" target="_blank" rel="noreferrer">privacy policy</a> and understand how my data is processed for this request.</>
+                )}
+              </span>
             </label>
 
             <div className="contactFormFooter">
