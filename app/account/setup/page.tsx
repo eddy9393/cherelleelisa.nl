@@ -150,7 +150,7 @@ export default function AccountSetupPage() {
                 </span>
               </label>
 
-              {error && <p className="accountPortalError">{error}</p>
+              {error && <p className="accountPortalError">{error}</p>}
 
               <button type="submit" disabled={phase === "saving"}>
                 {phase === "saving" ? "Jouw omgeving klaarzetten…" : "Wachtwoord opslaan"}
