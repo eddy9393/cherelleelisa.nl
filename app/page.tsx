@@ -980,6 +980,8 @@ export default function Home() {
             <div className="footerMeta" data-reveal>
               <a href={`mailto:${contactEmail}`}>{contactEmail}</a>
               <a href="/nieuwsbrief">{language === "nl" ? "Nieuwsbrief" : "Newsletter"}</a>
+              <a href="/privacyverklaring">{language === "nl" ? "Privacyverklaring" : "Privacy policy"}</a>
+              <a href="/algemene-voorwaarden">{language === "nl" ? "Algemene voorwaarden" : "Terms & conditions"}</a>
               <a
                 className="footerInstagram"
                 href={instagramUrl}
