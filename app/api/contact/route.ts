@@ -39,11 +39,19 @@ export async function POST(request: NextRequest) {
   const phone = clean(body.phone, 80);
   const interest = clean(body.interest, 120);
   const message = clean(body.message, 5000);
+  const privacyAcknowledged = body.privacy_acknowledged === true;
   const language = body.language === "en" ? "en" : "nl";
 
   if (!name || !email || !message) {
     return NextResponse.json(
       { ok: false, error: "Naam, e-mailadres en bericht zijn verplicht." },
+      { status: 400 }
+    );
+  }
+
+  if (!privacyAcknowledged) {
+    return NextResponse.json(
+      { ok: false, error: "Bevestig eerst dat je de privacyverklaring hebt gelezen." },
       { status: 400 }
     );
   }
@@ -98,6 +106,7 @@ export async function POST(request: NextRequest) {
                 <tr><td style="padding-top:8px;padding-bottom:8px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#855747;"><strong>E-mail</strong></td><td style="padding-top:8px;padding-bottom:8px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;color:#2f241d;">${safe.email}</td></tr>
                 ${safe.phone ? `<tr><td style="padding-top:8px;padding-bottom:8px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#855747;"><strong>Telefoon</strong></td><td style="padding-top:8px;padding-bottom:8px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;color:#2f241d;">${safe.phone}</td></tr>` : ""}
                 ${safe.interest ? `<tr><td style="padding-top:8px;padding-bottom:8px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#855747;"><strong>Interesse</strong></td><td style="padding-top:8px;padding-bottom:8px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;color:#2f241d;">${safe.interest}</td></tr>` : ""}
+                <tr><td style="padding-top:8px;padding-bottom:8px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:20px;color:#855747;"><strong>Privacyverklaring</strong></td><td style="padding-top:8px;padding-bottom:8px;font-family:Arial,Helvetica,sans-serif;font-size:14px;line-height:20px;color:#2f241d;">Kennisgenomen</td></tr>
               </table>
               <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-top:22px;">
                 <tr>
@@ -122,6 +131,7 @@ export async function POST(request: NextRequest) {
     `E-mail: ${email}`,
     phone ? `Telefoon: ${phone}` : "",
     interest ? `Interesse: ${interest}` : "",
+    "Privacyverklaring: kennisgenomen",
     "",
     message,
   ].filter(Boolean).join("\n");
