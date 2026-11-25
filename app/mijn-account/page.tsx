@@ -3,6 +3,7 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import {
   accountIsAdmin,
+  acknowledgeClientLegal,
   CherelleClient,
   CherelleClientMessage,
   CherelleIntake,
@@ -43,6 +44,8 @@ const emptyIntake: IntakeDraft = {
   stimulants_details: null,
   contraindications_acknowledged: false,
   declaration_accepted: false,
+  health_data_consent: false,
+  health_data_consent_at: null,
   signature_name: null,
   signature_date: null,
   submitted_at: null,
@@ -118,8 +121,12 @@ export default function ClientAccountPage() {
   const [newPassword, setNewPassword] = useState("");
   const [newPasswordAgain, setNewPasswordAgain] = useState("");
   const [deleteConfirm, setDeleteConfirm] = useState("");
+  const [legalCheck, setLegalCheck] = useState(false);
 
   const submitted = Boolean(draft.submitted_at);
+  const legalAcknowledged = Boolean(
+    client?.privacy_acknowledged_at && client?.terms_acknowledged_at
+  );
 
   const completion = useMemo(() => {
     const answered = [
@@ -138,9 +145,10 @@ export default function ClientAccountPage() {
     const confirmations =
       Number(draft.contraindications_acknowledged) +
       Number(draft.declaration_accepted) +
+      Number(draft.health_data_consent) +
       Number(Boolean(draft.signature_name?.trim()));
 
-    return Math.min(100, Math.round(((answered + confirmations) / 13) * 100));
+    return Math.min(100, Math.round(((answered + confirmations) / 14) * 100));
   }, [draft]);
 
   useEffect(() => {
@@ -204,6 +212,13 @@ export default function ClientAccountPage() {
   }
 
   async function openPortalSection(next: PortalSection) {
+    if (!legalAcknowledged && next !== "overzicht") {
+      setSection("overzicht");
+      setMessage("");
+      setError("Bevestig eerst dat je de privacyverklaring en algemene voorwaarden hebt gelezen.");
+      return;
+    }
+
     setSection(next);
     setError("");
     setMessage("");
@@ -216,6 +231,33 @@ export default function ClientAccountPage() {
       } catch {
         // The messages remain readable even when the read marker cannot be stored.
       }
+    }
+  }
+
+  async function handleLegalAcknowledgement(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!session || !client || !legalCheck) {
+      setError("Vink eerst aan dat je beide verklaringen hebt gelezen.");
+      return;
+    }
+
+    setAccountBusy(true);
+    setError("");
+    setMessage("");
+
+    try {
+      const updatedClient = await acknowledgeClientLegal(session, client.id);
+      setClient(updatedClient);
+      setLegalCheck(false);
+      setMessage("Dankjewel. Je bevestiging is opgeslagen.");
+    } catch (ackError) {
+      setError(
+        ackError instanceof Error
+          ? ackError.message
+          : "Je bevestiging kon niet worden opgeslagen."
+      );
+    } finally {
+      setAccountBusy(false);
     }
   }
 
@@ -322,6 +364,18 @@ export default function ClientAccountPage() {
     if (message) setMessage("");
   }
 
+  function updateHealthConsent(checked: boolean) {
+    setDraft((current) => ({
+      ...current,
+      health_data_consent: checked,
+      health_data_consent_at:
+        checked && !current.health_data_consent_at
+          ? new Date().toISOString()
+          : current.health_data_consent_at,
+    }));
+    if (message) setMessage("");
+  }
+
   async function persistIntake(submit: boolean) {
     if (!session || !client) return;
 
@@ -329,6 +383,11 @@ export default function ClientAccountPage() {
       if (!draft.contraindications_acknowledged) {
         setError("Bevestig eerst dat je de contra-indicaties zorgvuldig hebt doorgenomen.");
         setSection("contra");
+        return;
+      }
+      if (!draft.health_data_consent) {
+        setError("Geef eerst expliciet toestemming voor het verwerken van de gezondheidsgegevens uit je intake.");
+        setSection("intake");
         return;
       }
       if (!draft.declaration_accepted || !draft.signature_name?.trim() || !draft.signature_date) {
@@ -422,7 +481,7 @@ export default function ClientAccountPage() {
                 ? `Verstuurd op ${formatDate(draft.submitted_at)}.`
                 : "Je kunt tussentijds opslaan en later rustig verdergaan."}
             </p>
-            <button type="button" onClick={() => setSection("intake")}>
+            <button type="button" onClick={() => void openPortalSection("intake")}>
               {submitted ? "Bekijk intake" : "Ga verder met intake"} →
             </button>
           </div>
@@ -464,6 +523,35 @@ export default function ClientAccountPage() {
 
           {section === "overzicht" && (
             <div className="clientOverview">
+              {!legalAcknowledged && (
+                <form className="clientLegalAcknowledgement" onSubmit={handleLegalAcknowledgement}>
+                  <div>
+                    <span>Eenmalige bevestiging</span>
+                    <h3>Voordat je verdergaat.</h3>
+                    <p>
+                      Lees de documenten rustig door. Daarna kun je jouw persoonlijke omgeving en intake gebruiken.
+                    </p>
+                  </div>
+                  <label className="legalConsentCheck">
+                    <input
+                      type="checkbox"
+                      checked={legalCheck}
+                      onChange={(event) => setLegalCheck(event.target.checked)}
+                      required
+                    />
+                    <span>
+                      Ik heb kennisgenomen van de{" "}
+                      <a href="/privacyverklaring" target="_blank" rel="noreferrer">privacyverklaring</a>
+                      {" "}en de{" "}
+                      <a href="/algemene-voorwaarden" target="_blank" rel="noreferrer">algemene voorwaarden</a>.
+                    </span>
+                  </label>
+                  <button type="submit" disabled={accountBusy || !legalCheck}>
+                    {accountBusy ? "Opslaan…" : "Bevestigen en doorgaan"}
+                  </button>
+                </form>
+              )}
+
               <div className="clientOverviewIntro">
                 <p className="accountPortalKicker">Sound of soul</p>
                 <h2>Lieve {client.name.trim().split(" ")[0]},</h2>
@@ -485,17 +573,17 @@ export default function ClientAccountPage() {
               )}
 
               <div className="clientOverviewCards">
-                <button type="button" onClick={() => setSection("intake")}>
+                <button type="button" onClick={() => void openPortalSection("intake")}>
                   <span>01</span>
                   <strong>Intake</strong>
                   <p>Persoonlijke gegevens, intentie, ervaring en gezondheid.</p>
                 </button>
-                <button type="button" onClick={() => setSection("voorbereiding")}>
+                <button type="button" onClick={() => void openPortalSection("voorbereiding")}>
                   <span>02</span>
                   <strong>Voorbereiding</strong>
                   <p>Kleding, eten en drinken, wat je meeneemt en de locatie.</p>
                 </button>
-                <button type="button" onClick={() => setSection("contra")}>
+                <button type="button" onClick={() => void openPortalSection("contra")}>
                   <span>03</span>
                   <strong>Contra-indicaties</strong>
                   <p>Lees deze informatie zorgvuldig door voor jouw sessie.</p>
@@ -655,6 +743,18 @@ export default function ClientAccountPage() {
               <fieldset>
                 <legend>Verklaring & ondertekening</legend>
                 <div className="clientDeclaration">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={draft.health_data_consent}
+                      onChange={(event) => updateHealthConsent(event.target.checked)}
+                    />
+                    <span>
+                      Ik geef uitdrukkelijk toestemming om de gezondheids- en welzijnsgegevens die ik in deze intake
+                      invul te verwerken voor de voorbereiding, veiligheid en afstemming van mijn begeleiding. Ik heb
+                      hierover de <a href="/privacyverklaring" target="_blank" rel="noreferrer">privacyverklaring</a> gelezen.
+                    </span>
+                  </label>
                   <label>
                     <input
                       type="checkbox"
