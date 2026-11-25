@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ ok: false, error: "Bevestig dat je de nieuwsbrief wilt ontvangen." }, { status: 400 });
   }
 
-  const consentText = "Ik wil de nieuwsbrief van Cherelle Elisa ontvangen en weet dat ik mij op ieder moment kan afmelden.";
+  const consentText = "Ik wil de nieuwsbrief van Cherelle Elisa ontvangen, weet dat ik mij op ieder moment kan afmelden en heb kennisgenomen van de privacyverklaring.";
 
   const response = await fetch(`${supabaseUrl}/rest/v1/cherelle_newsletter_contacts`, {
     method: "POST",
