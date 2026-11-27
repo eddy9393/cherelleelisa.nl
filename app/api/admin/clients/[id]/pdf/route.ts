@@ -77,8 +77,9 @@ function wrapText(value: string, font: PDFFont, size: number, maxWidth: number) 
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id: clientId } = await params;
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL?.replace(/\/$/, "");
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
   const authHeader = request.headers.get("authorization") ?? "";
@@ -118,11 +119,11 @@ export async function GET(
 
   const [clientResponse, intakeResponse] = await Promise.all([
     fetch(
-      `${supabaseUrl}/rest/v1/cherelle_clients?select=id,name,email,activated_at,privacy_acknowledged_at,terms_acknowledged_at&id=eq.${encodeURIComponent(params.id)}&limit=1`,
+      `${supabaseUrl}/rest/v1/cherelle_clients?select=id,name,email,activated_at,privacy_acknowledged_at,terms_acknowledged_at&id=eq.${encodeURIComponent(clientId)}&limit=1`,
       { headers: commonHeaders, cache: "no-store" }
     ),
     fetch(
-      `${supabaseUrl}/rest/v1/cherelle_intakes?select=*&client_id=eq.${encodeURIComponent(params.id)}&limit=1`,
+      `${supabaseUrl}/rest/v1/cherelle_intakes?select=*&client_id=eq.${encodeURIComponent(clientId)}&limit=1`,
       { headers: commonHeaders, cache: "no-store" }
     ),
   ]);
